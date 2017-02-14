@@ -5,10 +5,11 @@
 // String country, double IMdBRating, String plot, String imageURL
 
 public class Movie() {
+   private int key;
    private String title;
    private int year;
    private String director;
-   private String genre;
+   private ArrayList<String> genre;
    private ArrayList<String> actors;
    private String parentalRating;
    private String runtime;
@@ -19,14 +20,16 @@ public class Movie() {
    private String imageURL;
    
    /**
-     * Creates a Movie object with default values for all variables
+     * Creates a Movie object with default values for all variables, must provide key
      * Use this first, then use setters to alter variables
+     * @param key The key for this movie
    **/
-   public Movie() {
+   public Movie(int key) {
+      this.key = key;
       title = "";
       year = 0;
       director = "";
-      genre = "";
+      genre = new ArrayList<String>();
       actors = new ArrayList<String>();
       parentalRating = "";
       runtime = "";
@@ -45,6 +48,21 @@ public class Movie() {
    **/
    public Movie(ArrayList<Object> parameters) {
         
+   }
+   
+   /**
+     * @return The movie's key
+   **/
+   public String getKey() {
+      return this.key;
+   }
+   
+   /**
+     * Sets the movie's key
+     * @param key New key for the movie
+   **/
+   public void setKey(String key) {
+      this.key = key;
    }
    
    /**
@@ -95,7 +113,7 @@ public class Movie() {
    /**
      * @return The movie's genre
    **/
-   public String getGenre() {
+   public ArrayList<String> getGenre() {
       return this.genre;
    }
    
@@ -103,7 +121,7 @@ public class Movie() {
      * Sets the movie's genre
      * @param genre New genre for the movie
    **/
-   public void setGenre(String genre) {
+   public void setGenre(ArrayList<String> genre) {
       this.genre = genre;
    }
    
