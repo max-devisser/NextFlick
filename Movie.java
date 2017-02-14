@@ -38,6 +38,16 @@ public class Movie() {
    }
    
    /**
+     * Create a movie object with all variables initialized in order, pulling from parameters
+     * @param parameters List of all values to set variables of new movie object to in the order
+     * title, year, director, genre, actors, parentalRating, runtime, language, country,
+     * criticalRating, plot, imageURL
+   **/
+   public Movie(ArrayList<Object> parameters) {
+        
+   }
+   
+   /**
      * @return The movie's title
    **/
    public String getTitle() {
