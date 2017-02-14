@@ -245,4 +245,24 @@ public class Movie() {
       this.imageURL = imageURL;
    }
    
+   /**
+     * @return The hash code for this movie, which is the key
+   **/
+   @Override
+   public int hashCode() {
+      return key;
+   }
+   
+   @Override
+   public boolean equals(Object o) {
+
+        if (o == this) return true;
+        if (!(o instanceof Movie)) {
+            return false;
+        }
+        Movie movie = (Movie) o;
+        // Stub, make this more robust later
+        return movie.title.equals(this.title);
+    }
+   
 }
