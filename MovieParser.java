@@ -43,6 +43,7 @@ public class MovieParser {
 		movie.setTitle(grabStringParameter(rawtext, "\"title\""));
 		movie.setPlot(grabStringParameter(rawtext, "\"overview\""));
 		movie.setRuntime(grabIntParameter(rawtext, "\"runtime\""));
+		movie.setDate()
 		//private String title;
 		//private int year;
 		//private String director;

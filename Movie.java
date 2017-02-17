@@ -101,7 +101,7 @@ public class Movie {
      * Sets the movie's year
      * @param year New year for the movie
    **/
-   public void setYear(String date) {
+   public void setDate(String date) {
       this.date = date;
    }
    
