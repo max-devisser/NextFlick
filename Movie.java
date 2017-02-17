@@ -13,8 +13,10 @@ public class Movie {
    private String director;
    private ArrayList<String> genre;
    private ArrayList<String> actors;
-   private String parentalRating;
-   private String runtime;
+   
+   private String parentalRating; // TODO: enum this shit
+   
+   private int runtime;
    private String language;
    private String country;
    private double criticalRating;
