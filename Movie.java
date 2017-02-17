@@ -53,6 +53,13 @@ public class Movie {
         
    }
    
+   public String toString()
+   {
+      return "Movie Title: " + title + ", Release Year: " + year + ", Director: " + director + ", Genre(s): " + genre + ", Actors: " + actors
+        + ", Parental Rating: " + parentalRating + ", Runtime: " + runtime + " (minutes), Language: " + language + ", Country: " + country 
+        + ", Critical Rating: " + ", Plot: " + plot;  
+   }
+   
    /**
      * @return The movie's key
    **/
