@@ -1,21 +1,27 @@
-public class SearchController extends Controller{
+import java.util.HashMap;
 
-  //constructor
-  public SearchController(SearchGUI g){
-    SearchGUI gui = g;
-    String input = gui.getSearch();
-    String filter = gui.getFilter();
-    String sort =  gui.getSort();
-    MovieCollection collection = new MovieCollection();  //EMPTY CONTSTRUCTOR RETURNS ENTIRE DATABASE    
+public class SearchController{
+  private String input;
+  private String filter;
+  private String sort;
+  private HashMap collection;
+  private GUI gui;
+
+  public SearchController(GUI g){
+    gui = g;
+    input = gui.getSearch();
+    filter = gui.getFilter();
+    sort =  gui.getSort();
+    collection = new HashMap();  
   }
   public void searchGo(){
     collection = SearchHandler.search(input, filter, sort);
-    searchGUI.setResults(collection;)
+    gui.setResults(collection);
   }
   public void reset(){
-    this = new SearchController(this.getGUI())
-  }
-  public searchGUI getGUI(){
-    return gui;
+    input = "";
+    filter = "";
+    sort = "";
+    collection = new HashMap();
   }
 }
