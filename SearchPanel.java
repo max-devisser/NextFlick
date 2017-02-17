@@ -14,7 +14,7 @@ public class SearchPanel extends JPanel implements ActionListener
     private JTextField searchQuery;
     private JList list;
     private JButton searchButton;
-    private HashMap result;
+    private HashMap<Integer, Movie> result;
     private JButton resultButton;
 
     public SearchPanel() {
@@ -39,10 +39,9 @@ public class SearchPanel extends JPanel implements ActionListener
     	searchLabel = new JLabel("Search by " + filter + ":");
 		searchQuery = new JTextField(40);
 		searchButton = new JButton("Enter");
-		Movie m = new Movie(1);
-		m.setTitle("Star Wars");
-		result.put(1, m);
-		resultButton.setText(result.get(1).toString());
+		result = new HashMap<Integer, Movie>();
+		
+		resultButton.setText("");
 		searchButton.addActionListener(new searchActionListener());
 		this.add(BorderLayout.CENTER, searchLabel);
 		this.add(BorderLayout.CENTER, searchQuery);
@@ -60,17 +59,18 @@ public class SearchPanel extends JPanel implements ActionListener
     	
 			//filter = buttons.getSelection().getActionCommand();
 			String input = searchQuery.getText();
-			HashMap<Integer, Movie> result;
 			HashMap<Integer, Movie> inputMap = new HashMap<Integer, Movie>();
 			Movie m = new Movie(1);
 			m.setTitle("Star Wars");
 			inputMap.put(1, m);
-			result = FilterHandler.searchParameter(inputMap, "getTitle", "Star Wars");
-			System.out.println("result" + result.get(1));
+			result = FilterHandler.searchParameter(inputMap, "getTitle", input);
 			SearchPanel testPanel = new SearchPanel();
-			//testPanel.addResults(result);
-			resultButton.setText(result.get(1).toString());
-			System.out.println(result);
+			if(result.isEmpty()) {
+				resultButton.setText("No results");
+			}
+			else {
+				resultButton.setText(result.get(1).toString());
+			}
 		}
 	}
 
