@@ -39,7 +39,10 @@ public class SearchPanel extends JPanel implements ActionListener
     	searchLabel = new JLabel("Search by " + filter + ":");
 		searchQuery = new JTextField(40);
 		searchButton = new JButton("Enter");
-		resultButton.add(result);
+		Movie m = new Movie(1);
+		m.setTitle("Star Wars");
+		result.put(1, m);
+		resultButton.setText(result.get(1).toString());
 		searchButton.addActionListener(new searchActionListener());
 		this.add(BorderLayout.CENTER, searchLabel);
 		this.add(BorderLayout.CENTER, searchQuery);
@@ -58,24 +61,19 @@ public class SearchPanel extends JPanel implements ActionListener
 			//filter = buttons.getSelection().getActionCommand();
 			String input = searchQuery.getText();
 			HashMap<Integer, Movie> result;
-			HashMap<Integer, Movie> input = new HashMap<Integer, Movie>();
+			HashMap<Integer, Movie> inputMap = new HashMap<Integer, Movie>();
 			Movie m = new Movie(1);
 			m.setTitle("Star Wars");
-			input.add(m);
-			result = FilterHandler.searchParameter(input, "getTitle", "Star Wars");
+			inputMap.put(1, m);
+			result = FilterHandler.searchParameter(inputMap, "getTitle", "Star Wars");
 			System.out.println("result" + result.get(1));
 			SearchPanel testPanel = new SearchPanel();
 			//testPanel.addResults(result);
-			this.result.addResults(result);
+			resultButton.setText(result.get(1).toString());
 			System.out.println(result);
 		}
 	}
-	public void addResults(HashMap<Integer, Movie> map){
-		SearchPanel testPanel = new SearchPanel();
-		System.out.println("this");
-		this.add(map);
 
-	}
 
 	public void actionPerformed(ActionEvent event){
 		String label = "Search by " + event.getActionCommand() +" :";
