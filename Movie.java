@@ -1,10 +1,11 @@
+import java.util.ArrayList;
+
 // Stores info on movies
 // Have constructors to initialize data
 // Have getters for all information
 // String title, int year, String director, String genre, String[] actors, String parentalRating, String runtime, String language, 
 // String country, double IMdBRating, String plot, String imageURL
 import java.util.ArrayList;
-
 
 public class Movie {
    private int key;
@@ -265,6 +266,6 @@ public class Movie {
         Movie movie = (Movie) o;
         // Stub, make this more robust later
         return movie.title.equals(this.title);
-    }
+   }
    
 }
