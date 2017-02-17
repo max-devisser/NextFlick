@@ -1,5 +1,6 @@
 import java.util.HashMap;
 
+
 public class SearchController{
   private String input;
   private String filter;
@@ -14,8 +15,8 @@ public class SearchController{
     sort =  gui.getSort();
     collection = new HashMap();  
   }
-  public void searchGo(){
-    collection = SearchHandler.search(input, filter, sort);
+  public void searchGo() {
+    collection = FilterHandler.searchParameter(collection, filter, sort);
     gui.setResults(collection);
   }
   public void reset(){
