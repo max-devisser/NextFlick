@@ -43,7 +43,13 @@ public class MovieParser {
 		movie.setTitle(grabStringParameter(rawtext, "\"title\""));
 		movie.setPlot(grabStringParameter(rawtext, "\"overview\""));
 		movie.setRuntime(grabIntParameter(rawtext, "\"runtime\""));
-		movie.setDate()
+		movie.setDate(grabStringParameter(rawtext, "\"release_date\""));
+		movie.setLanguage(grabStringParameter(rawtext, "\"iso_639_1\""));
+		movie.setCountry("US"); // murica
+		movie.setDirector(grabDirector(rawtext));
+		movie.setCriticalRating(grabCriticalRating(rawtext));
+		
+		
 		//private String title;
 		//private int year;
 		//private String director;
@@ -59,6 +65,38 @@ public class MovieParser {
 		return movie;
 		
 	}
+	private String grabDirector(String rawtext)
+	{
+		int index = rawtext.indexOf("\"director\"");
+		index = rawtext.indexOf("\"name\"", index);
+		if (index == -1)
+		{
+			return "";
+		}
+		String director = "";
+		while (rawtext.charAt(index) != '\"')
+		{
+			director += rawtext.charAt(index);
+			++index;
+		}
+		return director;
+	}
+	private double grabCriticalRating(String rawtext /*int popularityBias */)
+	{
+		int index = rawtext.indexOf("\"vote_average\"");
+		index+= 16;
+		String rating = "";
+		while (rawtext.charAt(index) != ',')
+		{
+			rating += rawtext.charAt(index);
+			++index;
+		}
+		return Double.parseDouble(rating);
+	}
+	private int grabIntParameter(String rawtext, String matchtext, int skipto)
+	{
+		
+	}
 	private int grabIntParameter(String rawtext, String matchtext)
 	{
 		int index = rawtext.indexOf(matchtext);
@@ -66,10 +104,10 @@ public class MovieParser {
 		{
 			return -1;
 		}
-		int skipChars = 4;
+		int skipChars = 4; //filler characters
 		for (int i = 0; i < matchtext.length(); ++i)
 		{
-			if (Character.isAlphabetic(matchtext.charAt(i)))
+			if (matchtext.charAt(i) != '\"')
 			{
 				++skipChars;
 			}
@@ -108,10 +146,10 @@ public class MovieParser {
 		{
 			return "";
 		}
-		int skipChars = 4;
+		int skipChars = 5; //filler characters plus open quote
 		for (int i = 0; i < matchtext.length(); ++i)
 		{
-			if (Character.isAlphabetic(matchtext.charAt(i)))
+			if (matchtext.charAt(i) != '\"')
 			{
 				++skipChars;
 			}
@@ -127,7 +165,7 @@ public class MovieParser {
 	}
 	public Movie constructMovieById(int id, String append) // tmdb id plus append_to_request command
 	{
-		String requestUrl = TMDB + String.valueOf(id);
+		String requestUrl = TMDB + String.valueOf(id) + API_KEY + LANG;
 		if (!append.isEmpty())
 		{
 			requestUrl = requestUrl + APPEND + append;
@@ -138,14 +176,15 @@ public class MovieParser {
 	{
 		return constructMovieById(id, "");
 	}
-	public int getIdFromSearch(String query)
+	private int getIdFromSearch(String query)
 	{
 		String url = SEARCH_PREFIX + query + SEARCH_POSTFIX;
-		return grabIntParameter(getRawRequest(url), "\"id\"");
+		return grabId(getRawRequest(url));
 	}
 	public Movie constructMovieBySearch(String query)
 	{
 		int id = getIdFromSearch(query);
 		return constructMovieById(id, "credits");
 	}
+	
 }
