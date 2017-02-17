@@ -9,48 +9,89 @@ import java.lang.reflect.InvocationTargetException;
 
 public class FilterHandler
 {
+	private static Method findFunction(String functionName)
+	{
+		Method m = null;
+		try
+		{
+			m = Class.forName(Movie.class.getName()).getDeclaredMethod(functionName);
+		}
+
+		catch (NoSuchMethodException e) {
+			System.err.println("NoSuchMethodException: " + e.getMessage());
+		} 
+
+		catch (SecurityException e) {
+			System.err.println("SecurityException: " + e.getMessage());
+		}
+
+		catch (ClassNotFoundException e) {
+    		System.err.println("ClassNotFoundException: " + e.getMessage());
+		} 
+
+		return m;
+	}
+
 	//String Version
 	public static HashMap<Integer, Movie> searchParameter(HashMap<Integer, Movie> inputMap, String functionName, String filterParameter) 
-		throws NoSuchMethodException, SecurityException, IllegalAccessException, InvocationTargetException, ClassNotFoundException
 	{
 		HashMap<Integer, Movie> resultMap = new HashMap<Integer, Movie>();
 
 		for (Integer key: inputMap.keySet())
 		{
 			Movie currentMovie = inputMap.get(key);
-			Method m = Class.forName(Movie.class.getName()).getDeclaredMethod(functionName);
+			Method m = findFunction(functionName);
 
-			if (((String) m.invoke(currentMovie)).contains(filterParameter))
-			{
-				resultMap.put(key, inputMap.get(key));
+			try{
+				if (((String) m.invoke(currentMovie)).contains(filterParameter))
+				{
+					resultMap.put(key, inputMap.get(key));
+				}
 			}
+
+			catch (IllegalAccessException e) {
+				System.err.println("IllegalAccessException: " + e.getMessage());
+			} 
+
+			catch (InvocationTargetException e) {
+				System.err.println("InvocationTargetException: " + e.getMessage());
+			} 
+
 		}
 
 		return resultMap;
 	}
 
-
 	//ArrayList<String> Version
 	@SuppressWarnings("unchecked")
 	public static HashMap<Integer, Movie> searchParameter(HashMap<Integer, Movie> inputMap, String functionName, ArrayList<String> filterParameter) 
-		throws NoSuchMethodException, SecurityException, IllegalAccessException, InvocationTargetException, ClassNotFoundException
 	{
 		HashMap<Integer, Movie> resultMap = new HashMap<Integer, Movie>();
 
 		for (Integer key: inputMap.keySet())
 		{
 			Movie currentMovie = inputMap.get(key);
-			Method m = Class.forName(Movie.class.getName()).getDeclaredMethod(functionName);
+			Method m = findFunction(functionName);
 
-			if (((ArrayList<String>) m.invoke(currentMovie)).contains(filterParameter))
-			{
-				resultMap.put(key, inputMap.get(key));
+			try{
+				if (((ArrayList<String>) m.invoke(currentMovie)).contains(filterParameter))
+				{
+					resultMap.put(key, inputMap.get(key));
+				}
 			}
+
+			catch (IllegalAccessException e) {
+				System.err.println("IllegalAccessException: " + e.getMessage());
+			} 
+
+			catch (InvocationTargetException e) {
+				System.err.println("InvocationTargetException: " + e.getMessage());
+			} 
+
 		}
 
 		return resultMap;
 	}	
-
 
 	//Integer Version
 	public static HashMap<Integer, Movie> searchParameter(HashMap<Integer, Movie> inputMap, String functionName, int filterParameter) 
@@ -61,12 +102,22 @@ public class FilterHandler
 		for (Integer key: inputMap.keySet())
 		{
 			Movie currentMovie = inputMap.get(key);
-			Method m = Class.forName(Movie.class.getName()).getDeclaredMethod(functionName);
+			Method m = findFunction(functionName);
 
-			if (((Integer) m.invoke(currentMovie)) == filterParameter)
-			{
-				resultMap.put(key, inputMap.get(key));
+			try{
+				if (((Integer) m.invoke(currentMovie)) == filterParameter)
+				{
+					resultMap.put(key, inputMap.get(key));
+				}
 			}
+
+			catch (IllegalAccessException e) {
+				System.err.println("IllegalAccessException: " + e.getMessage());
+			} 
+
+			catch (InvocationTargetException e) {
+				System.err.println("InvocationTargetException: " + e.getMessage());
+			} 
 		}
 
 		return resultMap;
@@ -74,19 +125,28 @@ public class FilterHandler
 
 	//Double Version
 	public static HashMap<Integer, Movie> searchParameter(HashMap<Integer, Movie> inputMap, String functionName, double filterParameter) 
-		throws NoSuchMethodException, SecurityException, IllegalAccessException, InvocationTargetException, ClassNotFoundException
 	{
 		HashMap<Integer, Movie> resultMap = new HashMap<Integer, Movie>();
 
 		for (Integer key: inputMap.keySet())
 		{
 			Movie currentMovie = inputMap.get(key);
-			Method m = Class.forName(Movie.class.getName()).getDeclaredMethod(functionName);
+			Method m = findFunction(functionName);
 
-			if (((double) m.invoke(currentMovie)) == filterParameter)
-			{
-				resultMap.put(key, inputMap.get(key));
+			try{
+				if (((double) m.invoke(currentMovie)) == filterParameter)
+				{
+					resultMap.put(key, inputMap.get(key));
+				}
 			}
+
+			catch (IllegalAccessException e) {
+				System.err.println("IllegalAccessException: " + e.getMessage());
+			} 
+
+			catch (InvocationTargetException e) {
+				System.err.println("InvocationTargetException: " + e.getMessage());
+			} 
 		}
 
 		return resultMap;
