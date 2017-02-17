@@ -1,3 +1,5 @@
+package movie_builder;
+import Movie;
 
 public class DatabaseBuilder 
 {

@@ -1,9 +1,12 @@
+package movie_builder;
 // Use OMdB or whatever to retreive information about movies, store them in Movie objects, then put them into a MovieCollection object
 import java.io.IOException;
 import java.util.ArrayList;
 
 import com.mashape.unirest.http.*;
 import com.mashape.unirest.http.exceptions.UnirestException;
+
+
 
 public class MovieParser {
 	private static String TMDB = "https://api.themoviedb.org/3/movie/";
@@ -12,7 +15,6 @@ public class MovieParser {
 	private static String APPEND = "&append_to_response=";
 	private static String SEARCH_PREFIX = "https://api.themoviedb.org/3/search/movie?api_key=d7160b15d167c28148a4b8491ff65b4d&language=en-US&query=";
 	private static String SEARCH_POSTFIX = "page=1&include_adult=false";
-	private MovieCollection movies;
 	public MovieParser() {}
 	
 	public String getRawRequest(String url)
@@ -50,12 +52,15 @@ public class MovieParser {
 		movie.setCriticalRating(grabCriticalRating(rawtext));
 		
 		
+		//TODO: refactor, refactor. this overcomplicated mess could be much improved by a separate custom "JsonSearcher" class
+		// JsonSearcher(int targetlevel, String matchtext, Object fieldtype, String containedBy)
+		
 		//private String title;
 		//private int year;
 		//private String director;
 		//private ArrayList<String> genre;
 		//private ArrayList<String> actors;
-		//private String parentalRating; // TODO: enum this shit
+		//private String parentalRating; // TODO: enum this beauty
 		//private int runtime;
 		//private String language;
 		//private String country;
@@ -93,10 +98,6 @@ public class MovieParser {
 		}
 		return Double.parseDouble(rating);
 	}
-	private int grabIntParameter(String rawtext, String matchtext, int skipto)
-	{
-		
-	}
 	private int grabIntParameter(String rawtext, String matchtext)
 	{
 		int index = rawtext.indexOf(matchtext);
@@ -123,8 +124,13 @@ public class MovieParser {
 	}
 	private int grabId(String rawtext)
 	{
-		int index = rawtext.indexOf("\"id\"");
-		index = rawtext.indexOf("\"id\"", index + 3);
+		int index = rawtext.indexOf("\"homepage\"");
+		if (index == -1) 
+		{
+			System.out.println("Error: Id grab failed because it assumed homepage existed");
+			return -1;
+		}
+		index = rawtext.indexOf("\"id\"", index);
 		if (index == -1)
 		{
 			return -1;
@@ -163,7 +169,9 @@ public class MovieParser {
 		}
 		return param;
 	}
-	public Movie constructMovieById(int id, String append) // tmdb id plus append_to_request command
+	// tmdb id plus append_to_request command
+	// @param append If multiple append commands, separate with commas and no spaces, e.g. "credits,releases"
+	public Movie constructMovieById(int id, String append) 
 	{
 		String requestUrl = TMDB + String.valueOf(id) + API_KEY + LANG;
 		if (!append.isEmpty())
