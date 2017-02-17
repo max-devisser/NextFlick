@@ -3,22 +3,6 @@
 // Returns smaller MovieCollection of only Movies that match the parameter
 
 //Parameters for functions: HashMap and A parameter
-
-/*
-	private Integer key;
-	private String title;
-	private int year;
-	private String director;
-	private ArrayList<String> genre;
-	private ArrayList<String> actors;
-	private String parentalRating;
-	private String runtime;
-	private String language;
-	private String country;
-	private double criticalRating;
-	private String plot;
-	private String imageURL;
-*/
 import java.util.*;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
