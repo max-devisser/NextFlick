@@ -3,8 +3,10 @@
 // Have getters for all information
 // String title, int year, String director, String genre, String[] actors, String parentalRating, String runtime, String language, 
 // String country, double IMdBRating, String plot, String imageURL
+import java.util.ArrayList;
 
-public class Movie() {
+
+public class Movie {
    private int key;
    private String title;
    private int year;
@@ -12,7 +14,7 @@ public class Movie() {
    private ArrayList<String> genre;
    private ArrayList<String> actors;
    private String parentalRating;
-   private String runtime;
+   private int runtime;
    private String language;
    private String country;
    private double criticalRating;
@@ -32,10 +34,10 @@ public class Movie() {
       genre = new ArrayList<String>();
       actors = new ArrayList<String>();
       parentalRating = "";
-      runtime = "";
+      runtime = 0;
       language = "";
       country = "";
-      criticalRating = "";
+      criticalRating = 0.0;
       plot = "";
       imageURL = "";
    }
@@ -53,7 +55,7 @@ public class Movie() {
    /**
      * @return The movie's key
    **/
-   public String getKey() {
+   public int getKey() {
       return this.key;
    }
    
@@ -61,7 +63,7 @@ public class Movie() {
      * Sets the movie's key
      * @param key New key for the movie
    **/
-   public void setKey(String key) {
+   public void setKey(int key) {
       this.key = key;
    }
    
@@ -156,9 +158,9 @@ public class Movie() {
    }
    
    /**
-     * @return The movie's runtime as a string of the form "00:00"
+     * @return The movie's runtime as an int in minutes
    **/
-   public String getRuntime() {
+   public int getRuntime() {
       return this.runtime;
    }
    
@@ -166,7 +168,7 @@ public class Movie() {
      * Sets the movie's runtime
      * @param runtime New runtime for the movie
    **/
-   public void setRuntime(String runtime) {
+   public void setRuntime(int runtime) {
       this.runtime = runtime;
    }
    
