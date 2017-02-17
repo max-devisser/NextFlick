@@ -2,6 +2,20 @@
 import java.io.IOException;
 import java.util.ArrayList;
 
+//private int key;
+//private String title;
+//private int year;
+//private String director;
+//private ArrayList<String> genre;
+//private ArrayList<String> actors;
+//private String parentalRating; // TODO: enum this shit
+//private int runtime;
+//private String language;
+//private String country;
+//private double criticalRating;
+//private String plot;
+//private String imageURL;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -9,26 +23,13 @@ import com.mashape.unirest.http.*;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 public class MovieParser {
-	private ArrayList<String> requestUrl;
-	private ArrayList<JsonObject> rawJson;
+	private static String TMDB = "https://api.themoviedb.org/3/movie/";
+	private static String API_KEY = "?api_key=d7160b15d167c28148a4b8491ff65b4d";
+	private static String LANG = "&language=en-US";
+	private static String APPEND = "&append_to_response=";
+	private Set<Map.Entry<String, JsonElement>>;
 	private MovieCollection movies;
-	public MovieParser(String url)
-	{
-		
-	}
-	//TODO: More constructors to handle different formats of request input
-	public String[] getActors()
-	{
-		if (rawtext == null)
-		{
-			System.out.println("Initial http request failed, data unavailable.");
-			return null;
-		}
-		else
-		{
-			
-		}
-	}
+	public MovieParser() {}
 	
 	public JsonObject getRawRequest(String url)
 	{
@@ -46,9 +47,7 @@ public class MovieParser {
 			System.out.println("Unirest shutdown failed.");
 			e.printStackTrace();
 			return null;
-		}
-		catch (UnirestException e)
-		{
+		} catch (UnirestException e){
 			e.printStackTrace();
 			System.out.println("Unirest threw an error when connecting to given URL.");
 			return null;
@@ -57,8 +56,27 @@ public class MovieParser {
 		return rawtext;
 	}
 	
-	public Movie constuctMovieFromRequest()
+	public Movie constructMovieByUrl(String url) // must have full request URL
 	{
-		
+		JsonObject rawJson = getRawRequest(url);
+		if (url.contains(APPEND)) //handle extra stuff
+		{
+			
+		}
+		else
+		{
+			
+		}
+		Movie movie;
 	}
+	public Movie constructMovieById(int id, String append) // tmdb id plus append_to_request command
+	{
+		String requestUrl = TMDB + String.valueOf(id) + APPEND + append;
+		return constructMovieByUrl(requestUrl);
+	}
+	public Movie constructMovieById(int id)
+	{
+		return constructMovieById(id, "");
+	}
+	
 }
