@@ -2,63 +2,131 @@
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.mashape.unirest.http.*;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 public class MovieParser {
-	private ArrayList<String> requestUrl;
-	private ArrayList<JsonObject> rawJson;
+	private static String TMDB = "https://api.themoviedb.org/3/movie/";
+	private static String API_KEY = "?api_key=d7160b15d167c28148a4b8491ff65b4d";
+	private static String LANG = "&language=en-US";
+	private static String APPEND = "&append_to_response=";
+	private static String SEARCH_PREFIX = "https://api.themoviedb.org/3/search/movie?api_key=d7160b15d167c28148a4b8491ff65b4d&language=en-US&query=";
+	private static String SEARCH_POSTFIX = "page=1&include_adult=false";
 	private MovieCollection movies;
-	public MovieParser(String url)
-	{
-		
-	}
-	//TODO: More constructors to handle different formats of request input
-	public String[] getActors()
-	{
-		if (rawtext == null)
-		{
-			System.out.println("Initial http request failed, data unavailable.");
-			return null;
-		}
-		else
-		{
-			
-		}
-	}
+	public MovieParser() {}
 	
-	public JsonObject getRawRequest(String url)
+	public String getRawRequest(String url)
 	{
-		JsonObject rawtext;
+		String stringtext;
 		try {
-			HttpResponse<String> request = Unirest.get("https://api.themoviedb.org/3/movie/550?api_key=d7160b15d167c28148a4b8491ff65b4d")
-			.asString();
+			HttpResponse<String> request = Unirest.get(url).asString();
 			System.out.println("Success");
-			String stringtext = request.getBody();
-			JsonParser parser = new JsonParser();
-			rawtext = (JsonObject) parser.parse(stringtext);
-			System.out.println(rawtext);
+			stringtext = request.getBody();
+			System.out.println(stringtext);
 			Unirest.shutdown();
 		} catch (IOException e) {
 			System.out.println("Unirest shutdown failed.");
 			e.printStackTrace();
 			return null;
-		}
-		catch (UnirestException e)
-		{
+		} catch (UnirestException e){
 			e.printStackTrace();
 			System.out.println("Unirest threw an error when connecting to given URL.");
 			return null;
 		}
-		rawJson.add(rawtext);
-		return rawtext;
+		return stringtext;
 	}
 	
-	public Movie constuctMovieFromRequest()
+	public Movie constructMovieByUrl(String url) // must have full request URL
 	{
+		String rawtext = getRawRequest(url);
+		Movie movie = new Movie(grabIntParameter(rawtext, "\"id\""));
+		movie.setTitle(grabStringParameter(rawtext, "\"title\""));
+		movie.setPlot(grabStringParameter(rawtext, "\"overview\""));
+		movie.setRuntime(grabIntParameter(rawtext, "\"runtime\""));
+		//private String title;
+		//private int year;
+		//private String director;
+		//private ArrayList<String> genre;
+		//private ArrayList<String> actors;
+		//private String parentalRating; // TODO: enum this shit
+		//private int runtime;
+		//private String language;
+		//private String country;
+		//private double criticalRating;
+		//private String plot;
+		//private String imageURL;
 		
+	}
+	private int grabIntParameter(String rawtext, String matchtext)
+	{
+		int index = rawtext.indexOf(matchtext);
+		if (index == -1)
+		{
+			return -1;
+		}
+		int skipChars = 4;
+		for (int i = 0; i < matchtext.length(); ++i)
+		{
+			if (Character.isAlphabetic(matchtext.charAt(i)))
+			{
+				++skipChars;
+			}
+		}
+		index += skipChars;
+		String param = "";
+		while (rawtext.charAt(index) != ',')
+		{
+			param += rawtext.charAt(index);
+			++index;
+		}
+		return Integer.valueOf(id);
+	}
+	
+	private String grabStringParameter(String rawtext, String matchtext)
+	{
+		int index = rawtext.indexOf(matchtext);
+		if (index == -1)
+		{
+			return "";
+		}
+		int skipChars = 4;
+		for (int i = 0; i < matchtext.length(); ++i)
+		{
+			if (Character.isAlphabetic(matchtext.charAt(i)))
+			{
+				++skipChars;
+			}
+		}
+		index += skipChars;
+		String param = "";
+		while (rawtext.charAt(index) != '\"')
+		{
+			param += rawtext.charAt(index);
+			++index;
+		}
+		return param;
+	}
+	public Movie constructMovieById(int id, String append) // tmdb id plus append_to_request command
+	{
+		String requestUrl = TMDB + String.valueOf(id);
+		if (!append.isEmpty())
+		{
+			requestUrl = requestUrl + APPEND + append;
+		}
+		return constructMovieByUrl(requestUrl);
+	}
+	public Movie constructMovieById(int id)
+	{
+		return constructMovieById(id, "");
+	}
+	public int getIdFromSearch(String query)
+	{
+		String url = SEARCH_PREFIX + query + SEARCH_POSTFIX;
+		return grabIntParameter(getRawRequest(url), "\"id\"");
+	}
+	public Movie constructMovieBySearch(String query)
+	{
+		int id = getIdFromSearch(query);
+		return constructMovieById(id, "credits");
 	}
 }

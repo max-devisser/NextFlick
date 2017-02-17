@@ -14,12 +14,15 @@ public class SearchPanel extends JPanel implements ActionListener
     private JTextField searchQuery;
     private JList list;
     private JButton searchButton;
-    private JButton result;
+    private HashMap result;
+    private JButton resultButton;
 
     public SearchPanel() {
 		filterOptions = new JPanel();
 		filterOptions.setLayout(new GridLayout(1, 4));
 		buttons = new ButtonGroup();
+		resultButton = new JButton("test button");
+
 		for(String filter: filters){
 			JButton button = new JButton(filter);
 			button.setActionCommand(filter);
@@ -36,12 +39,14 @@ public class SearchPanel extends JPanel implements ActionListener
     	searchLabel = new JLabel("Search by " + filter + ":");
 		searchQuery = new JTextField(40);
 		searchButton = new JButton("Enter");
+		resultButton.add(result);
 		searchButton.addActionListener(new searchActionListener());
 		this.add(BorderLayout.CENTER, searchLabel);
 		this.add(BorderLayout.CENTER, searchQuery);
 		this.add(BorderLayout.CENTER, searchButton);
 		list = new JList(movie);
 		this.add(BorderLayout.SOUTH, list);
+		this.add(BorderLayout.CENTER, resultButton);
 		//JComboBox<String> sortPreference = new JComboBox<String>(sortOptions) //need sortOptions string array
 		//sortPreference.setSelectedIndex( ); //depends on size of sortOptions
 		
@@ -53,12 +58,16 @@ public class SearchPanel extends JPanel implements ActionListener
 			//filter = buttons.getSelection().getActionCommand();
 			String input = searchQuery.getText();
 			HashMap<Integer, Movie> result;
-			result = FilterHandler.searchParameter(new HashMap<Integer, Movie>(), "string1", "string2" );
-			System.out.println(result);
+			HashMap<Integer, Movie> input = new HashMap<Integer, Movie>();
+			Movie m = new Movie(1);
+			m.setTitle("Star Wars");
+			input.add(m);
+			result = FilterHandler.searchParameter(input, "getTitle", "Star Wars");
+			System.out.println("result" + result.get(1));
 			SearchPanel testPanel = new SearchPanel();
 			//testPanel.addResults(result);
 			this.result.addResults(result);
-			System.out.println(input);
+			System.out.println(result);
 		}
 	}
 	public void addResults(HashMap<Integer, Movie> map){

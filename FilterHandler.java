@@ -58,10 +58,8 @@ public class FilterHandler
 			} 
 
 		}
-		HashMap<Integer,Movie>hardCodedTest = new HashMap<Integer, Movie>();
-		hardCodedTest.put(new Integer(3), new Movie(4));
-		return hardCodedTest;
-		//return resultMap;
+
+		return resultMap;
 	}
 
 	//ArrayList<String> Version

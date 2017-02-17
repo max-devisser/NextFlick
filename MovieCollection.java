@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 // Container for Movie objects
 // Getters/setters for Movie objects
 // Be able to remove Movie objects
@@ -6,3 +8,10 @@
 // Default constructor creates MovieCollection of all movies in database 
 // Constructor with one Movie object creates a MovieCollection object with the one Movie, but is ready for more to be added through
 //   the .add function 
+public class MovieCollection {
+	private ArrayList<Movie> movies;
+	public MovieCollection()
+	{
+		
+	}
+}
