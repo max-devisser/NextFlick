@@ -39,10 +39,11 @@ public class MovieParser {
 	public Movie constructMovieByUrl(String url) // must have full request URL
 	{
 		String rawtext = getRawRequest(url);
-		Movie movie = new Movie(grabIntParameter(rawtext, "\"id\""));
+		Movie movie = new Movie(grabId(rawtext));
 		movie.setTitle(grabStringParameter(rawtext, "\"title\""));
 		movie.setPlot(grabStringParameter(rawtext, "\"overview\""));
 		movie.setRuntime(grabIntParameter(rawtext, "\"runtime\""));
+		movie.setDate()
 		//private String title;
 		//private int year;
 		//private String director;
@@ -55,6 +56,7 @@ public class MovieParser {
 		//private double criticalRating;
 		//private String plot;
 		//private String imageURL;
+		return movie;
 		
 	}
 	private int grabIntParameter(String rawtext, String matchtext)
@@ -79,9 +81,26 @@ public class MovieParser {
 			param += rawtext.charAt(index);
 			++index;
 		}
-		return Integer.valueOf(id);
+		return Integer.valueOf(param);
 	}
-	
+	private int grabId(String rawtext)
+	{
+		int index = rawtext.indexOf("\"id\"");
+		index = rawtext.indexOf("\"id\"", index + 3);
+		if (index == -1)
+		{
+			return -1;
+		}
+		int skipChars = 6;
+		index += skipChars;
+		String param = "";
+		while (rawtext.charAt(index) != ',')
+		{
+			param += rawtext.charAt(index);
+			++index;
+		}
+		return Integer.valueOf(param);
+	}
 	private String grabStringParameter(String rawtext, String matchtext)
 	{
 		int index = rawtext.indexOf(matchtext);

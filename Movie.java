@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Movie {
    private int key;
    private String title;
-   private int year;
+   private String date;
    private String director;
    private ArrayList<String> genre;
    private ArrayList<String> actors;
@@ -30,7 +30,7 @@ public class Movie {
    public Movie(int key) {
       this.key = key;
       title = "";
-      year = 0;
+      date = "";
       director = "";
       genre = new ArrayList<String>();
       actors = new ArrayList<String>();
@@ -55,7 +55,7 @@ public class Movie {
    
    public String toString()
    {
-      return "Movie Title: " + title + ", Release Year: " + year + ", Director: " + director + ", Genre(s): " + genre + ", Actors: " + actors
+      return "Movie Title: " + title + ", Release Date: " + date + ", Director: " + director + ", Genre(s): " + genre + ", Actors: " + actors
         + ", Parental Rating: " + parentalRating + ", Runtime: " + runtime + " (minutes), Language: " + language + ", Country: " + country 
         + ", Critical Rating: " + ", Plot: " + plot;  
    }
@@ -91,18 +91,18 @@ public class Movie {
    }
    
    /**
-     * @return The movie's year as an int
+     * @return The movie's date as a string
    **/
-   public int getYear() {
-      return this.year;
+   public String getDate() {
+      return this.date;
    }
    
    /**
      * Sets the movie's year
      * @param year New year for the movie
    **/
-   public void setYear(int year) {
-      this.year = year;
+   public void setDate(String date) {
+      this.date = date;
    }
    
    /**
