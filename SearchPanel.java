@@ -22,7 +22,7 @@ public class SearchPanel extends JPanel implements ActionListener {
 		filterOptions = new JPanel();			
 		filterOptions.setLayout(new GridLayout(1, 4));
 		filterButtons = new ButtonGroup();
-		resultButton = new JButton("test result");
+		resultButton = new JButton();
 
 		for (String filter : filters) {
 			JButton button = new JButton(filter);
@@ -43,7 +43,7 @@ public class SearchPanel extends JPanel implements ActionListener {
 		this.add(BorderLayout.CENTER, searchLabel);
 		this.add(BorderLayout.CENTER, searchQuery);
 		this.add(BorderLayout.CENTER, searchButton);
-		this.add(BorderLayout.CENTER, resultButton);
+		//this.add(BorderLayout.CENTER, resultButton);
 
 		//JComboBox<String> sortPreference = new JComboBox<String>(sortOptions) //need sortOptions string array
 		//sortPreference.setSelectedIndex( ); //depends on size of sortOptions
@@ -57,7 +57,7 @@ public class SearchPanel extends JPanel implements ActionListener {
 		 * 
 		 * @param event User generated event signaling to apply filters
 		 */
-
+		@Override
 		public void actionPerformed(ActionEvent event) {
 			String filter = "";
 
@@ -74,7 +74,9 @@ public class SearchPanel extends JPanel implements ActionListener {
 			if (result.isEmpty()) {
 				resultButton.setText("No results");
 			} else {
+				SearchPanel.this.add(BorderLayout.CENTER, resultButton);
 				resultButton.setText(result.get(1).toString());
+				//SearchPanel.this.add(BorderLayout.CENTER, resultButton);
 			}
 		}
 	}
@@ -82,6 +84,7 @@ public class SearchPanel extends JPanel implements ActionListener {
 	/**
 	* This action listener used to update the search-by label according to the selected filter
 	*/
+	@Override
 	public void actionPerformed(ActionEvent event){
 		String label = "Search by " + event.getActionCommand() +" :";
 		searchLabel.setText(label);
