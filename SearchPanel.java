@@ -14,6 +14,7 @@ public class SearchPanel extends JPanel implements ActionListener {
     private JButton searchButton;
     private HashMap<Integer,Movie> result;
     private JButton resultButton;
+    private JLabel[] selectedFilters;
 
 	/**
 	 * Constructor for SearchPanel. Adds fields for filters and displaying of results
@@ -38,12 +39,11 @@ public class SearchPanel extends JPanel implements ActionListener {
 		searchQuery = new JTextField(40);
 		searchButton = new JButton("Enter");
 		searchButton.addActionListener(new searchActionListener());
-		result  = new HashMap<Integer,Movie>();
+		result  = new HashMap<Integer,Movie>();					//NORMALLY WILL BE INITIALIZED TO CONTAIN WHOLE DATABASE
 
 		this.add(BorderLayout.CENTER, searchLabel);
 		this.add(BorderLayout.CENTER, searchQuery);
 		this.add(BorderLayout.CENTER, searchButton);
-		//this.add(BorderLayout.CENTER, resultButton);
 
 		//JComboBox<String> sortPreference = new JComboBox<String>(sortOptions) //need sortOptions string array
 		//sortPreference.setSelectedIndex( ); //depends on size of sortOptions
@@ -59,24 +59,22 @@ public class SearchPanel extends JPanel implements ActionListener {
 		 */
 		@Override
 		public void actionPerformed(ActionEvent event) {
-			String filter = "";
-
-			// filter = buttons.getSelection().getActionCommand();
-			String input = searchQuery.getText();
-			HashMap<Integer, Movie> inputMap = new HashMap<Integer, Movie>();
-
+			String unCutFilter = searchLabel.getText();
+			String filterInput = "get" + unCutFilter.substring(10, unCutFilter.length()-2);
+			String queryInput = searchQuery.getText();
+			
 			//HARD-CODED RESULT
 			Movie m = new Movie(1);
 			m.setTitle("Star Wars");
-			inputMap.put(1, m);
+			result.put(1, m);
 
-			result = FilterHandler.searchParameter(inputMap, "getTitle", "Star Wars");
+
+			result = FilterHandler.searchParameter(result, filterInput, queryInput);
 			if (result.isEmpty()) {
 				resultButton.setText("No results");
 			} else {
 				SearchPanel.this.add(BorderLayout.CENTER, resultButton);
 				resultButton.setText(result.get(1).toString());
-				//SearchPanel.this.add(BorderLayout.CENTER, resultButton);
 			}
 		}
 	}

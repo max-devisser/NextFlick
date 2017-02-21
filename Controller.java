@@ -50,7 +50,6 @@ public class Controller {
 			// comes back to search page
 			// //open new page
 			// }
-
 			searchController.searchGo();
 		}
 	}
