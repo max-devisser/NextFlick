@@ -1,5 +1,4 @@
 package src;
-
 import javax.swing.*;
 import java.util.HashMap;
 import java.awt.*;
@@ -37,12 +36,14 @@ public class SearchPanel extends JPanel{
 			filterOptions.add(button);
 		}
 		this.add(BorderLayout.NORTH, filterOptions);
+
 		String filterSearchWord = "Title";
     	searchLabel = new JLabel("Search by " + filterSearchWord + ":");
 		searchQuery = new JTextField(40);
 		searchButton = new JButton("Enter");
 		searchButton.addActionListener(new searchActionListener());
 		result  = new HashMap<Integer,Movie>();					//NORMALLY WILL BE INITIALIZED TO CONTAIN WHOLE DATABASE
+		
 		this.add(BorderLayout.CENTER, searchLabel);
 		this.add(BorderLayout.CENTER, searchQuery);
 		this.add(BorderLayout.CENTER, searchButton);
@@ -58,24 +59,29 @@ public class SearchPanel extends JPanel{
 		 */
 		@Override
 		public void actionPerformed(ActionEvent event) {
-			// String unCutFilter = searchLabel.getText();
-			// String filterInput = "get" + unCutFilter.substring(10, unCutFilter.length()-2);
-			// String queryInput = searchQuery.getText();
+			String unCutFilter = searchLabel.getText();
+			String filterInput = "get" + unCutFilter.substring(10, unCutFilter.length()-2);
+			String queryInput = searchQuery.getText();
 			
-			// //HARD-CODED RESULT
-			// Movie m = new Movie(1);
-			// m.setTitle("Star Wars");
-			// result.put(1, m);
+			//HARD-CODED RESULT
+			Movie m = new Movie(1);
+			m.setTitle("Star Wars");
+			result.put(1, m);
+			Movie m2 = new Movie(2);
+			m2.setTitle("Movie");
+			result.put(2, m2);
 
-			// //result = FilterHandler.searchParameter(result, filterInput, queryInput);
-			// if (result.isEmpty()) {
-				
-			// } else {
-			SearchPanel.this.repaint();
-			System.out.println("!");
-
-			// 	//result.forEach((k,v) -> resultPanel.add(new JButton(v.toString())));
-			// }
+			//result = FilterHandler.searchParameter(result, filterInput, queryInput);
+			if(resultPanel != null){				//clear result panel
+				SearchPanel.this.remove(resultPanel);
+				SearchPanel.this.validate();
+			}
+			if (!result.isEmpty()) {				//display new results
+				resultPanel = new JPanel();
+				result.forEach((k,v) -> resultPanel.add(new JButton(v.toString())));
+				SearchPanel.this.add(BorderLayout.SOUTH, resultPanel);
+				SearchPanel.this.validate();
+			}
 		}
 	}
 
@@ -87,7 +93,6 @@ public class SearchPanel extends JPanel{
 		public void actionPerformed(ActionEvent event){
 			String label = "Search by " + event.getActionCommand() +" :";
 			searchLabel.setText(label);
-			System.out.println("?");
 		}
 	}
 	public String getSearch() {
@@ -102,16 +107,5 @@ public class SearchPanel extends JPanel{
 
 	public String getSort() {
 		return "";
-	}
-	@Override
-	public void paintComponent(Graphics g){
-		super.paintComponent(g);
-		System.out.println(Thread.currentThread().getStackTrace());
-
-		if(resultPanel != null)
-	 		this.remove(resultPanel);
-		resultPanel = new JPanel();
-		resultPanel.add(new JButton("Test"));
-		this.add(BorderLayout.SOUTH, resultPanel);
 	}
 }
