@@ -1,4 +1,4 @@
-package movie_builder;
+package src.movie_builder;
 // Use OMdB or whatever to retreive information about movies, store them in Movie objects, then put them into a MovieCollection object
 import java.io.IOException;
 import java.util.ArrayList;

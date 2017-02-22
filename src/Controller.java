@@ -1,3 +1,4 @@
+package src;
 
 //Controller class
 //Starts the program and manages interactions between the GUI and backend
