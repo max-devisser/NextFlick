@@ -9,12 +9,14 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 
 
 public class MovieParser {
-	private static String TMDB = "https://api.themoviedb.org/3/movie/";
-	private static String API_KEY = "?api_key=d7160b15d167c28148a4b8491ff65b4d";
-	private static String LANG = "&language=en-US";
-	private static String APPEND = "&append_to_response=";
-	private static String SEARCH_PREFIX = "https://api.themoviedb.org/3/search/movie?api_key=d7160b15d167c28148a4b8491ff65b4d&language=en-US&query=";
-	private static String SEARCH_POSTFIX = "page=1&include_adult=false";
+	private final static String TMDB = "https://api.themoviedb.org/3/movie/";
+	private final static String API_KEY = "?api_key=d7160b15d167c28148a4b8491ff65b4d";
+	private final static String LANG = "&language=en-US";
+	private final static String APPEND = "&append_to_response=";
+	private final static String SEARCH_PREFIX = "https://api.themoviedb.org/3/search/movie?api_key=d7160b15d167c28148a4b8491ff65b4d&language=en-US&query=";
+	private final static String SEARCH_POSTFIX = "page=1&include_adult=false";
+	private final static String IMAGE_BASE = "https://image.tmdb.org/t/p/";
+	private final static String[] STRING_PARAMS = {"title", "overview", };
 	public MovieParser() {}
 	
 	public String getRawRequest(String url)
@@ -41,6 +43,8 @@ public class MovieParser {
 	public Movie constructMovieByUrl(String url) // must have full request URL
 	{
 		String rawtext = getRawRequest(url);
+		JsonSearcher search = new JsonSearcher(rawtext);
+		
 		Movie movie = new Movie(grabId(rawtext));
 		movie.setTitle(grabStringParameter(rawtext, "\"title\""));
 		movie.setPlot(grabStringParameter(rawtext, "\"overview\""));
