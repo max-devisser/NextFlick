@@ -1,4 +1,5 @@
-package movie_builder;
+package src;
+
 import java.util.ArrayList;
 
 // Stores info on movies
@@ -29,7 +30,7 @@ public class Movie {
      * @param key The key for this movie
    **/
    public Movie(int key) {
-      this.key = key;
+	  this.key = key;
       title = "";
       date = "";
       director = "";
@@ -46,14 +47,31 @@ public class Movie {
    
    /**
      * Create a movie object with all variables initialized in order, pulling from parameters
+     * @param key The key for this movie
      * @param parameters List of all values to set variables of new movie object to in the order
-     * title, year, director, genre, actors, parentalRating, runtime, language, country,
+     * title, date, director, genre, actors, parentalRating, runtime, language, country,
      * criticalRating, plot, imageURL
    **/
-   public Movie(ArrayList<Object> parameters) {
-        
+   @SuppressWarnings("unchecked")
+   public Movie(int key, ArrayList<Object> parameters) {
+        title = (String) parameters.get(0);
+        date = (String) parameters.get(1);
+        director = (String) parameters.get(2);
+        genre = (ArrayList<String>) parameters.get(3);
+        actors = (ArrayList<String>) parameters.get(4);
+        parentalRating = (String) parameters.get(5);
+        runtime = (int) parameters.get(6);
+        language = (String) parameters.get(7);
+        country = (String) parameters.get(8);
+        criticalRating = (double) parameters.get(9);
+        plot = (String) parameters.get(10);
+        imageURL = (String) parameters.get(11);
    }
    
+   /**
+    * Returns string representation of movie object
+    * @return String representation of movie object
+    */
    public String toString()
    {
       return "Movie Title: " + title + ", Release Date: " + date + ", Director: " + director + ", Genre(s): " + genre + ", Actors: " + actors
@@ -264,6 +282,11 @@ public class Movie {
       return key;
    }
    
+   /**
+    * Overridden equals method that checks if the keys of the two movies is the same
+    * @param o Object to compare this to
+    * @return Boolean for whether or not the two Movies are the same
+    */
    @Override
    public boolean equals(Object o) {
 
@@ -273,7 +296,7 @@ public class Movie {
         }
         Movie movie = (Movie) o;
         // Stub, make this more robust later
-        return movie.title.equals(this.title);
+        return (movie.key == this.key);
    }
    
 }

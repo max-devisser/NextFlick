@@ -1,4 +1,4 @@
-package movie_builder;
+package src.movie_builder;
 import Movie;
 
 public class DatabaseBuilder 
