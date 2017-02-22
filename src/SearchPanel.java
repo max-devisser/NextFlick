@@ -4,8 +4,11 @@ import javax.swing.*;
 import java.util.HashMap;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.util.Enumeration;
+import java.util.ArrayList;
 
 public class SearchPanel extends JPanel implements ActionListener {
 	private JLabel searchLabel;
@@ -15,8 +18,8 @@ public class SearchPanel extends JPanel implements ActionListener {
     private JTextField searchQuery;
     private JButton searchButton;
     private HashMap<Integer,Movie> result;
-    private JButton resultButton;
     private JLabel[] selectedFilters;
+    private JPanel resultPanel;
 
 	/**
 	 * Constructor for SearchPanel. Adds fields for filters and displaying of results
@@ -25,7 +28,6 @@ public class SearchPanel extends JPanel implements ActionListener {
 		filterOptions = new JPanel();			
 		filterOptions.setLayout(new GridLayout(1, 4));
 		filterButtons = new ButtonGroup();
-		resultButton = new JButton();
 
 		for (String filter : filters) {
 			JButton button = new JButton(filter);
@@ -42,10 +44,13 @@ public class SearchPanel extends JPanel implements ActionListener {
 		searchButton = new JButton("Enter");
 		searchButton.addActionListener(new searchActionListener());
 		result  = new HashMap<Integer,Movie>();					//NORMALLY WILL BE INITIALIZED TO CONTAIN WHOLE DATABASE
+		resultPanel = new JPanel();
+		resultPanel.add(new JButton("Test"));
 
 		this.add(BorderLayout.CENTER, searchLabel);
 		this.add(BorderLayout.CENTER, searchQuery);
 		this.add(BorderLayout.CENTER, searchButton);
+		//this.add(BorderLayout.SOUTH, resultPanel);
 
 		//JComboBox<String> sortPreference = new JComboBox<String>(sortOptions) //need sortOptions string array
 		//sortPreference.setSelectedIndex( ); //depends on size of sortOptions
@@ -70,14 +75,15 @@ public class SearchPanel extends JPanel implements ActionListener {
 			m.setTitle("Star Wars");
 			result.put(1, m);
 
-
-			result = FilterHandler.searchParameter(result, filterInput, queryInput);
+			//result = FilterHandler.searchParameter(result, filterInput, queryInput);
 			if (result.isEmpty()) {
-				resultButton.setText("No results");
+				
 			} else {
-				SearchPanel.this.add(BorderLayout.CENTER, resultButton);
-				resultButton.setText(result.get(1).toString());
+				SearchPanel.this.add(BorderLayout.SOUTH, resultPanel);	
+
+				//result.forEach((k,v) -> resultPanel.add(new JButton(v.toString())));
 			}
+			searchButton.setSelected(false);
 		}
 	}
 
