@@ -10,7 +10,7 @@ import java.awt.event.MouseListener;
 import java.util.Enumeration;
 import java.util.ArrayList;
 
-public class SearchPanel extends JPanel implements ActionListener {
+public class SearchPanel extends JPanel{
 	private JLabel searchLabel;
 	private JPanel filterOptions;
 	private ButtonGroup filterButtons;
@@ -32,28 +32,20 @@ public class SearchPanel extends JPanel implements ActionListener {
 		for (String filter : filters) {
 			JButton button = new JButton(filter);
 			button.setActionCommand(filter);
-			button.addActionListener(this);
+			button.addActionListener(new filterActionListener());
 			filterButtons.add(button);
 			filterOptions.add(button);
 		}
-		this.add(BorderLayout.NORTH, filterOptions);	
-		
-		String filterSearchWord = "filter";
+		this.add(BorderLayout.NORTH, filterOptions);
+		String filterSearchWord = "Title";
     	searchLabel = new JLabel("Search by " + filterSearchWord + ":");
 		searchQuery = new JTextField(40);
 		searchButton = new JButton("Enter");
 		searchButton.addActionListener(new searchActionListener());
 		result  = new HashMap<Integer,Movie>();					//NORMALLY WILL BE INITIALIZED TO CONTAIN WHOLE DATABASE
-		resultPanel = new JPanel();
-		resultPanel.add(new JButton("Test"));
-
 		this.add(BorderLayout.CENTER, searchLabel);
 		this.add(BorderLayout.CENTER, searchQuery);
 		this.add(BorderLayout.CENTER, searchButton);
-		//this.add(BorderLayout.SOUTH, resultPanel);
-
-		//JComboBox<String> sortPreference = new JComboBox<String>(sortOptions) //need sortOptions string array
-		//sortPreference.setSelectedIndex( ); //depends on size of sortOptions
 	}	
 	/**
 	 * Subclass used to apply user filters
@@ -66,36 +58,38 @@ public class SearchPanel extends JPanel implements ActionListener {
 		 */
 		@Override
 		public void actionPerformed(ActionEvent event) {
-			String unCutFilter = searchLabel.getText();
-			String filterInput = "get" + unCutFilter.substring(10, unCutFilter.length()-2);
-			String queryInput = searchQuery.getText();
+			// String unCutFilter = searchLabel.getText();
+			// String filterInput = "get" + unCutFilter.substring(10, unCutFilter.length()-2);
+			// String queryInput = searchQuery.getText();
 			
-			//HARD-CODED RESULT
-			Movie m = new Movie(1);
-			m.setTitle("Star Wars");
-			result.put(1, m);
+			// //HARD-CODED RESULT
+			// Movie m = new Movie(1);
+			// m.setTitle("Star Wars");
+			// result.put(1, m);
 
-			//result = FilterHandler.searchParameter(result, filterInput, queryInput);
-			if (result.isEmpty()) {
+			// //result = FilterHandler.searchParameter(result, filterInput, queryInput);
+			// if (result.isEmpty()) {
 				
-			} else {
-				SearchPanel.this.add(BorderLayout.SOUTH, resultPanel);	
+			// } else {
+			SearchPanel.this.repaint();
+			System.out.println("!");
 
-				//result.forEach((k,v) -> resultPanel.add(new JButton(v.toString())));
-			}
-			searchButton.setSelected(false);
+			// 	//result.forEach((k,v) -> resultPanel.add(new JButton(v.toString())));
+			// }
 		}
 	}
 
 	/**
 	* This action listener used to update the search-by label according to the selected filter
 	*/
-	@Override
-	public void actionPerformed(ActionEvent event){
-		String label = "Search by " + event.getActionCommand() +" :";
-		searchLabel.setText(label);
+	class filterActionListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent event){
+			String label = "Search by " + event.getActionCommand() +" :";
+			searchLabel.setText(label);
+			System.out.println("?");
+		}
 	}
-
 	public String getSearch() {
 		return "";
 		// eturn String searchResult = searchQuery.getText();
@@ -108,5 +102,16 @@ public class SearchPanel extends JPanel implements ActionListener {
 
 	public String getSort() {
 		return "";
+	}
+	@Override
+	public void paintComponent(Graphics g){
+		super.paintComponent(g);
+		System.out.println(Thread.currentThread().getStackTrace());
+
+		if(resultPanel != null)
+	 		this.remove(resultPanel);
+		resultPanel = new JPanel();
+		resultPanel.add(new JButton("Test"));
+		this.add(BorderLayout.SOUTH, resultPanel);
 	}
 }
