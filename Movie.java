@@ -14,7 +14,7 @@ public class Movie {
    private String director;
    private ArrayList<String> genre;
    private ArrayList<String> actors;
-   private String parentalRating; // TODO: enum this shit
+   private String parentalRating;
    private int runtime;
    private String language;
    private String country;
