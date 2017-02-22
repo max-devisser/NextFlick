@@ -1,3 +1,4 @@
+package src.movie_builder;
 import java.util.ArrayList;
 
 // Stores info on movies
