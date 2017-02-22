@@ -13,6 +13,7 @@ public class SearchPanel extends JPanel{
 	private JLabel searchLabel;
 	private JPanel filterOptions;
 	private ButtonGroup filterButtons;
+	private JPanel filterSelections;
 	private String[] filters = {"Title", "Year", "Genre", "Actors", "Director", "Parental Rating", "Length", "Language", "Country", "Rating"};
     private JTextField searchQuery;
     private JButton searchButton;
@@ -76,12 +77,16 @@ public class SearchPanel extends JPanel{
 				SearchPanel.this.remove(resultPanel);
 				SearchPanel.this.validate();
 			}
+			resultPanel = new JPanel(); 
 			if (!result.isEmpty()) {				//display new results
-				resultPanel = new JPanel();
+				resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS));	//results display vertically
 				result.forEach((k,v) -> resultPanel.add(new JButton(v.toString())));
-				SearchPanel.this.add(BorderLayout.SOUTH, resultPanel);
-				SearchPanel.this.validate();
 			}
+			else{
+				resultPanel.add(new JLabel("No Results"));
+			}
+			SearchPanel.this.add(BorderLayout.SOUTH, resultPanel);
+			SearchPanel.this.validate();
 		}
 	}
 
