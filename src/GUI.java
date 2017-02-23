@@ -23,16 +23,34 @@ public class GUI {
 	 */
 	public void go() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(204, 0, 0) );
 		tabbedPane = new JTabbedPane();
 		homePanel = new HomePanel();
 		searchPanel = new SearchPanel();
+		searchPanel.setBackground(Color.WHITE);
+		homePanel.setBackground(Color.WHITE);
 
-		tabbedPane.add("Home", homePanel);
+		JPanel searchWrapper = new JPanel();
+		searchWrapper.setLayout(new BoxLayout(searchWrapper, BoxLayout.Y_AXIS));
+		searchWrapper.add(searchPanel);
+		searchWrapper.setMaximumSize(new Dimension(400, 200));
+
+		JScrollPane homeScroll = new JScrollPane(homePanel);
+		JScrollPane searchScroll = new JScrollPane(searchWrapper);
+        homeScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        homeScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        searchScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        searchScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        searchScroll.setBounds(0, 0, 0, 0);
+
 		tabbedPane.add("Search", searchPanel);
+        tabbedPane.add("Home", homeScroll);
+
+
 		frame.getContentPane().add(tabbedPane);
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(1500, 800);
+		frame.setSize(1300, 800);
 		frame.setLocationByPlatform(true);
 		frame.setVisible(true);
 	}

@@ -4,12 +4,14 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.Enumeration;
 import java.util.ArrayList;
+import java.awt.event.*;
+import javax.swing.BorderFactory; 
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.*;
 
 public class SearchPanel extends JPanel{
 	private JLabel searchLabel;
@@ -27,14 +29,18 @@ public class SearchPanel extends JPanel{
 	 * Constructor for SearchPanel. Adds fields for filters and displaying of results
 	 */
     public SearchPanel() {
-		filterOptions = new JPanel();			
-		filterOptions.setLayout(new GridLayout(1, 4));
+		//this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		filterOptions = new JPanel();		
+		//filterOptions.setMaximumSize(new Dimension(Integer.MAX_VALUE, filterOptions.getMinimumSize().height));	
+		//filterOptions.setLayout(new GridLayout(1, 4));
+		filterOptions.setBackground(Color.WHITE);
 		filterButtons = new ButtonGroup();
 		filterSelectionPanel = new JPanel();
 		filterSelections = new LinkedHashMap<String, String>();
 
 		for (String filter : filters) {
 			JButton button = new JButton(filter);
+			button.setPreferredSize(new Dimension(120,30));
 			button.setActionCommand(filter);
 			button.addActionListener(new filterActionListener());
 			filterButtons.add(button);
@@ -48,10 +54,13 @@ public class SearchPanel extends JPanel{
 		searchButton = new JButton("Enter");
 		searchButton.addActionListener(new searchActionListener());
 		result  = new HashMap<Integer,Movie>();					//NORMALLY WILL BE INITIALIZED TO CONTAIN WHOLE DATABASE
-		
+
 		this.add(BorderLayout.CENTER, searchLabel);
 		this.add(BorderLayout.CENTER, searchQuery);
 		this.add(BorderLayout.CENTER, searchButton);
+		//this.add(BorderLayout.CENTER,searchWidgets);
+		//resultPanel = new JPanel();		
+		//this.add(BorderLayout.SOUTH, resultPanel);
 	}	
 	/**
 	 * Subclass used to apply user filters
@@ -69,34 +78,34 @@ public class SearchPanel extends JPanel{
 			String filterInput = "get" + unCutFilter.substring(10, unCutFilter.length()-2);
 			String queryInput = searchQuery.getText();
 
-			//HARD-CODED RESULT
-			Movie m = new Movie(1);
-			m.setTitle("Star Wars");
-			result.put(1, m);
-			Movie m2 = new Movie(2);
-			m2.setTitle("Movie");
-			result.put(2, m2);
 
-			//result = FilterHandler.searchParameter(result, filterInput, queryInput);
 			if(resultPanel != null){				//clear result panel
 				SearchPanel.this.remove(resultPanel);
 				SearchPanel.this.validate();
 			}
 			resultPanel = new JPanel(); 
+			resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS));	//results display vertically
 
 			if(queryInput.isEmpty()){
 				resultPanel.add(new JLabel("Please enter something in the search box"));
+				resultPanel.add(filterSelectionPanel);			//same as last search
 			}
 			else{
-				addFilterSelection(filterInput.substring(3), queryInput);
-
-				if (!result.isEmpty()) {				//display new results
-					resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS));	//results display vertically
-					result.forEach((k,v) -> resultPanel.add(new JButton(v.toString())));
-				}
-				else{
-					resultPanel.add(new JLabel("No Results"));
-				}
+				 addFilterSelection(filterInput.substring(3), queryInput);
+				 //result = FilterHandler.searchParameter(result, filterInput, queryInput);
+				 //HARD-CODED RESULT
+				Movie m = new Movie(1);
+				m.setTitle("Star Wars");
+				result.put(1, m);
+				Movie m2 = new Movie(2);
+				m2.setTitle("Movie");
+				result.put(2, m2);	
+			}
+			if (!result.isEmpty()) {				//display new results
+				result.forEach((k,v) -> resultPanel.add(new Result(v)));
+			}
+			else{
+				resultPanel.add(new JLabel("No Results"));
 			}
 			SearchPanel.this.add(BorderLayout.SOUTH, resultPanel);
 			SearchPanel.this.validate();
@@ -106,10 +115,18 @@ public class SearchPanel extends JPanel{
 		public void addFilterSelection(String filter, String input){
 			SearchPanel.this.remove(filterSelectionPanel);
 			filterSelectionPanel = new JPanel();
+			filterSelectionPanel.setBackground(Color.WHITE);
 			filterSelections.put(filter,input);
 			for (String key: filterSelections.keySet()){
-				String label = key + ": " + filterSelections.get(key);
-				filterSelectionPanel.add(new JLabel(label));
+				String labelString = key + ": " + filterSelections.get(key);
+				JLabel  label = new JLabel(labelString);
+				Border border = label.getBorder();
+				Border margin = new EmptyBorder(10,10,10,10);
+				label.setBorder(new CompoundBorder(border, margin));
+				label.setOpaque(true);
+				label.setBackground(new Color(255, 51,51));
+				label.setForeground(Color.WHITE);
+				filterSelectionPanel.add(label);
 			}
 			filterSelectionPanel.validate();
 			resultPanel.add(filterSelectionPanel);
