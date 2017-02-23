@@ -8,6 +8,7 @@ public class TestCollectionBuilder {
 	private HashMap<Integer, Movie> movies;
 	public HashMap<Integer, Movie> getTestCollection()
 	{
+		movies = new HashMap<Integer, Movie>();
 		Movie shawshank = new Movie(278);
 		ArrayList<String> genres = new ArrayList<String>();
 		genres.add("Drama");
@@ -32,6 +33,7 @@ public class TestCollectionBuilder {
 		movies.put(1, shawshank);
 		
 		Movie godfather = new Movie(238);
+		//happens to be same genres
 		actors.clear();
 		actors.add("Al Pacino");
 		actors.add("Marlon Brando");
