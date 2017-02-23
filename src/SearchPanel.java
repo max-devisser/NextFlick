@@ -23,6 +23,7 @@ public class SearchPanel extends JPanel{
     private JButton searchButton;
     private HashMap<Integer,Movie> result;	//the list of results returned by FilterHandler
     private JPanel resultPanel; //what displays the results
+    private JLabel errorMessage = new JLabel("Please enter input");
 
 	/**
 	 * Constructor for SearchPanel. Adds fields for filters and displaying of results
@@ -49,6 +50,7 @@ public class SearchPanel extends JPanel{
 		searchButton = new JButton("Enter");
 		searchButton.addActionListener(new searchActionListener());
 		result  = new HashMap<Integer,Movie>();					//NORMALLY WILL BE INITIALIZED TO CONTAIN WHOLE DATABASE
+		resultPanel = new JPanel();
 
 		this.add(BorderLayout.CENTER, searchLabel);
 		this.add(BorderLayout.CENTER, searchQuery);
@@ -70,37 +72,41 @@ public class SearchPanel extends JPanel{
 			String filterInput = "get" + unCutFilter.substring(10, unCutFilter.length()-2);
 			String queryInput = searchQuery.getText();
 
-
-			if(resultPanel != null){				//clear result panel
+			if(queryInput.isEmpty()){
 				SearchPanel.this.remove(resultPanel);
+				SearchPanel.this.add(BorderLayout.NORTH, errorMessage);
+				SearchPanel.this.add(BorderLayout.SOUTH, resultPanel);
 				SearchPanel.this.validate();
 			}
-			resultPanel = new JPanel(); 
-			resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS));	//results display vertically
-			resultPanel.setBackground(Color.WHITE);
-			if(queryInput.isEmpty()){
-				resultPanel.add(new JLabel("Please enter something in the search box"));
-				resultPanel.add(filterSelectionPanel);			//does not need to be updated; same as last search
-			}
 			else{
-				 addFilterSelection(filterInput.substring(3), queryInput);
-				 //result = FilterHandler.searchParameter(result, filterInput, queryInput);
-				 //HARD-CODED RESULT
+				SearchPanel.this.remove(errorMessage);
+				if(resultPanel != null){				//clear result panel
+					SearchPanel.this.remove(resultPanel);
+					SearchPanel.this.validate();
+				}
+				resultPanel = new JPanel(); 
+				resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS));	//results display vertically
+				resultPanel.setBackground(Color.WHITE);
+
+				addFilterSelection(filterInput.substring(3), queryInput);
+				//result = FilterHandler.searchParameter(result, filterInput, queryInput);
+				//HARD-CODED RESULT
 				Movie m = new Movie(1);
 				m.setTitle("Star Wars");
 				result.put(1, m);
 				Movie m2 = new Movie(2);
 				m2.setTitle("Movie");
 				result.put(2, m2);	
+				
+				if (!result.isEmpty()) {				//display new results
+					result.forEach((k,v) -> resultPanel.add(new Result(v)));
+				}
+				else{									//no results yielded from search
+					resultPanel.add(new JLabel("No Results"));
+				}
+				SearchPanel.this.add(BorderLayout.SOUTH, resultPanel);
+				SearchPanel.this.validate();
 			}
-			if (!result.isEmpty()) {				//display new results
-				result.forEach((k,v) -> resultPanel.add(new Result(v)));
-			}
-			else{									//no results yielded from search
-				resultPanel.add(new JLabel("No Results"));
-			}
-			SearchPanel.this.add(BorderLayout.SOUTH, resultPanel);
-			SearchPanel.this.validate();
 
 
 		}
