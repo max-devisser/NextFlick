@@ -14,41 +14,36 @@ import javax.swing.border.TitledBorder;
 import javax.swing.border.*;
 
 public class SearchPanel extends JPanel{
-	private JLabel searchLabel;
-	private JPanel filterOptions;
-	private ButtonGroup filterButtons;
-	private JPanel filterSelectionPanel;
+	private JLabel searchLabel;		//"Search by *filter type*: ""
+	private JPanel filterOptions;	//menu of filters to select from
+	private JPanel filterSelectionPanel;	//displays user's previous filters that they inputted 
 	private Map<String, String> filterSelections;
 	private String[] filters = {"Title", "Year", "Genre", "Actors", "Director", "Parental Rating", "Length", "Language", "Country", "Rating"};
     private JTextField searchQuery;
     private JButton searchButton;
-    private HashMap<Integer,Movie> result;
-    private JPanel resultPanel;
+    private HashMap<Integer,Movie> result;	//the list of results returned by FilterHandler
+    private JPanel resultPanel; //what displays the results
 
 	/**
 	 * Constructor for SearchPanel. Adds fields for filters and displaying of results
 	 */
     public SearchPanel() {
-		//this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		//this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));  //Might need this to be able to do scrolling
 		filterOptions = new JPanel();		
-		//filterOptions.setMaximumSize(new Dimension(Integer.MAX_VALUE, filterOptions.getMinimumSize().height));	
-		//filterOptions.setLayout(new GridLayout(1, 4));
 		filterOptions.setBackground(Color.WHITE);
-		filterButtons = new ButtonGroup();
 		filterSelectionPanel = new JPanel();
 		filterSelections = new LinkedHashMap<String, String>();
 
 		for (String filter : filters) {
 			JButton button = new JButton(filter);
 			button.setPreferredSize(new Dimension(120,30));
-			button.setActionCommand(filter);
-			button.addActionListener(new filterActionListener());
-			filterButtons.add(button);
+			button.setActionCommand(filter);					//allows us to be able to update search label based on filter selected
+			button.addActionListener(new filterActionListener());	
 			filterOptions.add(button);
 		}
 		this.add(BorderLayout.NORTH, filterOptions);
 
-		String filterSearchWord = "Title";
+		String filterSearchWord = "Title ";
     	searchLabel = new JLabel("Search by " + filterSearchWord + ":");
 		searchQuery = new JTextField(40);
 		searchButton = new JButton("Enter");
@@ -58,9 +53,6 @@ public class SearchPanel extends JPanel{
 		this.add(BorderLayout.CENTER, searchLabel);
 		this.add(BorderLayout.CENTER, searchQuery);
 		this.add(BorderLayout.CENTER, searchButton);
-		//this.add(BorderLayout.CENTER,searchWidgets);
-		//resultPanel = new JPanel();		
-		//this.add(BorderLayout.SOUTH, resultPanel);
 	}	
 	/**
 	 * Subclass used to apply user filters
@@ -85,10 +77,10 @@ public class SearchPanel extends JPanel{
 			}
 			resultPanel = new JPanel(); 
 			resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS));	//results display vertically
-
+			resultPanel.setBackground(Color.WHITE);
 			if(queryInput.isEmpty()){
 				resultPanel.add(new JLabel("Please enter something in the search box"));
-				resultPanel.add(filterSelectionPanel);			//same as last search
+				resultPanel.add(filterSelectionPanel);			//does not need to be updated; same as last search
 			}
 			else{
 				 addFilterSelection(filterInput.substring(3), queryInput);
@@ -104,7 +96,7 @@ public class SearchPanel extends JPanel{
 			if (!result.isEmpty()) {				//display new results
 				result.forEach((k,v) -> resultPanel.add(new Result(v)));
 			}
-			else{
+			else{									//no results yielded from search
 				resultPanel.add(new JLabel("No Results"));
 			}
 			SearchPanel.this.add(BorderLayout.SOUTH, resultPanel);
@@ -112,6 +104,7 @@ public class SearchPanel extends JPanel{
 
 
 		}
+		//Updates the display of filters that the user has so far selected
 		public void addFilterSelection(String filter, String input){
 			SearchPanel.this.remove(filterSelectionPanel);
 			filterSelectionPanel = new JPanel();
