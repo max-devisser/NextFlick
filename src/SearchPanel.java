@@ -1,6 +1,8 @@
 package src;
 import javax.swing.*;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
@@ -13,12 +15,12 @@ public class SearchPanel extends JPanel{
 	private JLabel searchLabel;
 	private JPanel filterOptions;
 	private ButtonGroup filterButtons;
-	private JPanel filterSelections;
+	private JPanel filterSelectionPanel;
+	private Map<String, String> filterSelections;
 	private String[] filters = {"Title", "Year", "Genre", "Actors", "Director", "Parental Rating", "Length", "Language", "Country", "Rating"};
     private JTextField searchQuery;
     private JButton searchButton;
     private HashMap<Integer,Movie> result;
-    private JLabel[] selectedFilters;
     private JPanel resultPanel;
 
 	/**
@@ -28,6 +30,8 @@ public class SearchPanel extends JPanel{
 		filterOptions = new JPanel();			
 		filterOptions.setLayout(new GridLayout(1, 4));
 		filterButtons = new ButtonGroup();
+		filterSelectionPanel = new JPanel();
+		filterSelections = new LinkedHashMap<String, String>();
 
 		for (String filter : filters) {
 			JButton button = new JButton(filter);
@@ -60,10 +64,11 @@ public class SearchPanel extends JPanel{
 		 */
 		@Override
 		public void actionPerformed(ActionEvent event) {
+
 			String unCutFilter = searchLabel.getText();
 			String filterInput = "get" + unCutFilter.substring(10, unCutFilter.length()-2);
 			String queryInput = searchQuery.getText();
-			
+
 			//HARD-CODED RESULT
 			Movie m = new Movie(1);
 			m.setTitle("Star Wars");
@@ -78,15 +83,37 @@ public class SearchPanel extends JPanel{
 				SearchPanel.this.validate();
 			}
 			resultPanel = new JPanel(); 
-			if (!result.isEmpty()) {				//display new results
-				resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS));	//results display vertically
-				result.forEach((k,v) -> resultPanel.add(new JButton(v.toString())));
+
+			if(queryInput.isEmpty()){
+				resultPanel.add(new JLabel("Please enter something in the search box"));
 			}
 			else{
-				resultPanel.add(new JLabel("No Results"));
+				addFilterSelection(filterInput.substring(3), queryInput);
+
+				if (!result.isEmpty()) {				//display new results
+					resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS));	//results display vertically
+					result.forEach((k,v) -> resultPanel.add(new JButton(v.toString())));
+				}
+				else{
+					resultPanel.add(new JLabel("No Results"));
+				}
 			}
 			SearchPanel.this.add(BorderLayout.SOUTH, resultPanel);
 			SearchPanel.this.validate();
+
+
+		}
+		public void addFilterSelection(String filter, String input){
+			SearchPanel.this.remove(filterSelectionPanel);
+			filterSelectionPanel = new JPanel();
+			filterSelections.put(filter,input);
+			for (String key: filterSelections.keySet()){
+				String label = key + ": " + filterSelections.get(key);
+				filterSelectionPanel.add(new JLabel(label));
+			}
+			filterSelectionPanel.validate();
+			resultPanel.add(filterSelectionPanel);
+			resultPanel.validate();	
 		}
 	}
 
