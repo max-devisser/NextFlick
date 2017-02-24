@@ -85,7 +85,7 @@ public class SearchPanel extends JPanel{
 				SearchPanel.this.remove(errorMessage);
 				if(resultPanel != null){				//clear result panel
 					SearchPanel.this.remove(resultPanel);
-					SearchPanel.this.validate();
+					SearchPanel.this.validate(); //probably not needed since we validate at the end of the function
 				}
 				resultPanel = new JPanel(); 
 				resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS));	//results display vertically
@@ -154,7 +154,7 @@ public class SearchPanel extends JPanel{
 			filterSelectionPanel.validate();
 			resultPanel.add(BorderLayout.SOUTH,filterSelectionPanel);
 			resultPanel.validate();	
-
+			
 		}
 	}
 
