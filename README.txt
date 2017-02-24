@@ -47,8 +47,7 @@ Movie Title: Batman
 Release Date: 2008-07-18
 Director: Christopher Nolan
 Genre(s): [Thriller, Action]
-Actors: [Christian Bale, Heath Ledger
-Gary Oldman, Michael Caine, Morgan Freeman]
+Actors: [Christian Bale, Heath Ledger, Gary Oldman, Michael Caine, Morgan Freeman]
 Parental Rating: PG-13, Runtime: 152 (minutes)
 Language: en
 Country: US
