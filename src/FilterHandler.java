@@ -166,19 +166,4 @@ public class FilterHandler
 
 		return resultMap;
 	}	
-	
-	// public static void main(String[] args)
-	// {
-	// 	FilterHandler f = new FilterHandler();
-	// 	ArrayList<String> aLS = new ArrayList<String>();
-	// 	aLS.add("Morgan Freeman");
-	// 	HashMap<Integer, Movie> map = new HashMap<Integer, Movie>();
-	// 	TestCollectionBuilder test = new TestCollectionBuilder();
-	// 	map = test.getTestCollection();
-	// 	map = FilterHandler.searchParameter(map, "getActors", "Morgan Freeman");
-
-	// 	System.out.println(map.size());
-	// 	for (Integer key: map.keySet())
-	// 		System.out.println(map.get(key).toString());
-	// }
 }

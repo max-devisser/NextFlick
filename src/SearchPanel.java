@@ -26,6 +26,7 @@ public class SearchPanel extends JPanel{
     private HashMap<Integer,Movie> result;	//the list of results returned by FilterHandler
     private JPanel resultPanel; //what displays the results
     private JLabel errorMessage = new JLabel("Please enter input");
+    private TestCollectionBuilder test;
 
 	/**
 	 * Constructor for SearchPanel. Adds fields for filters and displaying of results
@@ -51,8 +52,8 @@ public class SearchPanel extends JPanel{
 		searchQuery = new JTextField(40);
 		searchButton = new JButton("Enter");
 		searchButton.addActionListener(new searchActionListener());
-		TestCollectionBuilder test = new TestCollectionBuilder();
-		result  = test.getTestCollection();		//NORMALLY WILL BE INITIALIZED TO CONTAIN WHOLE DATABASE
+		test = new TestCollectionBuilder(); //NORMALLY WILL BE INITIALIZED TO CONTAIN WHOLE DATABASE
+		result = test.getTestCollection();
 		resultPanel = new JPanel();
 
 		this.add(BorderLayout.CENTER, searchLabel);
@@ -122,6 +123,7 @@ public class SearchPanel extends JPanel{
 				}
 				else{									//no results yielded from search
 					resultPanel.add(new JLabel("No Results"));
+					result = test.getTestCollection();
 				}
 				SearchPanel.this.add(BorderLayout.SOUTH, resultPanel);
 				SearchPanel.this.validate();

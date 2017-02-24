@@ -99,7 +99,7 @@ public class TestCollectionBuilder {
 		whitedudes.setGenre(whiteGenres);
 		whitedudes.setImageURL("/3W0v956XxSG5xgm7LB6qu8ExYJ2.jpg");
 		whitedudes.setLanguage("en");
-		whitedudes.setParentalRating("Unrated XXX Steamy Hot");
+		whitedudes.setParentalRating("PG");
 		whitedudes.setPlot("The defense and the prosecution have rested and the jury is filing into the jury room to decide if a young Spanish-American is guilty or innocent of murdering his father. What begins as an open and shut case soon becomes a mini-drama of each of the jurors' prejudices and preconceptions about the trial, the accused, and each other.");
 		whitedudes.setRuntime(96);
 		whitedudes.setTitle("12 Angry Men");
