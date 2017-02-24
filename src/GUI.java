@@ -24,6 +24,7 @@ public class GUI {
 	public void go() {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(204, 0, 0) );
+		frame.setTitle("NextFlick");
 		tabbedPane = new JTabbedPane();
 		homePanel = new HomePanel();
 		searchPanel = new SearchPanel();
