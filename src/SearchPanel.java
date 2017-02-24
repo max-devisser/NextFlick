@@ -125,6 +125,7 @@ public class SearchPanel extends JPanel{
 				}
 				SearchPanel.this.add(BorderLayout.SOUTH, resultPanel);
 				SearchPanel.this.validate();
+				SearchPanel.this.repaint();
 			}
 		}
 		//Updates the display of filters that the user has so far selected
