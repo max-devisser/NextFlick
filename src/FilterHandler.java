@@ -65,19 +65,21 @@ public class FilterHandler
 			Method m = findMethod(methodName);
 
 			try{
-				if (methodName.equals("getActors") || methodName.equals("getGenre")) {
-					if (((ArrayList<String>) m.invoke(currentMovie)).contains(filterParameter))
+				if (methodName.equals("getActors") || methodName.equals("getGenre")) 
+				{
+					ArrayList<String> currentArrayList = (ArrayList<String>) m.invoke(currentMovie);
+					for (String item: currentArrayList)
 					{
-						resultMap.put(key, inputMap.get(key));
+						if (item.toLowerCase().contains(filterParameter.toLowerCase()))
+							resultMap.put(key, inputMap.get(key));
 					}
-				} else {
+				} 
+
+				else 
+				{
 					if (((String) m.invoke(currentMovie)).contains(filterParameter))
-					{
 						resultMap.put(key, inputMap.get(key));
-					}
 				}
-				
-				
 			}
 			catch (IllegalAccessException e) {
 				System.err.println("IllegalAccessException: " + e.getMessage());
