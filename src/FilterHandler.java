@@ -6,6 +6,9 @@ package src;
 
 //Parameters for functions: HashMap and A parameter
 import java.util.*;
+
+import src.movie_builder.TestCollectionBuilder;
+
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 
@@ -50,6 +53,7 @@ public class FilterHandler
 	 * @param filterParameter String to filter movies by
 	 * @return Map of smaller or equal size that only contains movies that match the filter
 	 */
+	@SuppressWarnings("unchecked")
 	public static HashMap<Integer, Movie> searchParameter(HashMap<Integer, Movie> inputMap, 
 			String methodName, String filterParameter) 
 	{
@@ -61,10 +65,19 @@ public class FilterHandler
 			Method m = findMethod(methodName);
 
 			try{
-				if (((String) m.invoke(currentMovie)).contains(filterParameter))
-				{
-					resultMap.put(key, inputMap.get(key));
+				if (methodName.equals("getActors") || methodName.equals("getGenre")) {
+					if (((ArrayList<String>) m.invoke(currentMovie)).contains(filterParameter))
+					{
+						resultMap.put(key, inputMap.get(key));
+					}
+				} else {
+					if (((String) m.invoke(currentMovie)).contains(filterParameter))
+					{
+						resultMap.put(key, inputMap.get(key));
+					}
 				}
+				
+				
 			}
 			catch (IllegalAccessException e) {
 				System.err.println("IllegalAccessException: " + e.getMessage());
@@ -78,43 +91,45 @@ public class FilterHandler
 		return resultMap;
 	}
 
-	/**
-	 * ArrayList<String> version. 
-	 * Method that takes a set of Movie objects and an ArrayList parameter to filter by and returns a set
-	 * with only movies that match the filter
-	 * @param inputMap Map of Movie objects to be filtered
-	 * @param methodName Name of method that will be used to access the variable in the Movie object 
-	 * that corresponds to the filterParameter e.g. getDirector when filtering for movies by Michael Bay
-	 * @param filterParameter ArrayList to filter movies by
-	 * @return Map of smaller or equal size that only contains movies that match the filter
-	 */
-	@SuppressWarnings("unchecked")
-	public static HashMap<Integer, Movie> searchParameter(HashMap<Integer, Movie> inputMap, String methodName, ArrayList<String> filterParameter) 
-	{
-		HashMap<Integer, Movie> resultMap = new HashMap<Integer, Movie>();
-
-		for (Integer key: inputMap.keySet())
-		{
-			Movie currentMovie = inputMap.get(key);
-			Method m = findMethod(methodName);
-
-			try{
-				if (((ArrayList<String>) m.invoke(currentMovie)).contains(filterParameter))
-				{
-					resultMap.put(key, inputMap.get(key));
-				}
-			}
-			catch (IllegalAccessException e) {
-				System.err.println("IllegalAccessException: " + e.getMessage());
-			} 
-			catch (InvocationTargetException e) {
-				System.err.println("InvocationTargetException: " + e.getMessage());
-			} 
-
-		}
-
-		return resultMap;
-	}	
+//	/**
+//	 * ArrayList<String> version. 
+//	 * Method that takes a set of Movie objects and an ArrayList parameter to filter by and returns a set
+//	 * with only movies that match the filter
+//	 * @param inputMap Map of Movie objects to be filtered
+//	 * @param methodName Name of method that will be used to access the variable in the Movie object 
+//	 * that corresponds to the filterParameter e.g. getDirector when filtering for movies by Michael Bay
+//	 * @param filterParameter ArrayList to filter movies by
+//	 * @return Map of smaller or equal size that only contains movies that match the filter
+//	 */
+//	@SuppressWarnings("unchecked")
+//	public static HashMap<Integer, Movie> searchParameter(HashMap<Integer, Movie> inputMap, String methodName, ArrayList<String> filterParameter) 
+//	{
+//		HashMap<Integer, Movie> resultMap = new HashMap<Integer, Movie>();
+//
+//		for (Integer key: inputMap.keySet())
+//		{
+//			Movie currentMovie = inputMap.get(key);
+//			Method m = findMethod(methodName);
+//
+//			try{
+//				
+//			
+//				if (((ArrayList<String>) m.invoke(currentMovie)).contains(filterParameter))
+//				{
+//					resultMap.put(key, inputMap.get(key));
+//				}
+//			}
+//			catch (IllegalAccessException e) {
+//				System.err.println("IllegalAccessException: " + e.getMessage());
+//			} 
+//			catch (InvocationTargetException e) {
+//				System.err.println("InvocationTargetException: " + e.getMessage());
+//			} 
+//
+//		}
+//
+//		return resultMap;
+//	}	
 
 	/**
 	 * int version. 
@@ -127,7 +142,6 @@ public class FilterHandler
 	 * @return Map of smaller or equal size that only contains movies that match the filter
 	 */
 	public static HashMap<Integer, Movie> searchParameter(HashMap<Integer, Movie> inputMap, String methodName, int filterParameter) 
-		throws NoSuchMethodException, SecurityException, IllegalAccessException, InvocationTargetException, ClassNotFoundException
 	{
 		HashMap<Integer, Movie> resultMap = new HashMap<Integer, Movie>();
 
@@ -190,4 +204,19 @@ public class FilterHandler
 
 		return resultMap;
 	}	
+	
+//	public static void main(String[] args)
+//	{
+//		FilterHandler f = new FilterHandler();
+//		//ArrayList<String> aLS = new ArrayList<String>();
+//		//aLS.add("Morgan Freeman");
+//		HashMap<Integer, Movie> map = new HashMap<Integer, Movie>();
+//		TestCollectionBuilder test = new TestCollectionBuilder();
+//		map = test.getTestCollection();
+//		map = FilterHandler.searchParameter(map, "getRuntime", 142);
+//
+//		System.out.println(map.size());
+//		for (Integer key: map.keySet())
+//			System.out.println(map.get(key).toString());
+//	}
 }

@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.awt.*;
 import java.awt.event.MouseListener;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Enumeration;
 import java.util.ArrayList;
 import java.awt.event.*;
@@ -91,7 +92,30 @@ public class SearchPanel extends JPanel{
 				resultPanel.setBackground(Color.WHITE);
 
 				addFilterSelection(filterInput.substring(3), queryInput);
-				//result = FilterHandler.searchParameter(result, filterInput, queryInput);
+				// Ugly, fix later
+				switch (filterInput.substring(3)) {
+				case "Title" : 
+				case "Director" :
+				case "Language" :
+				case "Country" :
+				case "Genre" :
+				case "Actors" :
+					result = FilterHandler.searchParameter(result, filterInput, queryInput);
+					break;
+				case "Parental Rating" :
+					result = FilterHandler.searchParameter(result, "getParentalRating", queryInput);
+					break;
+				case "Year" :
+					result = FilterHandler.searchParameter(result, "getDate", queryInput);
+					break;
+				case "Length" :
+					result = FilterHandler.searchParameter(result, "getRuntime", Integer.parseInt(queryInput));
+					break;
+				case "Rating" :
+					result = FilterHandler.searchParameter(result, "getCriticalRating", Double.parseDouble(queryInput));
+					break;
+				}
+				
 
 				if (!result.isEmpty()) {				//display new results
 					result.forEach((k,v) -> resultPanel.add(new Result(v)));
