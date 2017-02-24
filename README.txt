@@ -50,7 +50,9 @@ Genre(s): [Thriller, Action]
 Actors: [Christian Bale, Heath Ledger
 Gary Oldman, Michael Caine, Morgan Freeman]
 Parental Rating: PG-13, Runtime: 152 (minutes)
-Language: en, Country: US, Critical Rating: 8.1
+Language: en
+Country: US
+Critical Rating: 8.1
 
 Movie Title: 12 Angry Men
 Release Date: 1957-03-25
