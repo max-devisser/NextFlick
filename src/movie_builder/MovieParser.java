@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import com.mashape.unirest.http.*;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
+import src.Movie;
+
 
 
 public class MovieParser {
