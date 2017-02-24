@@ -7,15 +7,13 @@ import java.util.HashMap;
 
 public class Controller {
 	private GUI gui;
-	private SearchController searchController;
 
 	/**
 	 * Constructor for Controller object
-	 * @param g GUI object that is passed to SearchController for use
+	 * @param g GUI object 
 	 */
 	public Controller(GUI g) {
 		gui = g;
-		searchController = new SearchController(g);
 	}
 
 	/**
@@ -42,17 +40,12 @@ public class Controller {
 	}
 
 	/**
-	 * Currently calls on SearchController's go method
+	 * Will be used to switch between getting data from User account and GUI
 	 */
 	public void go() {
 		while (!gui.quit()) { // genGUI quit() method checks if user quit
 			wait(gui);
-			// if(searchGUI.tabClick()){
-			// searchController.reset(); //need to clear search in case user
-			// comes back to search page
-			// //open new page
-			// }
-			searchController.searchGo();
+
 		}
 	}
 
