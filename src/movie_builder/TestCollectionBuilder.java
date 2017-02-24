@@ -45,7 +45,11 @@ public class TestCollectionBuilder {
 		godfather.setCriticalRating(8.3);
 		godfather.setDate("1972-03-24");
 		godfather.setDirector("Francis Ford Coppola");
-		godfather.setGenre(genres);
+		ArrayList<String> godGenres = new ArrayList<String>();
+		godGenres.add("Drama");
+		godGenres.add("Crime");
+		godGenres.add("Gangster");
+		godfather.setGenre(godGenres);
 		godfather.setImageURL("/d4KNaTrltq6bpkFS01pYtyXa09m.jpg");
 		godfather.setLanguage("en");
 		godfather.setParentalRating("R");
@@ -55,8 +59,6 @@ public class TestCollectionBuilder {
 		movies.put(2, godfather);
 		
 		Movie batmaaaan = new Movie(155);
-		genres.add("Thriller");
-		genres.add("Action");
 		actors.clear();
 		actors.add("Christian Bale");
 		actors.add("Heath Ledger");
@@ -68,7 +70,10 @@ public class TestCollectionBuilder {
 		batmaaaan.setCriticalRating(8.1);
 		batmaaaan.setDate("2008-07-18");
 		batmaaaan.setDirector("Christopher Nolan");
-		batmaaaan.setGenre(genres);
+		ArrayList<String> batGenres = new ArrayList<String>();
+		batGenres.add("Thriller");
+		batGenres.add("Action");
+		batmaaaan.setGenre(batGenres);
 		batmaaaan.setImageURL("/1hRoyzDtpgMU7Dz4JF22RANzQO7.jpg");
 		batmaaaan.setLanguage("en");
 		batmaaaan.setParentalRating("PG-13");
@@ -78,8 +83,6 @@ public class TestCollectionBuilder {
 		movies.put(3, batmaaaan);
 		
 		Movie whitedudes = new Movie(389);
-		genres.clear();
-		genres.add("Drama");
 		actors.clear();
 		actors.add("Henry Fonda");
 		actors.add("Lee J. Cobb");
@@ -91,7 +94,9 @@ public class TestCollectionBuilder {
 		whitedudes.setCriticalRating(8.1);
 		whitedudes.setDate("1957-03-25");
 		whitedudes.setDirector("Sidney Lumet");
-		whitedudes.setGenre(genres);
+		ArrayList<String> whiteGenres = new ArrayList<String>();
+		whiteGenres.add("Drama");
+		whitedudes.setGenre(whiteGenres);
 		whitedudes.setImageURL("/3W0v956XxSG5xgm7LB6qu8ExYJ2.jpg");
 		whitedudes.setLanguage("en");
 		whitedudes.setParentalRating("Unrated XXX Steamy Hot");
@@ -101,8 +106,6 @@ public class TestCollectionBuilder {
 		movies.put(4, whitedudes);
 		
 		Movie schindler = new Movie(424);
-		genres.add("History");
-		genres.add("War");
 		actors.clear();
 		actors.add("Liam Neeson");
 		actors.add("Ralph Fiennes");
@@ -114,7 +117,10 @@ public class TestCollectionBuilder {
 		schindler.setCriticalRating(8.2);
 		schindler.setDate("1993-11-29");
 		schindler.setDirector("Steven Spielberg");
-		schindler.setGenre(genres);
+		ArrayList<String> schindlerGenres = new ArrayList<String>();
+		schindlerGenres.add("Drama");
+		schindlerGenres.add("Crime");
+		schindler.setGenre(schindlerGenres);
 		schindler.setImageURL("/yPisjyLweCl1tbgwgtzBCNCBle.jpg");
 		schindler.setLanguage("en");
 		schindler.setParentalRating("R");

@@ -76,7 +76,7 @@ public class Movie {
    {
       return "Movie Title: " + title + ", Release Date: " + date + ", Director: " + director + ", Genre(s): " + genre + ", Actors: " + actors
         + ", Parental Rating: " + parentalRating + ", Runtime: " + runtime + " (minutes), Language: " + language + ", Country: " + country 
-        + ", Critical Rating: " + ", Plot: " + plot;  
+        + ", Critical Rating: " + criticalRating + ", Plot: " + plot;  
    }
    
    /**
