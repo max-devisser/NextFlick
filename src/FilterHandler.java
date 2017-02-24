@@ -91,46 +91,6 @@ public class FilterHandler
 		return resultMap;
 	}
 
-//	/**
-//	 * ArrayList<String> version. 
-//	 * Method that takes a set of Movie objects and an ArrayList parameter to filter by and returns a set
-//	 * with only movies that match the filter
-//	 * @param inputMap Map of Movie objects to be filtered
-//	 * @param methodName Name of method that will be used to access the variable in the Movie object 
-//	 * that corresponds to the filterParameter e.g. getDirector when filtering for movies by Michael Bay
-//	 * @param filterParameter ArrayList to filter movies by
-//	 * @return Map of smaller or equal size that only contains movies that match the filter
-//	 */
-//	@SuppressWarnings("unchecked")
-//	public static HashMap<Integer, Movie> searchParameter(HashMap<Integer, Movie> inputMap, String methodName, ArrayList<String> filterParameter) 
-//	{
-//		HashMap<Integer, Movie> resultMap = new HashMap<Integer, Movie>();
-//
-//		for (Integer key: inputMap.keySet())
-//		{
-//			Movie currentMovie = inputMap.get(key);
-//			Method m = findMethod(methodName);
-//
-//			try{
-//				
-//			
-//				if (((ArrayList<String>) m.invoke(currentMovie)).contains(filterParameter))
-//				{
-//					resultMap.put(key, inputMap.get(key));
-//				}
-//			}
-//			catch (IllegalAccessException e) {
-//				System.err.println("IllegalAccessException: " + e.getMessage());
-//			} 
-//			catch (InvocationTargetException e) {
-//				System.err.println("InvocationTargetException: " + e.getMessage());
-//			} 
-//
-//		}
-//
-//		return resultMap;
-//	}	
-
 	/**
 	 * int version. 
 	 * Method that takes a set of Movie objects and an int parameter to filter by and returns a set
