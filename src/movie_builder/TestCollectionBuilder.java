@@ -34,13 +34,13 @@ public class TestCollectionBuilder {
 		
 		Movie godfather = new Movie(238);
 		//happens to be same genres
-		actors.clear();
-		actors.add("Al Pacino");
-		actors.add("Marlon Brando");
-		actors.add("James Caan");
-		actors.add("Robert Duvall");
-		actors.add("Diane Keaton");
-		godfather.setActors(actors);
+		ArrayList<String> actors2 = new ArrayList<String>();
+		actors2.add("Al Pacino");
+		actors2.add("Marlon Brando");
+		actors2.add("James Caan");
+		actors2.add("Robert Duvall");
+		actors2.add("Diane Keaton");
+		godfather.setActors(actors2);
 		godfather.setCountry("US");
 		godfather.setCriticalRating(8.3);
 		godfather.setDate("1972-03-24");
@@ -59,13 +59,13 @@ public class TestCollectionBuilder {
 		movies.put(2, godfather);
 		
 		Movie batmaaaan = new Movie(155);
-		actors.clear();
-		actors.add("Christian Bale");
-		actors.add("Heath Ledger");
-		actors.add("Gary Oldman");
-		actors.add("Michael Caine");
-		actors.add("Morgan Freeman");
-		batmaaaan.setActors(actors);
+		ArrayList<String> actors3 = new ArrayList<String>();
+		actors3.add("Christian Bale");
+		actors3.add("Heath Ledger");
+		actors3.add("Gary Oldman");
+		actors3.add("Michael Caine");
+		actors3.add("Morgan Freeman");
+		batmaaaan.setActors(actors3);
 		batmaaaan.setCountry("US");
 		batmaaaan.setCriticalRating(8.1);
 		batmaaaan.setDate("2008-07-18");
@@ -83,13 +83,13 @@ public class TestCollectionBuilder {
 		movies.put(3, batmaaaan);
 		
 		Movie whitedudes = new Movie(389);
-		actors.clear();
-		actors.add("Henry Fonda");
-		actors.add("Lee J. Cobb");
-		actors.add("Martin Balsam");
-		actors.add("Jack Klugman");
-		actors.add("E. G. Marshall");
-		whitedudes.setActors(actors);
+		ArrayList<String> actors4 = new ArrayList<String>();
+		actors4.add("Henry Fonda");
+		actors4.add("Lee J. Cobb");
+		actors4.add("Martin Balsam");
+		actors4.add("Jack Klugman");
+		actors4.add("E. G. Marshall");
+		whitedudes.setActors(actors4);
 		whitedudes.setCountry("US");
 		whitedudes.setCriticalRating(8.1);
 		whitedudes.setDate("1957-03-25");
@@ -106,13 +106,13 @@ public class TestCollectionBuilder {
 		movies.put(4, whitedudes);
 		
 		Movie schindler = new Movie(424);
-		actors.clear();
-		actors.add("Liam Neeson");
-		actors.add("Ralph Fiennes");
-		actors.add("Ben Kingsley");
-		actors.add("Embeth Davidtz");
-		actors.add("Caroline Goodall");
-		schindler.setActors(actors);
+		ArrayList<String> actors5 = new ArrayList<String>();
+		actors5.add("Liam Neeson");
+		actors5.add("Ralph Fiennes");
+		actors5.add("Ben Kingsley");
+		actors5.add("Embeth Davidtz");
+		actors5.add("Caroline Goodall");
+		schindler.setActors(actors5);
 		schindler.setCountry("US");
 		schindler.setCriticalRating(8.2);
 		schindler.setDate("1993-11-29");

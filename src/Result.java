@@ -34,19 +34,22 @@ public class Result extends JPanel{
 		header.add(rate);
 		this.add(header);
 
-		JLabel label1 = new JLabel("Release Date: " + movie.getDate() +"Director: " + movie.getDirector()+"Genre: " + movie.getGenre());
-		JLabel label4 = new JLabel("Parental Rating: " + movie.getParentalRating());
-		JLabel label5 = new JLabel("Release Date: " + movie.getDate());
-		JLabel label6 = new JLabel("Release Date: " + movie.getDate());
-		JLabel label7 = new JLabel("Release Date: " + movie.getDate());
-
+		JLabel label1 = new JLabel("Release Date: " + movie.getDate());
+		JLabel label2 = new JLabel("Actors: " + movie.getActor());
+		JLabel label3 = new JLabel("Director: " + movie.getDirector());
+		JLabel label4 = new JLabel("Genre: " + movie.getGenre()));
+		JLabel label5 = new JLabel("Parental Rating: " + movie.getParentalRating());
+		JLabel label6 = new JLabel("Length: " + movie.getRuntime() + " minutes");
+		JLabel label7 = new JLabel("Critical Rating: " + movie.getCriticalRating());
+		JLabel label8 = new JLabel("Country: " + movie.getCountry());
 
 		this.add(label1);
+		this.add(label2);
+		this.add(label3);
 		this.add(label4);
 		this.add(label5);
 		this.add(label6);
 		this.add(label7);
-
-
+		this.add(label8);
 	}
 }
