@@ -77,7 +77,7 @@ public class FilterHandler
 
 				else 
 				{
-					if (((String) m.invoke(currentMovie)).contains(filterParameter))
+					if (((String) m.invoke(currentMovie)).toLowerCase().contains(filterParameter.toLowerCase()))
 						resultMap.put(key, inputMap.get(key));
 				}
 			}
