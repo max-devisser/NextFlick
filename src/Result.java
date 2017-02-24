@@ -33,7 +33,20 @@ public class Result extends JPanel{
 		JButton rate = new JButton("Rate");
 		header.add(rate);
 		this.add(header);
-		this.add(new JLabel(movie.toString()));
+
+		JLabel label1 = new JLabel("Release Date: " + movie.getDate() +"Director: " + movie.getDirector()+"Genre: " + movie.getGenre());
+		JLabel label4 = new JLabel("Parental Rating: " + movie.getParentalRating());
+		JLabel label5 = new JLabel("Release Date: " + movie.getDate());
+		JLabel label6 = new JLabel("Release Date: " + movie.getDate());
+		JLabel label7 = new JLabel("Release Date: " + movie.getDate());
+
+
+		this.add(label1);
+		this.add(label4);
+		this.add(label5);
+		this.add(label6);
+		this.add(label7);
+
 
 	}
 }
