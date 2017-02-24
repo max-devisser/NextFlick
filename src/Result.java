@@ -35,9 +35,9 @@ public class Result extends JPanel{
 		this.add(header);
 
 		JLabel label1 = new JLabel("Release Date: " + movie.getDate());
-		JLabel label2 = new JLabel("Actors: " + movie.getActor());
+		JLabel label2 = new JLabel("Actors: " + movie.getActors());
 		JLabel label3 = new JLabel("Director: " + movie.getDirector());
-		JLabel label4 = new JLabel("Genre: " + movie.getGenre()));
+		JLabel label4 = new JLabel("Genre: " + movie.getGenre());
 		JLabel label5 = new JLabel("Parental Rating: " + movie.getParentalRating());
 		JLabel label6 = new JLabel("Length: " + movie.getRuntime() + " minutes");
 		JLabel label7 = new JLabel("Critical Rating: " + movie.getCriticalRating());
