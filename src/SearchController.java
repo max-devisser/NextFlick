@@ -6,7 +6,7 @@ public class SearchController {
 	private String input;
 	private String filter;
 	private String sort;
-	private HashMap collection;
+	private HashMap<Integer, Movie> collection;
 	private GUI gui;
 
 	/**
@@ -18,7 +18,7 @@ public class SearchController {
 		input = gui.getSearch();
 		filter = gui.getFilter();
 		sort = gui.getSort();
-		collection = new HashMap();
+		collection = new HashMap<Integer, Movie>();
 	}
 
 	/**
@@ -36,6 +36,6 @@ public class SearchController {
 		input = "";
 		filter = "";
 		sort = "";
-		collection = new HashMap();
+		collection = new HashMap<Integer, Movie>();
 	}
 }
