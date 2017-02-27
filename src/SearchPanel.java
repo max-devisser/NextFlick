@@ -90,13 +90,11 @@ public class SearchPanel extends JPanel {
 
 	// Updates the display of filters that the user has so far selected
 	public void updateFilterSelectionPanel() {
-		System.out.println("!");
 		if(filterSelectionPanel != null) { this.remove(filterSelectionPanel); }
 		filterSelectionPanel = new JPanel();
 		filterSelectionPanel.setBackground(Color.WHITE);
 
 		for (Filter filter : filterHandler.getFilterList()) {
-			System.out.print(filter.getType() + ": " + filter.getQuery() + ", ");
 			String filterType = filter.getType().substring(3);
 
 			// Fixes naming inconsistencies between filterList and filter buttons
@@ -126,7 +124,7 @@ public class SearchPanel extends JPanel {
 			label.setForeground(Color.WHITE);
 			filterSelectionPanel.add(label);
 		}
-		System.out.println();
+		
 		filterSelectionPanel.validate();
 		resultPanel.add(BorderLayout.SOUTH, filterSelectionPanel);
 		resultPanel.validate();
