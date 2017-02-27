@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 public class Controller {
 	private GUI gui;
+	private static HashMap<Movie, Integer> ratingHistory;
 
 	/**
 	 * Constructor for Controller object
@@ -14,6 +15,11 @@ public class Controller {
 	 */
 	public Controller(GUI g) {
 		gui = g;
+		ratingHistory = new HashMap<Movie, Integer>();		//originally empty--no ratings s
+	}
+
+	public static void updateRatingHistory(Movie movie, Integer rating){
+		ratingHistory.put(movie, rating);
 	}
 
 	/**
