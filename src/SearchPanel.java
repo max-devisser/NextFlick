@@ -56,8 +56,7 @@ public class SearchPanel extends JPanel {
 		searchQuery = new JTextField(40);
 		searchButton = new JButton("Enter");
 		searchButton.addActionListener(new searchActionListener());
-		test = new TestCollectionBuilder(); // NORMALLY WILL BE INITIALIZED TO
-											// CONTAIN WHOLE DATABASE
+		test = new TestCollectionBuilder(); // NORMALLY WILL BE INITIALIZED TO CONTAIN WHOLE DATABASE
 		result = test.getTestCollection();
 		resultPanel = new JPanel();
 
@@ -107,6 +106,7 @@ public class SearchPanel extends JPanel {
 					resultPanel.add(new JLabel("No Results"));
 					result = test.getTestCollection();
 				}
+				
 				SearchPanel.this.add(BorderLayout.SOUTH, resultPanel);
 				SearchPanel.this.validate();
 				SearchPanel.this.repaint();
@@ -115,27 +115,29 @@ public class SearchPanel extends JPanel {
 
 		// Updates the display of filters that the user has so far selected
 		public void updateFilterSelection() {
+			System.out.println("!");
 			SearchPanel.this.remove(filterSelectionPanel);
 			filterSelectionPanel = new JPanel();
 			filterSelectionPanel.setBackground(Color.WHITE);
 
+			
+			
 			for (Filter filter : filterHandler.getFilterList()) {
+				System.out.print(filter.getType() + ": " + filter.getQuery() + ", ");
 				String filterType = filter.getType().substring(3);
-				// Matches what is displayed here and what is on the filter
-				// buttons
-				if (filterType.equals("ParentalRating")) {
-					filterType = "Parental Rating";
-				}
-				if (filterType.equals("Date")) {
-					filterType = "Year";
-				}
-				if (filterType.equals("Runtime")) {
-					filterType = "Length";
-				}
-				if (filterType.equals("CriticalRating")) {
-					filterType = "Rating";
-				}
-
+				
+				// Fixes naming inconsistencies between filterList and filter buttons
+				if (filterType.equals("ParentalRating")) { filterType = "Parental Rating"; }
+				if (filterType.equals("Date")) { filterType = "Year"; }
+				if (filterType.equals("Runtime")) { filterType = "Length"; }
+				if (filterType.equals("CriticalRating")) { filterType = "Rating"; }
+				
+				JButton removeButton = new JButton("X");
+				removeButton.setPreferredSize(new Dimension(50, 30));
+				removeButton.setActionCommand(filter.getType() + "/" + filter.getQuery());
+				removeButton.addActionListener(new removeButtonActionListener());
+				filterSelectionPanel.add(removeButton);
+				
 				JLabel label = new JLabel(filterType + ": " + filter.getQuery());
 				label.setBorder(new CompoundBorder(label.getBorder(), new EmptyBorder(10, 10, 10, 10)));
 				label.setOpaque(true);
@@ -143,9 +145,20 @@ public class SearchPanel extends JPanel {
 				label.setForeground(Color.WHITE);
 				filterSelectionPanel.add(label);
 			}
+			System.out.println();
 			filterSelectionPanel.validate();
 			resultPanel.add(BorderLayout.SOUTH, filterSelectionPanel);
 			resultPanel.validate();
+			SearchPanel.this.repaint();
+		}
+		
+		class removeButtonActionListener implements ActionListener {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				String[] filterParameters = event.getActionCommand().split("/");
+				result = filterHandler.removeFromFilterList(filterParameters[0], filterParameters[1]);
+				updateFilterSelection();
+			}
 		}
 	}
 

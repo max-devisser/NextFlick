@@ -57,6 +57,7 @@ public class FilterHandler {
 
 	public HashMap<Integer, Movie> applyFilterList(HashMap<Integer, Movie> resultList) {
 		for (Filter filter : filterList) {
+			System.out.print(filter.getType() + ": " + filter.getQuery() + ", ");
 			if (filter.getType() == "getRuntime") {
 				resultList = filterMovieListInt(resultList, filter.getType(), Integer.parseInt(filter.getQuery()));
 			} else if (filter.getType() == "getCriticalRating") {
@@ -65,6 +66,7 @@ public class FilterHandler {
 				resultList = filterMovieListString(resultList, filter.getType(), filter.getQuery());
 			}
 		}
+		System.out.println();
 		return resultList;
 	}
 
