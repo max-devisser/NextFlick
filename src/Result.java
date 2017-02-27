@@ -31,6 +31,7 @@ public class Result extends JPanel{
 		title.setFont (title.getFont ().deriveFont (30.0f));		//make Title bigger
 		header.add(title);
 		JButton rate = new JButton("Rate");
+		rate.addActionListener(new RateListener(movie));
 		header.add(rate);
 		this.add(header);
 
@@ -51,5 +52,15 @@ public class Result extends JPanel{
 		this.add(label6);
 		this.add(label7);
 		this.add(label8);
+	}
+
+	class RateListener implements ActionListener{
+		Movie movie;
+		public RateListener(Movie m){
+			movie = m;
+		}
+		public void actionPerformed(ActionEvent e){
+			RatingFrame.displayRateFrame(movie);
+		}
 	}
 }
