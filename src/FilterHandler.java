@@ -55,7 +55,7 @@ public class FilterHandler {
 		return resultList;
 	}
 
-	public HashMap<Integer, Movie> applyFilterList(HashMap<Integer, Movie> resultList) {
+	private HashMap<Integer, Movie> applyFilterList(HashMap<Integer, Movie> resultList) {
 		for (Filter filter : filterList) {
 			System.out.print(filter.getType() + ": " + filter.getQuery() + ", ");
 			if (filter.getType() == "getRuntime") {
@@ -87,7 +87,7 @@ public class FilterHandler {
 	 *         the filter
 	 */
 	@SuppressWarnings("unchecked")
-	public static HashMap<Integer, Movie> filterMovieListString(HashMap<Integer, Movie> inputList, String methodName,
+	private static HashMap<Integer, Movie> filterMovieListString(HashMap<Integer, Movie> inputList, String methodName,
 			String filterParameter) {
 		HashMap<Integer, Movie> resultMap = new HashMap<Integer, Movie>();
 
@@ -133,7 +133,7 @@ public class FilterHandler {
 	 * @return Map of smaller or equal size that only contains movies that match
 	 *         the filter
 	 */
-	public static HashMap<Integer, Movie> filterMovieListInt(HashMap<Integer, Movie> inputList, String methodName,
+	private static HashMap<Integer, Movie> filterMovieListInt(HashMap<Integer, Movie> inputList, String methodName,
 			int filterParameter) {
 		HashMap<Integer, Movie> resultMap = new HashMap<Integer, Movie>();
 
@@ -171,7 +171,7 @@ public class FilterHandler {
 	 * @return Map of smaller or equal size that only contains movies that match
 	 *         the filter
 	 */
-	public static HashMap<Integer, Movie> filterMovieListDouble(HashMap<Integer, Movie> inputList, String methodName,
+	private static HashMap<Integer, Movie> filterMovieListDouble(HashMap<Integer, Movie> inputList, String methodName,
 			double filterParameter) {
 		HashMap<Integer, Movie> resultMap = new HashMap<Integer, Movie>();
 
