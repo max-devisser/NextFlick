@@ -27,7 +27,7 @@ public class JsonSearcher {
 	}
 	public boolean skipToContainer(String containedBy)
 	{
-		index  = input.indexOf(containedBy);
+		index  = input.indexOf('\"' + containedBy + '\"' + ":[", index);
 		return (index != -1);
 	}
 	public boolean skipToField(String targetField)
@@ -57,6 +57,7 @@ public class JsonSearcher {
 	{
 		while (input.charAt(index) != ':') ++index;
 		while (input.charAt(index) != '\"') ++index;
+		++index;
 		String result = "";
 		while (input.charAt(index) != '\"')
 		{
@@ -68,5 +69,18 @@ public class JsonSearcher {
 	public ArrayList<String> readArray(String container, String field)
 	{
 		skipToContainer(container);
+		int count = 0;
+		int endIndex = input.indexOf(']', index);
+		ArrayList<String> results = new ArrayList<String>();
+		while (index < endIndex && index != -1 && count <= 10)
+		{
+			++count;
+			skipToField(field);
+			if (index < endIndex && index != -1)
+			{
+				results.add(readString());
+			}
+		}
+		return results;
 	}
 }

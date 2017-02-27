@@ -17,7 +17,7 @@ One%20Flew%20Over%20the%20Cuckoo's%20Nest
 Goodfellas
 The%20Matrix
 Seven%20Samurai
-Star%20Wars:%20Episode%20IV%20-%20A%20New%20Hope
+Star%20Wars%20A%20New%20Hope
 City%20of%20God
 Se7en
 The%20Silence%20of%20the%20Lambs
@@ -49,7 +49,7 @@ Apocalypse%20Now
 The%20Prestige
 The%20Lion%20King
 Alien
-Dr.%20Strangelove%20or:%20How%20I%20Learned%20to%20Stop%20Worrying%20and%20Love%20the%20Bomb
+Dr.%20Strangelove
 Sunset%20Boulevard
 The%20Great%20Dictator
 La%20La%20Land
@@ -71,7 +71,7 @@ Das%20Boot
 Witness%20for%20the%20Prosecution
 North%20by%20Northwest
 Vertigo
-Star%20Wars:%20Episode%20VI%20-%20Return%20of%20the%20Jedi
+Star%20Wars%20Return%20of%20the%20Jedi
 Reservoir%20Dogs
 M
 Braveheart
