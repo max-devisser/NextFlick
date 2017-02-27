@@ -55,7 +55,6 @@ public class GUI {
 		frame.setLocationByPlatform(true);
 		frame.setVisible(true);
 	}
-
 	/**
 	 * Sets results field to display the input map
 	 * 
