@@ -18,7 +18,6 @@ public class Result extends JPanel{
 	private JLabel title;
 	public Result(Movie movie){
 		movie = movie;
-		System.out.println("Movie: "+ movie.toString());
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setOpaque(true);
 		this.setBackground(new Color(243,243,243));
