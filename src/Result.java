@@ -18,6 +18,7 @@ public class Result extends JPanel{
 	private JLabel title;
 	public Result(Movie movie){
 		movie = movie;
+		System.out.println("Movie: "+ movie.toString());
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setOpaque(true);
 		this.setBackground(new Color(243,243,243));
@@ -31,7 +32,7 @@ public class Result extends JPanel{
 		title.setFont (title.getFont ().deriveFont (30.0f));		//make Title bigger
 		header.add(title);
 		JButton rate = new JButton("Rate");
-		rate.addActionListener(new RateListener());
+		rate.addActionListener(new RateListener(movie));
 		header.add(rate);
 		this.add(header);
 
@@ -55,6 +56,10 @@ public class Result extends JPanel{
 	}
 
 	class RateListener implements ActionListener{
+		Movie movie;
+		public RateListener(Movie m){
+			movie = m;
+		}
 		public void actionPerformed(ActionEvent e){
 			RatingFrame.displayRateFrame(movie);
 		}

@@ -8,6 +8,7 @@ public class RatingFrame{
 	private static int currentRating;
 	public static void displayRateFrame(Movie movie){
 		JPanel panel = new JPanel();
+		panel.add(new JLabel("Please rate " + movie.getTitle() + " by selecting one of the following options"));
 		ButtonGroup group = new ButtonGroup();
 		for (Integer i = 1; i <=5; i++){
 			JRadioButton button = new JRadioButton(i.toString());
