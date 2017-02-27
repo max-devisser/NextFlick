@@ -2,32 +2,21 @@ package src;
 
 import javax.swing.*;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.awt.*;
-import java.awt.event.MouseListener;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Enumeration;
-import java.util.ArrayList;
 import java.awt.event.*;
-import javax.swing.BorderFactory;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
 import javax.swing.border.*;
 import src.movie_builder.TestCollectionBuilder;
 
 public class SearchPanel extends JPanel {
 	private JLabel searchLabel; // "Search by *filter type*: ""
 	private JPanel filterOptions; // menu of filters to select from
-	private JPanel filterSelectionPanel; // displays user's previous filters
-											// that they input
+	private JPanel filterSelectionPanel; // displays user's previous filters that they input
 	private JPanel resultPanel; // what displays the results
 	private String[] filters = { "Title", "Year", "Genre", "Actors", "Director", "Parental Rating", "Length",
 			"Language", "Country", "Rating" };
 	private JTextField searchQuery;
 	private JButton searchButton;
-	private HashMap<Integer, Movie> result; // the list of results returned by
-											// FilterHandler
+	private HashMap<Integer, Movie> result; // the list of results returned by FilterHandler
 	private JLabel errorMessage = new JLabel("Please enter input");
 	private TestCollectionBuilder test;
 	private FilterHandler filterHandler;
@@ -37,8 +26,7 @@ public class SearchPanel extends JPanel {
 	 * results
 	 */
 	public SearchPanel() {
-		// this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); //Might need
-		// this to be able to do scrolling
+		// this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); //Might need this to be able to do scrolling
 		filterOptions = new JPanel();
 		filterOptions.setBackground(Color.WHITE);
 		filterSelectionPanel = new JPanel();
