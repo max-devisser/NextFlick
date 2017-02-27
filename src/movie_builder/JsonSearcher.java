@@ -67,6 +67,6 @@ public class JsonSearcher {
 	}
 	public ArrayList<String> readArray(String container, String field)
 	{
-		
+		skipToContainer(container);
 	}
 }

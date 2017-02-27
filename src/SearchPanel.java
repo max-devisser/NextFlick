@@ -170,7 +170,7 @@ public class SearchPanel extends JPanel{
 	}
 	public String getSearch() {
 		return "";
-		// eturn String searchResult = searchQuery.getText();
+		// return String searchResult = searchQuery.getText();
 	}
 
 	public String getFilter() {

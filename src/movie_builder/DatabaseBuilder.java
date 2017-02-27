@@ -1,5 +1,5 @@
 package src.movie_builder;
-import Movie;
+import src.Movie;
 
 public class DatabaseBuilder 
 {
