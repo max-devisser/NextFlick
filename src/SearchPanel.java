@@ -208,4 +208,20 @@ public class SearchPanel extends JPanel {
 			searchLabel.setText(label);
 		}
 	}
+
+	public String getSearch() {
+		return "";
+		// return String searchResult = searchQuery.getText();
+	}
+
+	public String getFilter() {
+		return "";
+		// return String filterResult = filter.getText();
+	}
+
+	public String getSort() {
+		return "";
+	}
 }
+
+
