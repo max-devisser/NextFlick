@@ -180,7 +180,7 @@ public class SearchPanel extends JPanel {
 			searchLabel.setText(label);
 		}
 	}
-<<<<<<< HEAD
+
 	public String getSearch() {
 		return "";
 		// return String searchResult = searchQuery.getText();
@@ -195,6 +195,5 @@ public class SearchPanel extends JPanel {
 		return "";
 	}
 }
-=======
-}
->>>>>>> branch 'master' of https://github.com/max-devisser/NextFlick/
+
+
