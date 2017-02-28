@@ -12,6 +12,8 @@ public class SearchPanel extends JPanel {
 	private JPanel filterOptions; // menu of filters to select from
 	private JPanel filterSelectionPanel; // displays user's previous filters that they input
 	private JPanel resultPanel; // what displays the results
+	private JPanel centerPanel;
+	private JScrollPane resultScroller; // contains resultPanel
 	private String[] filters = { "Title", "Year", "Genre", "Actors", "Director", "Parental Rating", "Length",
 			"Language", "Country", "Rating" };
 	private JTextField searchQuery;
@@ -26,7 +28,7 @@ public class SearchPanel extends JPanel {
 	 * results
 	 */
 	public SearchPanel() {
-		// this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); //Might need this to be able to do scrolling
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); //Might need this to be able to do scrolling
 		filterOptions = new JPanel();
 		filterOptions.setBackground(Color.WHITE);
 		filterSelectionPanel = new JPanel();
@@ -41,38 +43,56 @@ public class SearchPanel extends JPanel {
 			button.addActionListener(new filterActionListener());
 			filterOptions.add(button);
 		}
-		this.add(BorderLayout.NORTH, filterOptions);
+		filterOptions.setMaximumSize(new Dimension(1000, filterOptions.getMinimumSize().height));
+		this.add(filterOptions);
 
 		String filterSearchWord = "Title ";
 		searchLabel = new JLabel(
 				"Select one of the displayed filters to search for a movie according to " + filterSearchWord + ":");
 		searchQuery = new JTextField(40);
+		searchQuery.setPreferredSize(new Dimension(1000, searchQuery.getMinimumSize().height));
 		searchButton = new JButton("Enter");
 		searchButton.addActionListener(new searchActionListener());
 		test = new TestCollectionBuilder(); // NORMALLY WILL BE INITIALIZED TO CONTAIN WHOLE DATABASE
 		result = test.getTestCollection();
+		
 		resultPanel = new JPanel();
+		resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS)); // results display vertically
+		resultPanel.setBackground(Color.WHITE);
+		result.forEach((k, v) -> resultPanel.add(new Result(v)));
 
-		this.add(BorderLayout.CENTER, searchLabel);
-		this.add(BorderLayout.CENTER, searchQuery);
-		this.add(BorderLayout.CENTER, searchButton);
+		resultScroller = new JScrollPane(resultPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		resultScroller.setViewportView(resultPanel);
+		resultScroller.setMaximumSize(new Dimension(800, 400));
+
+		centerPanel = new JPanel();
+		centerPanel.add(BorderLayout.NORTH, searchLabel);
+		centerPanel.add(BorderLayout.NORTH, searchQuery);
+		centerPanel.add(BorderLayout.NORTH, searchButton);
+		centerPanel.setPreferredSize(new Dimension(800, centerPanel.getMinimumSize().height + 5));
+		centerPanel.setMaximumSize(new Dimension(1200, centerPanel.getMinimumSize().height + 5));
+
+		this.add(centerPanel);
+		this.add(resultScroller);
 	}
 
 	public void updateResultPanel(boolean inputWasEmpty) {
 		if (inputWasEmpty) {
-			this.remove(resultPanel);
-			this.add(BorderLayout.NORTH, errorMessage);
-			this.add(BorderLayout.SOUTH, resultPanel);
+			// this.remove(resultScroller);
+			// this.add(BorderLayout.NORTH, errorMessage);
+			// this.add(BorderLayout.SOUTH, resultScroller);
+			resultScroller.getViewport().remove(resultPanel);
+			resultScroller.getViewport().add(errorMessage);
 			this.validate();
 		} else {
 			this.remove(errorMessage);
 			if (resultPanel != null) {
-				this.remove(resultPanel);
+				resultScroller.getViewport().remove(resultPanel);
 			}
 			resultPanel = new JPanel();
 			resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS)); // results display vertically
 			resultPanel.setBackground(Color.WHITE);
-
+	
 			updateFilterSelectionPanel();
 
 			if (!result.isEmpty()) { // display new results
@@ -82,7 +102,10 @@ public class SearchPanel extends JPanel {
 				result = test.getTestCollection();
 			}
 
-			this.add(BorderLayout.SOUTH, resultPanel);
+			resultScroller.getViewport().add(resultPanel);
+			resultScroller.setViewportView(resultPanel);
+
+			this.add(resultScroller);
 			this.validate();
 			this.repaint();
 		}
@@ -126,10 +149,15 @@ public class SearchPanel extends JPanel {
 		}
 		
 		filterSelectionPanel.validate();
-		resultPanel.add(BorderLayout.SOUTH, filterSelectionPanel);
+		filterSelectionPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, filterSelectionPanel.getMinimumSize().height));
+		this.add(filterSelectionPanel);
 		resultPanel.validate();
-		SearchPanel.this.validate();
-		SearchPanel.this.repaint();
+
+		// resultScroller.getViewport().add(resultPanel);
+		// resultScroller.setViewportView(resultPanel);
+	
+		this.validate();
+		this.repaint();
 	}
 	
 	class removeButtonActionListener implements ActionListener {
