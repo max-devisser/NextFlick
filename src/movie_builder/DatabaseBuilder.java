@@ -35,7 +35,7 @@ public class DatabaseBuilder
 					currLine = scan.nextLine();
 				}
 			}
-			msm.serialize(database, "Top_250_serialized2.txt");
+			msm.serialize(database, "Top_250_serialized3.txt");
 //			System.out.println("Movie list:");
 //			for (Movie m : database.values())
 //			{
