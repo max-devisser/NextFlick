@@ -2,6 +2,9 @@ package src;
 
 import java.util.*;
 import src.movie_builder.TestCollectionBuilder;
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
+
 
 public class MapBuilder
 {
@@ -10,27 +13,17 @@ public class MapBuilder
 	//private HashMap<String, ArrayList<Movie>> plotMap;
 	//private HashMap<String, ArrayList<Movie>> imageURLMap;
 
-	//Done
+
 	private HashMap<String, ArrayList<Movie>> dateMap = new HashMap<String, ArrayList<Movie>>();
-	//Done
 	private HashMap<String, ArrayList<Movie>> directorMap = new HashMap<String, ArrayList<Movie>>();
-	//Done
 	private HashMap<String, ArrayList<Movie>> genreMap = new HashMap<String, ArrayList<Movie>>();
-	//Done
 	private HashMap<String, ArrayList<Movie>> actorMap = new HashMap<String, ArrayList<Movie>>();
-	//Done
 	private HashMap<String, ArrayList<Movie>> parentalRatingMap = new HashMap<String, ArrayList<Movie>>();
-	//Done
 	private HashMap<Integer, ArrayList<Movie>> runtimeMap = new HashMap<Integer, ArrayList<Movie>>();
-	//Done
 	private HashMap<String, ArrayList<Movie>> languageMap = new HashMap<String, ArrayList<Movie>>();
-	//Done
-	private HashMap<String, ArrayList<Movie>> counrtryMap = new HashMap<String, ArrayList<Movie>>();
-	//Not Done
+	private HashMap<String, ArrayList<Movie>> countryMap = new HashMap<String, ArrayList<Movie>>();
 	private HashMap<Double, ArrayList<Movie>> criticalRatingMap = new HashMap<Double, ArrayList<Movie>>();
 	
-
-
 	private TestCollectionBuilder TCB;
 	private HashMap<Integer, Movie> database;
 
@@ -43,196 +36,133 @@ public class MapBuilder
 
 		TCB = new TestCollectionBuilder();
 		database = TCB.getTestCollection();
-		makeCriticalRatingMap(database);
 
-		for (Double key: criticalRatingMap.keySet()) {
+		//Make String Maps
+		makeStringMap(database, dateMap, "getDate");
+		makeStringMap(database, directorMap, "getDirector");
+		makeStringMap(database, parentalRatingMap, "getParentalRating");
+		makeStringMap(database, languageMap, "getLanguage");
+		makeStringMap(database, countryMap, "getCountry");
 
-			System.out.println(key + ": ");
+		//Make ArrayListMaps
+		makeArrayListMap(database, genreMap, "getGenre");
+		makeArrayListMap(database, actorMap, "getActors");
 
-			for (Movie item: criticalRatingMap.get(key))
-				System.out.print(item.getCriticalRating() + " ");
+		//Make Double Map
+		makeDoubleMap(database, criticalRatingMap, "getCriticalRating");
+		//Make Integer Map
+		makeIntMap(database, runtimeMap, "getRuntime");
 
-			System.out.println();
-		}
-	}
-
-	private void makeStringMap(HashMap<Integer, Movie> inputMap) {
 		
 	}
 
-	//Make the HashMap to store movies with the same date
-	private void makeDateMap(HashMap<Integer, Movie> inputMap) {
+	//Make Filter HashMaps for String variables
+	private void makeStringMap(HashMap<Integer, Movie> inputMap, HashMap<String, ArrayList<Movie>> outputMap, String methodName) {
 		for (Integer key: inputMap.keySet()) {
 			Movie currentMovie = inputMap.get(key);
-			String dateMapKey = currentMovie.getDate();
+			Method m = MethodGetter.findMethod(methodName);
 
-			if (!dateMap.containsKey(dateMapKey)) {
-				ArrayList<Movie> myList = new ArrayList<Movie>();
-				myList.add(currentMovie);
-    			dateMap.put(dateMapKey, myList);
-    		}
+			try{
+				String filterMapKey = (String) m.invoke(currentMovie);
 
-    		else {
-    			dateMap.get(dateMapKey).add(currentMovie);
-    		}	
-		}
-	}
-
-	//Make the HashMap to store movies with the same director
-	private void makeDirectorMap(HashMap<Integer, Movie> inputMap) {
-		for (Integer key: inputMap.keySet()) {
-			Movie currentMovie = inputMap.get(key);
-			String directorMapKey = currentMovie.getDirector();
-
-			if (!directorMap.containsKey(directorMapKey)) {
-				ArrayList<Movie> myList = new ArrayList<Movie>();
-				myList.add(currentMovie);
-    			directorMap.put(directorMapKey, myList);
-    		}
-
-    		else {
-    			directorMap.get(directorMapKey).add(currentMovie);
-    		}	
-		}
-	}
-
-	//Make the HashMap to store movies with the same genre
-	//Create entry for each genre 
-	private void makeGenreMap(HashMap<Integer, Movie> inputMap) {
-		for (Integer key: inputMap.keySet()) {
-			Movie currentMovie = inputMap.get(key);
-			ArrayList<String> currentGenres = currentMovie.getGenre();
-
-			for (String genre: currentGenres){
-				if (!genreMap.containsKey(genre)) {
+				if (!outputMap.containsKey(filterMapKey)) {
 					ArrayList<Movie> myList = new ArrayList<Movie>();
 					myList.add(currentMovie);
-	    			genreMap.put(genre, myList);
+	    			outputMap.put(filterMapKey, myList);
 	    		}
 
 	    		else {
-	    			genreMap.get(genre).add(currentMovie);
-	    		}	
-	    	}
+	    			outputMap.get(filterMapKey).add(currentMovie);
+	    		}
+    		}catch (IllegalAccessException e) {
+				System.err.println("IllegalAccessException: " + e.getMessage());
+			} catch (InvocationTargetException e) {
+				System.err.println("InvocationTargetException: " + e.getMessage());
+			}
 		}
 	}
 
-	//Make the HashMap to store movies with the same actor
-	//Create entry for each actor in the movie
-	private void makeActorMap(HashMap<Integer, Movie> inputMap) {
+	//Make Filter HashMaps for ArrayList<String> variables
+	@SuppressWarnings("unchecked")
+	private void makeArrayListMap(HashMap<Integer, Movie> inputMap, HashMap<String, ArrayList<Movie>> outputMap, String methodName) {
 		for (Integer key: inputMap.keySet()) {
 			Movie currentMovie = inputMap.get(key);
-			ArrayList<String> currentActors = currentMovie.getActors();
+			Method m = MethodGetter.findMethod(methodName);
 
-			for (String actor: currentActors){
-				if (!actorMap.containsKey(actor)) {
+			try{
+				ArrayList<String> currentList = (ArrayList<String>) m.invoke(currentMovie);
+				
+				for (String item: currentList){
+					if (!outputMap.containsKey(item)) {
+						ArrayList<Movie> myList = new ArrayList<Movie>();
+						myList.add(currentMovie);
+		    			outputMap.put(item, myList);
+		    		}
+
+		    		else {
+		    			outputMap.get(item).add(currentMovie);
+		    		}	
+		    	}
+    		}catch (IllegalAccessException e) {
+				System.err.println("IllegalAccessException: " + e.getMessage());
+			} catch (InvocationTargetException e) {
+				System.err.println("InvocationTargetException: " + e.getMessage());
+			}
+		}
+	}
+
+	//Make Filter HashMaps for Integer variables
+	private void makeIntMap(HashMap<Integer, Movie> inputMap, HashMap<Integer, ArrayList<Movie>> outputMap, String methodName) {
+		for (Integer key: inputMap.keySet()) {
+			Movie currentMovie = inputMap.get(key);
+			Method m = MethodGetter.findMethod(methodName);
+
+			try{
+				int filterMapKey = (Integer) m.invoke(currentMovie);
+
+				if (!outputMap.containsKey(filterMapKey)) {
 					ArrayList<Movie> myList = new ArrayList<Movie>();
 					myList.add(currentMovie);
-	    			actorMap.put(actor, myList);
+	    			outputMap.put(filterMapKey, myList);
 	    		}
 
 	    		else {
-	    			actorMap.get(actor).add(currentMovie);
-	    		}	
-	    	}
+	    			outputMap.get(filterMapKey).add(currentMovie);
+	    		}
+    		}catch (IllegalAccessException e) {
+				System.err.println("IllegalAccessException: " + e.getMessage());
+			} catch (InvocationTargetException e) {
+				System.err.println("InvocationTargetException: " + e.getMessage());
+			}
 		}
 	}
 
-
-	//Make the HashMap to store movies with the same parentalRating
-	private void makeParentalRatingMap(HashMap<Integer, Movie> inputMap) {
+	//Make Filter HashMaps for Integer variables
+	private void makeDoubleMap(HashMap<Integer, Movie> inputMap, HashMap<Double, ArrayList<Movie>> outputMap, String methodName) {
 		for (Integer key: inputMap.keySet()) {
 			Movie currentMovie = inputMap.get(key);
-			String parentalRatingMapKey = currentMovie.getParentalRating();
+			Method m = MethodGetter.findMethod(methodName);
 
-			if (!parentalRatingMap.containsKey(parentalRatingMapKey)) {
-				ArrayList<Movie> myList = new ArrayList<Movie>();
-				myList.add(currentMovie);
-    			parentalRatingMap.put(parentalRatingMapKey, myList);
-    		}
+			try{
+				double filterMapKey = (Double) m.invoke(currentMovie);
 
-    		else {
-    			parentalRatingMap.get(parentalRatingMapKey).add(currentMovie);
-    		}	
+				if (!outputMap.containsKey(filterMapKey)) {
+					ArrayList<Movie> myList = new ArrayList<Movie>();
+					myList.add(currentMovie);
+	    			outputMap.put(filterMapKey, myList);
+	    		}
+
+	    		else {
+	    			outputMap.get(filterMapKey).add(currentMovie);
+	    		}
+    		}catch (IllegalAccessException e) {
+				System.err.println("IllegalAccessException: " + e.getMessage());
+			} catch (InvocationTargetException e) {
+				System.err.println("InvocationTargetException: " + e.getMessage());
+			}
 		}
 	}
 
-	//Make the HashMap to store movies with the same runtime
-	private void makeRuntimeMap(HashMap<Integer, Movie> inputMap) {
-		for (Integer key: inputMap.keySet()) {
-			Movie currentMovie = inputMap.get(key);
-			int runtimeMapKey = currentMovie.getRuntime();
-
-			if (!runtimeMap.containsKey(runtimeMapKey)) {
-				ArrayList<Movie> myList = new ArrayList<Movie>();
-				myList.add(currentMovie);
-    			runtimeMap.put(runtimeMapKey, myList);
-    		}
-
-    		else {
-    			runtimeMap.get(runtimeMapKey).add(currentMovie);
-    		}	
-		}
-	}
-
-	//Make the HashMap to store movies with the same language
-	private void makeLanguageMap(HashMap<Integer, Movie> inputMap) {
-		for (Integer key: inputMap.keySet()) {
-			Movie currentMovie = inputMap.get(key);
-			String languageMapKey = currentMovie.getLanguage();
-
-			if (!languageMap.containsKey(languageMapKey)) {
-				ArrayList<Movie> myList = new ArrayList<Movie>();
-				myList.add(currentMovie);
-    			languageMap.put(languageMapKey, myList);
-    		}
-
-    		else {
-    			languageMap.get(languageMapKey).add(currentMovie);
-    		}	
-		}
-	}
-
-	//Make the HashMap to store movies with the same country
-	private void makeCountryMap(HashMap<Integer, Movie> inputMap) {
-		for (Integer key: inputMap.keySet()) {
-			Movie currentMovie = inputMap.get(key);
-			String countryMapKey = currentMovie.getCountry();
-
-			if (!counrtryMap.containsKey(countryMapKey)) {
-				ArrayList<Movie> myList = new ArrayList<Movie>();
-				myList.add(currentMovie);
-    			counrtryMap.put(countryMapKey, myList);
-    		}
-
-    		else {
-    			counrtryMap.get(countryMapKey).add(currentMovie);
-    		}	
-		}
-	}
-
-	//Make the HashMap to store movies with the same critical rating
-	private void makeCriticalRatingMap(HashMap<Integer, Movie> inputMap) {
-		for (Integer key: inputMap.keySet()) {
-			Movie currentMovie = inputMap.get(key);
-			double criticalRatingMapKey = currentMovie.getCriticalRating();
-
-			if (!criticalRatingMap.containsKey(criticalRatingMapKey)) {
-				ArrayList<Movie> myList = new ArrayList<Movie>();
-				myList.add(currentMovie);
-    			criticalRatingMap.put(criticalRatingMapKey, myList);
-    		}
-
-    		else {
-    			criticalRatingMap.get(criticalRatingMapKey).add(currentMovie);
-    		}	
-		}
-	}
-
-
-	// public HashMap<String, ArrayList<Movie>> getTitleMap() {
-	// 	return titleMap;
-	// }
 
 	public HashMap<String, ArrayList<Movie>> getDateMap() {
 		return dateMap;
@@ -263,7 +193,7 @@ public class MapBuilder
 	}
 
 	public HashMap<String, ArrayList<Movie>> getCountryMap() {
-		return counrtryMap;
+		return countryMap;
 	}
 
 	public HashMap<Double, ArrayList<Movie>> getCriticalRatingMap() {
