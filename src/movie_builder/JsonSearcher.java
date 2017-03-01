@@ -1,13 +1,17 @@
 package src.movie_builder;
 
 import java.util.ArrayList;
-
+//pulls out relevant information from TMDB JSON requests
 public class JsonSearcher {
-	private String input;
+	private StringBuilder input; //full JSON text
 	private int index = 0;
 
 	
 	public JsonSearcher(String in)
+	{
+		input.append(in);
+	}
+	public JsonSearcher(StringBuilder in)
 	{
 		input = in;
 	}
@@ -59,10 +63,18 @@ public class JsonSearcher {
 		while (input.charAt(index) != '\"') ++index;
 		++index;
 		String result = "";
-		while (input.charAt(index) != '\"')
+		int len = input.length();
+		while (index < len)
 		{
-			result += input.charAt(index);
-			++index;
+			if (input.charAt(index) == '\"' && input.charAt(index + 1) == ',')
+			{
+				break;
+			}
+			else
+			{
+				result += input.charAt(index);
+				++index;
+			}
 		}
 		return result;
 	}
@@ -70,7 +82,7 @@ public class JsonSearcher {
 	{
 		skipToContainer(container);
 		int count = 0;
-		int endIndex = input.indexOf(']', index);
+		int endIndex = input.indexOf("]", index);
 		ArrayList<String> results = new ArrayList<String>();
 		while (index < endIndex && index != -1 && count <= 10)
 		{

@@ -7,11 +7,11 @@ import java.io.File;
 
 public class DatabaseBuilder 
 {
-
 	public static void main(String[] args) 
 	{
 		MovieParser parser = new MovieParser();
-//		Movie fightClub = parser.constructMovieById(550, "credits");
+//		Movie seven = parser.constructMovieById(parser.getIdFromSearch("Se7en"), "credits");
+//		System.out.println(seven.toString());
 //		System.out.println(fightClub.toString());
 		Scanner scan;
 		String currLine = "";
@@ -25,9 +25,11 @@ public class DatabaseBuilder
 			{
 				if (!currLine.isEmpty())
 				{
+					Thread.sleep(300);
 					currLine = scan.nextLine();
+					System.out.println("Current query: " + currLine);
 					int id = parser.getIdFromSearch(currLine);
-					System.out.println("Grabbing movie with ID" + id);
+					System.out.println("Grabbing movie with ID " + id);
 					Movie result = parser.constructMovieById(id, "credits,releases");
 					database.put(id, result);
 				}
@@ -41,7 +43,8 @@ public class DatabaseBuilder
 		}
 		catch (Exception e)
 		{
-			System.out.println("Error opening text file");
+			System.out.println("Something went wrong");
+			System.out.println("Current query: " + currLine);
 			e.printStackTrace();
 			System.exit(1);
 		}

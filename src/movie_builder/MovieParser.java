@@ -19,16 +19,16 @@ public class MovieParser {
 	private static String SEARCH_POSTFIX = "&page=1&include_adult=false";
 	private static String IMAGE_PREFIX = "https://image.tmdb.org/t/p/w500";
 	public MovieParser() {}
-	
-	public String getRawRequest(String url)
+
+	public StringBuilder getRawRequest(String url)
 	{
-		String stringtext;
+		StringBuilder stringtext = new StringBuilder();
 		try {
 			HttpResponse<String> request = Unirest.get(url).asString();
 			//System.out.println("Success");
-			stringtext = request.getBody();
+			stringtext.append(request.getBody());
+			System.out.println(stringtext);
 			//System.out.println(stringtext);
-			//Unirest.shutdown();
 //		} catch (IOException e) {
 //			System.out.println("Unirest shutdown failed.");
 //			e.printStackTrace();
@@ -43,7 +43,7 @@ public class MovieParser {
 	
 	public Movie constructMovieByUrl(String url) // must have full request URL
 	{
-		String rawtext = getRawRequest(url);
+		StringBuilder rawtext = getRawRequest(url);
 		JsonSearcher search = new JsonSearcher(rawtext);
 		Movie movie = new Movie(grabId(search));
 		movie.setTitle(grabTitle(search));
@@ -51,7 +51,7 @@ public class MovieParser {
 		movie.setDirector(grabDirector(search));
 		movie.setGenre(grabGenres(search));
 		movie.setActors(grabActors(search));
-		movie.setParentalRating("Unrated"); //TODO you know the drill
+		movie.setParentalRating(grabParentalRating(search)); //TODO you know the drill
 		movie.setRuntime(grabRuntime(search));
 		movie.setLanguage(grabLanguage(search));
 		movie.setCountry(grabCountry(search));
@@ -60,6 +60,23 @@ public class MovieParser {
 		movie.setImageURL(grabImage(search));
 
 		return movie;
+		
+	}
+	private String grabParentalRating(JsonSearcher search)
+	{
+		search.resetIndex();
+		search.skipToField("releases");
+		ArrayList<String> certs = new ArrayList<String>();
+		certs = search.readArray("countries", "certification");
+		for (String s : certs)
+		{
+			if (s.equals("R") || s.equals("PG-13") || s.equals("PG") || s.equals("G") || s.equals("NC-17"))
+			{
+				return s;
+			}
+		}
+		return "NR/Unkown";
+	
 		
 	}
 	private String grabDirector(JsonSearcher search)

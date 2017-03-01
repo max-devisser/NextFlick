@@ -5,11 +5,11 @@ The%20Dark%20Knight
 12%20Angry%20Men
 Schindler's%20List
 Pulp%20Fiction
-The%20Lord%20of%20the%20Rings:%20The%20Return%20of%20the%20Kin
+The%20Lord%20of%20the%20Rings:%20The%20Return%20of%20the%20King
 The%20Good,%20the%20Bad%20and%20the%20Ugly
 Fight%20Club
-The%20Lord%20of%20the%20Rings:%20The%20Fellowship%20of%20the%20Rin
-Star%20Wars:%20Episode%20V%20-%20The%20Empire%20Strikes%20Bac
+The%20Lord%20of%20the%20Rings:%20The%20Fellowship%20of%20the%20Ring
+Star%20Wars:%20Episode%20V%20-%20The%20Empire%20Strikes%20Back
 Forrest%20Gump
 Inception
 The%20Lord%20of%20the%20Rings:%20The%20Two%20Towers
@@ -198,7 +198,7 @@ Mad%20Max:%20Fury%20Road
 John%20Wick:%20Chapter%202
 12%20Years%20a%20Slave
 Star%20Wars:%20The%20Force%20Awakens
-The%20Nights%20of%20Cabiria
+Nights%20of%20Cabiria
 The%20Grand%20Budapest%20Hotel
 The%20Maltese%20Falcon
 Ben-Hur
@@ -227,7 +227,7 @@ Donnie%20Darko
 Monsters,%20Inc.
 Prisoners
 The%20Message
-8.5
+8%20and%20a%20half%20fellini
 The%20Terminator
 The%20Wizard%20of%20Oz
 Catch%20Me%20If%20You%20Can
