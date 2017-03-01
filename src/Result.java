@@ -52,6 +52,10 @@ public class Result extends JPanel{
 		this.add(label6);
 		this.add(label7);
 		this.add(label8);
+
+		this.setPreferredSize(new Dimension(600, 200));
+		this.setMaximumSize(new Dimension(800, 200));
+		this.setMinimumSize(new Dimension(800, 200));
 	}
 
 	class RateListener implements ActionListener{

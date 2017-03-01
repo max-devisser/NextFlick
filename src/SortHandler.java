@@ -15,32 +15,31 @@ public class SortHandler
 	// 	for (Integer key: movies.keySet())
 	// 		myList.add(movies.get(key));
 
-	// 	myList = sortCriticalRating(myList);
+	// 	myList = sortOldestToNewest(myList);
 
+	// 	System.out.println("sortOldestToNewest");
 	// 	for (Movie item: myList)
-	// 		System.out.println(item.getCriticalRating());
+	// 		System.out.println(item.getDate());
 
 	// 	System.out.println();
-
-	// 	myList = sortReverseCriticalRating(myList);
+	// 	System.out.println("sortNewestToOldest");
+	// 	myList = sortNewestToOldest(myList);
 
 	// 	for (Movie item: myList)
-	// 		System.out.println(item.getCriticalRating());
+	// 		System.out.println(item.getDate());
 	// }
 
 	//Public methods to be used by SearchPanel
-	//Highest to Lowest
 	public static ArrayList<Movie> sortLowestToHighest(ArrayList<Movie> inputList)
 	{
 		inputList = sortByNumber(inputList);
-		Collections.reverse(inputList);
 		return inputList;
 	}
 
-	//Lowest to Highest
 	public static ArrayList<Movie> sortHighestToLowest(ArrayList<Movie> inputList)
 	{
 		inputList = sortByNumber(inputList);
+		Collections.reverse(inputList);
 		return inputList;
 	}
 
@@ -72,12 +71,12 @@ public class SortHandler
 
 
 	//Start sorting methods
-	private static ArrayList<Movie> sortByRating(ArrayList<Movie> inputList)
+	private static ArrayList<Movie> sortByNumber(ArrayList<Movie> inputList)
 	{
 		if (inputList.size() <= 1)
 			return inputList;
 
-		quickSortAlphabetical(inputList, 0, inputList.size() - 1);
+		quickSortNumber(inputList, 0, inputList.size() - 1);
 
 		return inputList;
 	}
@@ -104,7 +103,7 @@ public class SortHandler
 
 
 	//Sorting Methods
-	private static void sortByNumber(ArrayList<Movie> myList, int lowerIndex, int higherIndex)
+	private static void quickSortNumber(ArrayList<Movie> myList, int lowerIndex, int higherIndex)
 	{
 		int i = lowerIndex;
         int j = higherIndex;
@@ -131,10 +130,10 @@ public class SortHandler
         }
 
         if (lowerIndex < j)
-            quickSortRating(myList, lowerIndex, j);
+            quickSortNumber(myList, lowerIndex, j);
 
         if (i < higherIndex)
-            quickSortRating(myList, i, higherIndex);
+            quickSortNumber(myList, i, higherIndex);
 	}
 
 	private static void quickSortAlphabetical(ArrayList<Movie> myList, int lowerIndex, int higherIndex)
@@ -238,15 +237,3 @@ public class SortHandler
         return true;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
