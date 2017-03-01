@@ -237,15 +237,3 @@ public class SortHandler
         return true;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-

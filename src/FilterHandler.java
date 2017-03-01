@@ -91,7 +91,7 @@ public class FilterHandler {
 
 		for (Integer key : inputList.keySet()) {
 			Movie currentMovie = inputList.get(key);
-			Method m = findMethod(methodName);
+			Method m = MethodGetter.findMethod(methodName);
 
 			try {
 				if (methodName.equals("getActors") || methodName.equals("getGenre")) {
@@ -137,7 +137,7 @@ public class FilterHandler {
 
 		for (Integer key : inputList.keySet()) {
 			Movie currentMovie = inputList.get(key);
-			Method m = findMethod(methodName);
+			Method m = MethodGetter.findMethod(methodName);
 
 			try {
 				if (((Integer) m.invoke(currentMovie)) == filterParameter) {
@@ -175,7 +175,7 @@ public class FilterHandler {
 
 		for (Integer key : inputList.keySet()) {
 			Movie currentMovie = inputList.get(key);
-			Method m = findMethod(methodName);
+			Method m = MethodGetter.findMethod(methodName);
 
 			try {
 				if (((double) m.invoke(currentMovie)) == filterParameter) {
@@ -191,26 +191,26 @@ public class FilterHandler {
 		return resultMap;
 	}
 
-	/**
-	 * Private helper method that looks for a specified method within the Movie
-	 * class and returns a Method object of it. Will be used to find getters.
-	 * 
-	 * @param methodName
-	 *            Name of method you want to find
-	 * @return Method object that references the specified method
-	 */
-	private static Method findMethod(String methodName) {
-		Method m = null;
-		try {
-			m = Class.forName(Movie.class.getName()).getDeclaredMethod(methodName);
-		} catch (NoSuchMethodException e) {
-			System.err.println("NoSuchMethodException: " + e.getMessage());
-		} catch (SecurityException e) {
-			System.err.println("SecurityException: " + e.getMessage());
-		} catch (ClassNotFoundException e) {
-			System.err.println("ClassNotFoundException: " + e.getMessage());
-		}
+	// /**
+	//  * Private helper method that looks for a specified method within the Movie
+	//  * class and returns a Method object of it. Will be used to find getters.
+	//  * 
+	//  * @param methodName
+	//  *            Name of method you want to find
+	//  * @return Method object that references the specified method
+	//  */
+	// private static Method findMethod(String methodName) {
+	// 	Method m = null;
+	// 	try {
+	// 		m = Class.forName(Movie.class.getName()).getDeclaredMethod(methodName);
+	// 	} catch (NoSuchMethodException e) {
+	// 		System.err.println("NoSuchMethodException: " + e.getMessage());
+	// 	} catch (SecurityException e) {
+	// 		System.err.println("SecurityException: " + e.getMessage());
+	// 	} catch (ClassNotFoundException e) {
+	// 		System.err.println("ClassNotFoundException: " + e.getMessage());
+	// 	}
 
-		return m;
-	}
+	// 	return m;
+	// }
 }
