@@ -35,9 +35,9 @@ public class MapBuilder
 	private HashMap<Integer, Movie> database;
 
 
-	public static void main(String[] args) {
-		MapBuilder test = new MapBuilder();
-	}
+	// public static void main(String[] args) {
+	// 	MapBuilder test = new MapBuilder();
+	// }
 
 	public MapBuilder() {
 
