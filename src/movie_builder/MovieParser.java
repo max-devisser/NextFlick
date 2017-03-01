@@ -27,7 +27,6 @@ public class MovieParser {
 			HttpResponse<String> request = Unirest.get(url).asString();
 			//System.out.println("Success");
 			stringtext.append(request.getBody());
-			System.out.println(stringtext);
 			//System.out.println(stringtext);
 //		} catch (IOException e) {
 //			System.out.println("Unirest shutdown failed.");
@@ -82,7 +81,8 @@ public class MovieParser {
 	private String grabDirector(JsonSearcher search)
 	{
 		search.resetIndex();
-		search.skipToField("\"director\"");
+		search.skipToContainer("crew");
+		search.skipToField("Director");
 		search.skipToField("name");
 		return search.readString();
 	}
@@ -141,7 +141,7 @@ public class MovieParser {
 		}
 		else
 		{
-			return "Unkown";
+			return "Unknown";
 		}
 	}
 	//NOTE: this might give unintended results, possibly might need fixing

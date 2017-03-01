@@ -5,13 +5,26 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Paths;
 
-import com.google.gson.*;
 
 import src.Movie;
 
@@ -102,16 +115,47 @@ public class MovieSerializationManager
 		}
 		
 	}
-//	public HashMap<Integer, Movie> deserialize()
-//	{
-//		
-//	}
+	public HashMap<Integer, Movie> deserialize(String inFileName) throws FileNotFoundException
+	{
+		GsonBuilder gsb = new GsonBuilder();
+		gsb.registerTypeAdapter(Movie.class, new MovieDeserializer());
+		Gson gson = gsb.create();
+		Scanner in = new Scanner(new File("res" + File.separator + inFileName));
+		String currLine = "";
+		HashMap<Integer, Movie> results = new HashMap<Integer, Movie>();
+		while(in.hasNextLine())
+		{
+			currLine = in.nextLine();
+			if (!currLine.isEmpty())
+			{
+				Movie currMovie = deserialize(currLine, gson);
+				if (currMovie == null)
+				{
+					System.err.println("Deserialization failed.");
+					System.err.println("Current Json object: " + currLine);
+					in.close();
+					return null;
+				}
+				else
+				{
+					results.put(currMovie.getKey(), currMovie);
+				}
+			}
+		}
+		in.close();
+		return results;
+	}
+	private Movie deserialize(String json, Gson gson)
+	{
+		Movie result = gson.fromJson(json, Movie.class);
+		return result;
+	}
 	public boolean serialize(Collection<Movie> movies, String outFileName) throws IOException
 	{
 		final GsonBuilder gsb = new GsonBuilder();
 		gsb.registerTypeAdapter(Movie.class, new MovieSerializer());
 		final Gson gson = gsb.create();
-		BufferedWriter writer = new BufferedWriter(new FileWriter(new File("res" + File.separator + outFileName)));
+		final BufferedWriter writer = new BufferedWriter(new FileWriter(new File("res" + File.separator + outFileName)));
 		for (Movie m : movies)
 		{
 			if (!serialize(m, outFileName, gson, writer))
