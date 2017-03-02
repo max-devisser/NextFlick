@@ -26,7 +26,7 @@ public class DatabaseBuilder
 			{
 				if (!currLine.isEmpty())
 				{
-					Thread.sleep(300);
+					Thread.sleep(400);
 					System.out.println("Current query: " + currLine);
 					int id = parser.getIdFromSearch(currLine);
 					System.out.println("Grabbing movie with ID " + id);
@@ -35,7 +35,7 @@ public class DatabaseBuilder
 					currLine = scan.nextLine();
 				}
 			}
-			msm.serialize(database, "Top_250_serialized3.txt");
+			msm.serialize(database, "Top_250_serialized4.txt");
 //			System.out.println("Movie list:");
 //			for (Movie m : database.values())
 //			{

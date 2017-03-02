@@ -1,6 +1,4 @@
 package src.movie_builder;
-// Use OMdB or whatever to retreive information about movies, store them in Movie objects, then put them into a MovieCollection object
-import java.io.IOException;
 import java.util.ArrayList;
 
 import com.mashape.unirest.http.*;
@@ -114,8 +112,9 @@ public class MovieParser {
 	private String grabImage(JsonSearcher search)
 	{
 		search.resetIndex();
+		search.skipToField("popularity");
 		search.skipToField("poster_path");
-		return IMAGE_PREFIX + search.readString();
+		return search.readString();
 	}
 	private ArrayList<String> grabGenres(JsonSearcher search)
 	{

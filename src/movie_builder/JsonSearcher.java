@@ -45,9 +45,18 @@ public class JsonSearcher {
 	}
 	public int readInt() throws NumberFormatException
 	{
-		while (!Character.isDigit(input.charAt(index)))
+		try
 		{
-			++index;
+			while (!Character.isDigit(input.charAt(index)))
+			{
+				++index;
+			}
+		}
+		catch (StringIndexOutOfBoundsException e)
+		{
+			System.out.println(input);
+			e.printStackTrace();
+			System.exit(2);
 		}
 		String result = "";
 		while (input.charAt(index) != ',')
@@ -66,7 +75,7 @@ public class JsonSearcher {
 		int len = input.length();
 		while (index < len)
 		{
-			if (input.charAt(index) == '\"' && input.charAt(index + 1) == ',')
+			if (input.charAt(index) == '\"' && (input.charAt(index + 1) == ',' || input.charAt(index + 1) == '}'))
 			{
 				break;
 			}
