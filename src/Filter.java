@@ -1,28 +1,34 @@
 package src;
 
 public class Filter {
-	private String type;
+	private String filterType;
+	private String mapType;
 	private String query;
 
-	public Filter(String type, String query) {
-		if (type.equals("getParental Rating")) {
-			type = "getParentalRating";
+	public Filter(String filterType, String query) {
+		if (filterType.equals("getParental Rating")) {
+			filterType = "getParentalRating";
 		}
-		if (type.equals("getYear")) {
-			type = "getDate";
+		if (filterType.equals("getYear")) {
+			filterType = "getDate";
 		}
-		if (type.equals("getLength")) {
-			type = "getRuntime";
+		if (filterType.equals("getLength")) {
+			filterType = "getRuntime";
 		}
-		if (type.equals("getRating")) {
-			type = "getCriticalRating";
+		if (filterType.equals("getRating")) {
+			filterType = "getCriticalRating";
 		}
-		this.type = type;
+		this.filterType = filterType;
+		this.mapType = this.filterType + "Map";
 		this.query = query;
 	}
 
-	public String getType() {
-		return type;
+	public String getFilterType() {
+		return filterType;
+	}
+
+	public String getMapType() {
+		return mapType;
 	}
 
 	public String getQuery() {
@@ -37,6 +43,6 @@ public class Filter {
 		}
 
 		Filter f = (Filter) o;
-		return (f.getType().equals(this.type) && f.getQuery().equals(this.query));
+		return (f.getFilterType().equals(this.filterType) && f.getQuery().equals(this.query));
 	}
 }

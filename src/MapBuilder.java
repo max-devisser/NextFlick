@@ -25,7 +25,8 @@ public class MapBuilder
 	private HashMap<Double, ArrayList<Movie>> criticalRatingMap = new HashMap<Double, ArrayList<Movie>>();
 	
 	private TestCollectionBuilder TCB;
-	private HashMap<Integer, Movie> database;
+	private HashMap<Integer, Movie> fullMovieMap;
+	private ArrayList<Movie> fullMovieList = new ArrayList<Movie>();
 
 
 	// public static void main(String[] args) {
@@ -35,23 +36,26 @@ public class MapBuilder
 	public MapBuilder() {
 
 		TCB = new TestCollectionBuilder();
-		database = TCB.getTestCollection();
+		fullMovieMap = TCB.getTestCollection();
+
+		for (Integer key: fullMovieMap.keySet())
+			fullMovieList.add(fullMovieMap.get(key));
 
 		//Make String Maps
-		makeStringMap(database, dateMap, "getDate");
-		makeStringMap(database, directorMap, "getDirector");
-		makeStringMap(database, parentalRatingMap, "getParentalRating");
-		makeStringMap(database, languageMap, "getLanguage");
-		makeStringMap(database, countryMap, "getCountry");
+		makeStringMap(fullMovieMap, dateMap, "getDate");
+		makeStringMap(fullMovieMap, directorMap, "getDirector");
+		makeStringMap(fullMovieMap, parentalRatingMap, "getParentalRating");
+		makeStringMap(fullMovieMap, languageMap, "getLanguage");
+		makeStringMap(fullMovieMap, countryMap, "getCountry");
 
 		//Make ArrayListMaps
-		makeArrayListMap(database, genreMap, "getGenre");
-		makeArrayListMap(database, actorMap, "getActors");
+		makeArrayListMap(fullMovieMap, genreMap, "getGenre");
+		makeArrayListMap(fullMovieMap, actorMap, "getActors");
 
 		//Make Double Map
-		makeDoubleMap(database, criticalRatingMap, "getCriticalRating");
+		makeDoubleMap(fullMovieMap, criticalRatingMap, "getCriticalRating");
 		//Make Integer Map
-		makeIntMap(database, runtimeMap, "getRuntime");
+		makeIntMap(fullMovieMap, runtimeMap, "getRuntime");
 
 		
 	}
@@ -60,7 +64,7 @@ public class MapBuilder
 	private void makeStringMap(HashMap<Integer, Movie> inputMap, HashMap<String, ArrayList<Movie>> outputMap, String methodName) {
 		for (Integer key: inputMap.keySet()) {
 			Movie currentMovie = inputMap.get(key);
-			Method m = MethodGetter.findMethod(methodName);
+			Method m = findMethod(methodName);
 
 			try{
 				String filterMapKey = (String) m.invoke(currentMovie);
@@ -87,7 +91,7 @@ public class MapBuilder
 	private void makeArrayListMap(HashMap<Integer, Movie> inputMap, HashMap<String, ArrayList<Movie>> outputMap, String methodName) {
 		for (Integer key: inputMap.keySet()) {
 			Movie currentMovie = inputMap.get(key);
-			Method m = MethodGetter.findMethod(methodName);
+			Method m = findMethod(methodName);
 
 			try{
 				ArrayList<String> currentList = (ArrayList<String>) m.invoke(currentMovie);
@@ -115,7 +119,7 @@ public class MapBuilder
 	private void makeIntMap(HashMap<Integer, Movie> inputMap, HashMap<Integer, ArrayList<Movie>> outputMap, String methodName) {
 		for (Integer key: inputMap.keySet()) {
 			Movie currentMovie = inputMap.get(key);
-			Method m = MethodGetter.findMethod(methodName);
+			Method m = findMethod(methodName);
 
 			try{
 				int filterMapKey = (Integer) m.invoke(currentMovie);
@@ -141,7 +145,7 @@ public class MapBuilder
 	private void makeDoubleMap(HashMap<Integer, Movie> inputMap, HashMap<Double, ArrayList<Movie>> outputMap, String methodName) {
 		for (Integer key: inputMap.keySet()) {
 			Movie currentMovie = inputMap.get(key);
-			Method m = MethodGetter.findMethod(methodName);
+			Method m = findMethod(methodName);
 
 			try{
 				double filterMapKey = (Double) m.invoke(currentMovie);
@@ -163,6 +167,13 @@ public class MapBuilder
 		}
 	}
 
+	public HashMap<Integer, Movie> getFullMovieMap() {
+		return fullMovieMap;
+	}
+
+	public ArrayList<Movie> getFullMovieList() {
+		return fullMovieList;
+	}
 
 	public HashMap<String, ArrayList<Movie>> getDateMap() {
 		return dateMap;
@@ -176,7 +187,7 @@ public class MapBuilder
 		return genreMap;
 	}
 
-	public HashMap<String, ArrayList<Movie>> getActorMap() {
+	public HashMap<String, ArrayList<Movie>> getActorsMap() {
 		return actorMap;
 	}
 
@@ -184,7 +195,7 @@ public class MapBuilder
 		return parentalRatingMap;
 	}
 
-	public HashMap<Integer, ArrayList<Movie>> getruntimeMap() {
+	public HashMap<Integer, ArrayList<Movie>> getRuntimeMap() {
 		return runtimeMap;
 	}
 
@@ -198,6 +209,21 @@ public class MapBuilder
 
 	public HashMap<Double, ArrayList<Movie>> getCriticalRatingMap() {
 		return criticalRatingMap;
+	}
+
+	private static Method findMethod(String methodName) {
+		Method m = null;
+		try {
+			m = Class.forName(Movie.class.getName()).getDeclaredMethod(methodName);
+		} catch (NoSuchMethodException e) {
+			System.err.println("NoSuchMethodException: " + e.getMessage());
+		} catch (SecurityException e) {
+			System.err.println("SecurityException: " + e.getMessage());
+		} catch (ClassNotFoundException e) {
+			System.err.println("ClassNotFoundException: " + e.getMessage());
+		}
+
+		return m;
 	}
 
 
