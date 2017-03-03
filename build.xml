@@ -1,4 +1,4 @@
-<project name="NextFlick" basedir="." default="main">
+<project name="NextFlick" basedir="." default="main" xmlns:ivy="antlib:org.apache.ivy.ant">
 
     <property name="src.dir"     value="src"/>
 
@@ -6,7 +6,7 @@
     <property name="classes.dir" value="${build.dir}/classes"/>
     <property name="jar.dir"     value="${build.dir}/jar"/>
 
-    <property name="main-class"  value="${src.dir}/main.java"/>
+    <property name="main-class"  value="${src.dir}/Controller"/>
 
 
 
@@ -14,12 +14,32 @@
         <delete dir="${build.dir}"/>
     </target>
 
-    <target name="compile">
+	<available classname="org.apache.ivy.Main" property="ivy.installed"/>
+	
+	<target name="install-ivy" description="Install ivy" unless="ivy.installed">
+		<mkdir dir="${user.home}/.ant/lib"/>
+		<get dest="${user.home}/.ant/lib/ivy.jar" src="http://search.maven.org/remotecontent?filepath=org/apache/ivy/ivy/2.3.0/ivy-2.3.0.jar"/>
+		<fail message="Ivy has been installed. Run the build again"/>
+	</target>
+	
+	<target name="resolve" depends="install-ivy" description="Use ivy to resolve classpaths">
+		<ivy:cachepath pathid="compile.path">
+			<dependency org="com.google.code.gson" name="gson" rev="2.8.0"/>
+			<dependency org="com.mashape.unirest" name="unirest-java" rev="1.4.9"/>
+		</ivy:cachepath>
+	</target>
+			
+    <target name="compile" depends="resolve" description="Compiles project">
         <mkdir dir="${classes.dir}"/>
-        <javac srcdir="${src.dir}" destdir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false" classpathref="compile.path">
+    		<classpath>
+    			<pathelement location="${classes.dir}"/>
+    			<pathelement location="lib/junit-4.12.jar"/>
+    		</classpath>
+        </javac>
     </target>
 
-    <target name="jar" depends="compile">
+    <target name="jar" depends="compile" description="Generate jar file in build/jar directory">
         <mkdir dir="${jar.dir}"/>
         <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
             <manifest>
