@@ -1,7 +1,8 @@
 package src.movie_builder;
 import java.util.ArrayList;
 
-import com.mashape.unirest.http.*;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 import src.Movie;
@@ -16,6 +17,7 @@ public class MovieParser {
 	private static String SEARCH_PREFIX = "https://api.themoviedb.org/3/search/movie?api_key=d7160b15d167c28148a4b8491ff65b4d&language=en-US&query=";
 	private static String SEARCH_POSTFIX = "&page=1&include_adult=false";
 	private static String IMAGE_PREFIX = "https://image.tmdb.org/t/p/w500";
+	
 	public MovieParser() {}
 
 	public StringBuilder getRawRequest(String url)
@@ -26,10 +28,6 @@ public class MovieParser {
 			//System.out.println("Success");
 			stringtext.append(request.getBody());
 			//System.out.println(stringtext);
-//		} catch (IOException e) {
-//			System.out.println("Unirest shutdown failed.");
-//			e.printStackTrace();
-//			return null;
 		} catch (UnirestException e){
 			e.printStackTrace();
 			System.out.println("Unirest threw an error when connecting to given URL.");
@@ -37,7 +35,6 @@ public class MovieParser {
 		}
 		return stringtext;
 	}
-	
 	public Movie constructMovieByUrl(String url) // must have full request URL
 	{
 		StringBuilder rawtext = getRawRequest(url);
@@ -48,7 +45,7 @@ public class MovieParser {
 		movie.setDirector(grabDirector(search));
 		movie.setGenre(grabGenres(search));
 		movie.setActors(grabActors(search));
-		movie.setParentalRating(grabParentalRating(search)); //TODO you know the drill
+		movie.setParentalRating(grabParentalRating(search));
 		movie.setRuntime(grabRuntime(search));
 		movie.setLanguage(grabLanguage(search));
 		movie.setCountry(grabCountry(search));

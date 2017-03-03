@@ -72,8 +72,8 @@ public class JsonSearcher {
 		while (input.charAt(index) != '\"') ++index;
 		++index;
 		String result = "";
-		int len = input.length();
-		while (index < len)
+		int len = input.length(); //dynamic programming
+		while (index < len) //im a god i cut out like 1000 function calls
 		{
 			if (input.charAt(index) == '\"' && (input.charAt(index + 1) == ',' || input.charAt(index + 1) == '}'))
 			{

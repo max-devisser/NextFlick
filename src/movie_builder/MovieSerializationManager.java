@@ -62,7 +62,6 @@ public class MovieSerializationManager
 			result.add("imageURL", new JsonPrimitive(movie.getImageURL()));
 			return result;
 		}
-		
 	}
 	public static class MovieDeserializer implements JsonDeserializer<Movie>
 	{
