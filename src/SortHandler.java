@@ -1,82 +1,103 @@
 package src;
 
 import java.util.*;
-import src.movie_builder.TestCollectionBuilder;
-
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 
 //Sort by Date, Rating, Length, or Alphabetical 
 public class SortHandler
 {
-	// public static void main(String[] args)
-	// {
-	// 	TestCollectionBuilder TCB = new TestCollectionBuilder();
-	// 	HashMap<Integer, Movie> movies = TCB.getTestCollection();
-	// 	ArrayList<Movie> myList = new ArrayList<Movie>();
-	// 	for (Integer key: movies.keySet())
-	// 		myList.add(movies.get(key));
+	/*
+	public static void main(String[] args)
+	{
+		TestCollectionBuilder TCB = new TestCollectionBuilder();
+		HashMap<Integer, Movie> movies = TCB.getTestCollection();
+		ArrayList<Movie> myList = new ArrayList<Movie>();
+		for (Integer key: movies.keySet())
+			myList.add(movies.get(key));
 
-	// 	myList = sortOldestToNewest(myList);
+		myList = sortOldestToNewest(myList);
 
-	// 	System.out.println("sortOldestToNewest");
-	// 	for (Movie item: myList)
-	// 		System.out.println(item.getDate());
+		System.out.println("sortOldestToNewest");
+		for (Movie item: myList)
+			System.out.println(item.getDate());
 
-	// 	System.out.println();
-	// 	System.out.println("sortNewestToOldest");
-	// 	myList = sortNewestToOldest(myList);
+		System.out.println();
+		System.out.println("sortNewestToOldest");
+		myList = sortNewestToOldest(myList);
 
-	// 	for (Movie item: myList)
-	// 		System.out.println(item.getDate());
-	// }
+		for (Movie item: myList)
+			System.out.println(item.getDate());
+	}
+	*/
+	//Descending = true
+	//Ascending = false
+	//Title, Date, Critical Rating, Length
+	public static ArrayList<Movie> chooseSortingMethod(ArrayList<Movie> inputList, String sortingMethod, boolean sortDescending) {
+		switch (sortingMethod) {
+			case "Length":
+				sortShortestToLongest(inputList);
+				break;
+			case "Critical Rating":
+				sortLowestToHighest(inputList);
+				break;
+			case "Title":
+				sortAlphabetical(inputList);
+				break;
+			case "Date:":
+				sortOldestToNewest(inputList);
+				break;
+
+			if (!sortDescending)
+				Collections.reverse(inputList);
+
+			return inputList;
+		}
+	}
+
 
 	//Public methods to be used by SearchPanel
-	public static ArrayList<Movie> sortLowestToHighest(ArrayList<Movie> inputList)
+	private static ArrayList<Movie> sortShortestToLongest(ArrayList<Movie> inputList)
+	{
+		inputList = sortByLength(inputList);
+		return inputList;
+	}
+
+	private static ArrayList<Movie> sortLowestToHighest(ArrayList<Movie> inputList)
 	{
 		inputList = sortByNumber(inputList);
 		return inputList;
 	}
 
-	public static ArrayList<Movie> sortHighestToLowest(ArrayList<Movie> inputList)
-	{
-		inputList = sortByNumber(inputList);
-		Collections.reverse(inputList);
-		return inputList;
-	}
-
-	public static ArrayList<Movie> sortAlphabetical(ArrayList<Movie> inputList)
+	private static ArrayList<Movie> sortAlphabetical(ArrayList<Movie> inputList)
 	{
 		inputList = sortByAlphabetical(inputList);
 		return inputList;
 	}
 
-	public static ArrayList<Movie> sortReverseAlphabetical(ArrayList<Movie> inputList)
-	{
-		inputList = sortByAlphabetical(inputList);
-		Collections.reverse(inputList);
-		return inputList;
-	}	
-
-	public static ArrayList<Movie> sortOldestToNewest(ArrayList<Movie> inputList)
+	private static ArrayList<Movie> sortOldestToNewest(ArrayList<Movie> inputList)
 	{
 		inputList = sortByDate(inputList);
 		return inputList;
 	}
-
-	public static ArrayList<Movie> sortNewestToOldest(ArrayList<Movie> inputList)
-	{
-		inputList = sortByDate(inputList);
-		Collections.reverse(inputList);
-		return inputList;
-	}
-
 
 	//Start sorting methods
-	private static ArrayList<Movie> sortByNumber(ArrayList<Movie> inputList)
+	private static ArrayList<Movie> sortByLength(ArrayList<Movie> inputList)
 	{
 		if (inputList.size() <= 1)
 			return inputList;
 
-		quickSortNumber(inputList, 0, inputList.size() - 1);
+		quickSortLength(inputList, 0, inputList.size() - 1);
+
+		return inputList;
+	}
+
+	private static ArrayList<Movie> sortByRating(ArrayList<Movie> inputList)
+	{
+		if (inputList.size() <= 1)
+			return inputList;
+
+		quickSortRating(inputList, 0, inputList.size() - 1);
 
 		return inputList;
 	}
@@ -103,7 +124,40 @@ public class SortHandler
 
 
 	//Sorting Methods
-	private static void quickSortNumber(ArrayList<Movie> myList, int lowerIndex, int higherIndex)
+	private static void quickSortLength(ArrayList<Movie> myList, int lowerIndex, int higherIndex)
+	{
+		int i = lowerIndex;
+        int j = higherIndex;
+
+        //Get pivot
+        Movie pivot = myList.get(lowerIndex + (higherIndex - lowerIndex) / 2);
+
+        while (i <= j) {
+            while (myList.get(i).getLength() < pivot.getLength()) 
+            {
+                i++;
+            }
+
+            while (pivot.getLength() > myList.get(j).getLength())
+            {
+                j--;
+            }
+
+            if (i <= j) {
+            	Collections.swap(myList, i, j);
+                i++;
+                j--;
+            }
+        }
+
+        if (lowerIndex < j)
+            quickSortLength(myList, lowerIndex, j);
+
+        if (i < higherIndex)
+            quickSortLength(myList, i, higherIndex);
+	}
+
+	private static void quickSortRating(ArrayList<Movie> myList, int lowerIndex, int higherIndex)
 	{
 		int i = lowerIndex;
         int j = higherIndex;
@@ -130,10 +184,10 @@ public class SortHandler
         }
 
         if (lowerIndex < j)
-            quickSortNumber(myList, lowerIndex, j);
+            quickSortRating(myList, lowerIndex, j);
 
         if (i < higherIndex)
-            quickSortNumber(myList, i, higherIndex);
+            quickSortRating(myList, i, higherIndex);
 	}
 
 	private static void quickSortAlphabetical(ArrayList<Movie> myList, int lowerIndex, int higherIndex)
