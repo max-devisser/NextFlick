@@ -47,12 +47,12 @@ public class SortHandler
 			case "Date:":
 				sortOldestToNewest(inputList);
 				break;
-
-			if (!sortDescending)
-				Collections.reverse(inputList);
-
-			return inputList;
 		}
+
+		if (!sortDescending)
+			Collections.reverse(inputList);
+
+		return inputList;
 	}
 
 
@@ -65,7 +65,7 @@ public class SortHandler
 
 	private static ArrayList<Movie> sortLowestToHighest(ArrayList<Movie> inputList)
 	{
-		inputList = sortByNumber(inputList);
+		inputList = sortByRating(inputList);
 		return inputList;
 	}
 
@@ -133,12 +133,12 @@ public class SortHandler
         Movie pivot = myList.get(lowerIndex + (higherIndex - lowerIndex) / 2);
 
         while (i <= j) {
-            while (myList.get(i).getLength() < pivot.getLength()) 
+            while (myList.get(i).getRuntime() < pivot.getRuntime()) 
             {
                 i++;
             }
 
-            while (pivot.getLength() > myList.get(j).getLength())
+            while (pivot.getRuntime() > myList.get(j).getRuntime())
             {
                 j--;
             }
