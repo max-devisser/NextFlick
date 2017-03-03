@@ -16,6 +16,7 @@ import javax.swing.border.*;
 public class Result extends JPanel{
 	private Movie movie;
 	private JLabel title;
+	JButton rate;
 	public Result(Movie movie){
 		movie = movie; // don't you mean this.movie = movie?
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -30,8 +31,7 @@ public class Result extends JPanel{
 		JLabel title = new JLabel(movie.getTitle());
 		title.setFont (title.getFont ().deriveFont (30.0f));		//make Title bigger
 		header.add(title);
-		JButton rate = new JButton("Rate");
-		rate.addActionListener(new RateListener(movie));
+		rate = new JButton("Rate");
 		header.add(rate);
 		this.add(header);
 
@@ -58,13 +58,8 @@ public class Result extends JPanel{
 		this.setMinimumSize(new Dimension(800, 200));
 	}
 
-	class RateListener implements ActionListener{
-		Movie movie;
-		public RateListener(Movie m){
-			movie = m;
-		}
-		public void actionPerformed(ActionEvent e){
-			RatingFrame.displayRateFrame(movie);
-		}
+	public void addListener(SearchPanel.RateListener listener){
+		rate.addActionListener(listener);
 	}
+
 }

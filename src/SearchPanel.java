@@ -22,12 +22,13 @@ public class SearchPanel extends JPanel {
 	private ArrayList<Movie> result; // the list of results returned by FilterHandler
 	private JLabel errorMessage = new JLabel("Please enter input");
 	private FilterHandler filterHandler;
-
+	private RatingHistory ratingHistory;
 	/**
 	 * Constructor for SearchPanel. Adds fields for filters and displaying of
 	 * results
 	 */
-	public SearchPanel() {
+	public SearchPanel(RatingHistory ratingHistory) {
+		this.ratingHistory = ratingHistory;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); //Might need this to be able to do scrolling
 		filterOptions = new JPanel();
 		filterOptions.setBackground(Color.WHITE);
@@ -53,13 +54,16 @@ public class SearchPanel extends JPanel {
 		searchQuery.setPreferredSize(new Dimension(1000, searchQuery.getMinimumSize().height));
 		searchButton = new JButton("Enter");
 		searchButton.addActionListener(new searchActionListener());
-		result = filterHandler.getFullMovieList(); // NORMALLY WILL BE INITIALIZED TO CONTAIN WHOLE DATABASE
+		result = filterHandler.getFullMovieList(); 
 		
 		resultPanel = new JPanel();
 		resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS)); // results display vertically
 		resultPanel.setBackground(Color.WHITE);
-		for (Movie item: result)
-			resultPanel.add(new Result(item));
+		for (Movie item: result){
+			Result result = new Result(item);
+			result.addListener(new RateListener(item));
+			resultPanel.add(result);
+		}
 
 		resultScroller = new JScrollPane(resultPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		resultScroller.setViewportView(resultPanel);
@@ -96,8 +100,11 @@ public class SearchPanel extends JPanel {
 			updateFilterSelectionPanel();
 
 			if (result.size() != 0) { // display new results
-				for (Movie item: result)
-					resultPanel.add(new Result(item));
+				for (Movie item: result){
+					Result result = new Result(item);
+					result.addListener(new RateListener(item));
+					resultPanel.add(result);
+				}
 			} else { // no results yielded from search
 				resultPanel.add(new JLabel("No Results"));
 				result = filterHandler.getFullMovieList();
@@ -109,6 +116,16 @@ public class SearchPanel extends JPanel {
 			this.add(resultScroller);
 			this.validate();
 			this.repaint();
+		}
+	}
+	class RateListener implements ActionListener{
+		private Movie movie;
+		public RateListener(Movie m){
+			movie = m;
+		}
+		@Override
+		public void actionPerformed(ActionEvent e){
+			ratingHistory.displayRateFrame(movie);
 		}
 	}
 

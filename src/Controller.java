@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public class Controller {
 	private GUI gui;
-	private static HashMap<Movie, Integer> ratingHistory;
+	private RatingHistory ratingHistory;
 
 	/**
 	 * Constructor for Controller object
@@ -15,11 +15,7 @@ public class Controller {
 	 */
 	public Controller(GUI g) {
 		gui = g;
-		ratingHistory = new HashMap<Movie, Integer>();		//originally empty--no ratings s
-	}
-
-	public static void updateRatingHistory(Movie movie, Integer rating){
-		ratingHistory.put(movie, rating);
+		ratingHistory = g.getRatingHistory();		//originally empty--no ratings s
 	}
 
 	/**
@@ -60,7 +56,8 @@ public class Controller {
 	 * @param args Not used here
 	 */
 	public static void main(String[] args) {
-		GUI gui = new GUI(); // Home panel opens by default
+		RatingHistory history = new RatingHistory();
+		GUI gui = new GUI(history); // Home panel opens by default
 		Controller controller = new Controller(gui);
 		controller.go();
 	}
