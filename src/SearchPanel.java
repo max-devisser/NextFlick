@@ -2,6 +2,7 @@ package src;
 
 import javax.swing.*;
 import java.util.HashMap;
+import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.border.*;
@@ -18,9 +19,8 @@ public class SearchPanel extends JPanel {
 			"Language", "Country", "Rating" };
 	private JTextField searchQuery;
 	private JButton searchButton;
-	private HashMap<Integer, Movie> result; // the list of results returned by FilterHandler
+	private ArrayList<Movie> result; // the list of results returned by FilterHandler
 	private JLabel errorMessage = new JLabel("Please enter input");
-	private TestCollectionBuilder test;
 	private FilterHandler filterHandler;
 
 	/**
@@ -53,13 +53,13 @@ public class SearchPanel extends JPanel {
 		searchQuery.setPreferredSize(new Dimension(1000, searchQuery.getMinimumSize().height));
 		searchButton = new JButton("Enter");
 		searchButton.addActionListener(new searchActionListener());
-		test = new TestCollectionBuilder(); // NORMALLY WILL BE INITIALIZED TO CONTAIN WHOLE DATABASE
-		result = test.getTestCollection();
+		result = filterHandler.getFullMovieList(); // NORMALLY WILL BE INITIALIZED TO CONTAIN WHOLE DATABASE
 		
 		resultPanel = new JPanel();
 		resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS)); // results display vertically
 		resultPanel.setBackground(Color.WHITE);
-		result.forEach((k, v) -> resultPanel.add(new Result(v)));
+		for (Movie item: result)
+			resultPanel.add(new Result(item));
 
 		resultScroller = new JScrollPane(resultPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		resultScroller.setViewportView(resultPanel);
@@ -95,11 +95,12 @@ public class SearchPanel extends JPanel {
 	
 			updateFilterSelectionPanel();
 
-			if (!result.isEmpty()) { // display new results
-				result.forEach((k, v) -> resultPanel.add(new Result(v)));
+			if (result.size() != 0) { // display new results
+				for (Movie item: result)
+					resultPanel.add(new Result(item));
 			} else { // no results yielded from search
 				resultPanel.add(new JLabel("No Results"));
-				result = test.getTestCollection();
+				result = filterHandler.getFullMovieList();
 			}
 
 			resultScroller.getViewport().add(resultPanel);
@@ -118,7 +119,7 @@ public class SearchPanel extends JPanel {
 		filterSelectionPanel.setBackground(Color.WHITE);
 
 		for (Filter filter : filterHandler.getFilterList()) {
-			String filterType = filter.getType().substring(3);
+			String filterType = filter.getFilterType().substring(3);
 
 			// Fixes naming inconsistencies between filterList and filter buttons
 			if (filterType.equals("ParentalRating")) {
@@ -136,7 +137,7 @@ public class SearchPanel extends JPanel {
 
 			JButton removeButton = new JButton("X");
 			removeButton.setPreferredSize(new Dimension(50, 30));
-			removeButton.setActionCommand(filter.getType() + "/" + filter.getQuery());
+			removeButton.setActionCommand(filter.getFilterType() + "/" + filter.getQuery());
 			removeButton.addActionListener(new removeButtonActionListener());
 			filterSelectionPanel.add(removeButton);
 
