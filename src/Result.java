@@ -17,7 +17,7 @@ public class Result extends JPanel{
 	private Movie movie;
 	private JLabel title;
 	public Result(Movie movie){
-		movie = movie;
+		movie = movie; // don't you mean this.movie = movie?
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setOpaque(true);
 		this.setBackground(new Color(243,243,243));

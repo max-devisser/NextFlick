@@ -10,9 +10,6 @@ public class DatabaseBuilder
 	public static void main(String[] args) 
 	{
 		MovieParser parser = new MovieParser();
-//		Movie seven = parser.constructMovieById(parser.getIdFromSearch("Se7en"), "credits");
-//		System.out.println(seven.toString());
-//		System.out.println(fightClub.toString());
 		Scanner scan;
 		String currLine = "";
 		HashMap<Integer, Movie> database = new HashMap<Integer, Movie>();
@@ -20,7 +17,6 @@ public class DatabaseBuilder
 		try
 		{
 			scan = new Scanner(new File("Movies_Encoded.txt"));
-			//System.out.println("Scanner initialized");
 			currLine = scan.nextLine();
 			while(scan.hasNextLine())
 			{
@@ -36,11 +32,6 @@ public class DatabaseBuilder
 				}
 			}
 			msm.serialize(database, "Top_250_serialized4.txt");
-//			System.out.println("Movie list:");
-//			for (Movie m : database.values())
-//			{
-//				System.out.println(m.getTitle());
-//			}
 			scan.close();
 		}
 		catch (Exception e)
@@ -50,7 +41,6 @@ public class DatabaseBuilder
 			e.printStackTrace();
 			System.exit(1);
 		}
-		
 		
 	}
 
