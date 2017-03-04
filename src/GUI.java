@@ -8,13 +8,15 @@ import java.util.HashMap;
 public class GUI {
 	private JFrame frame;
 	private JTabbedPane tabbedPane;
+	private RatingHistory ratingHistory;
 	HomePanel homePanel;
 	SearchPanel searchPanel;
 
 	/**
 	 * Constructor for GUI, just calls go()
 	 */
-	public GUI() {
+	public GUI(RatingHistory ratings) {
+		ratingHistory = ratings;
 		go();
 	}
 
@@ -26,8 +28,8 @@ public class GUI {
 		frame.getContentPane().setBackground(new Color(204, 0, 0) );
 		frame.setTitle("NextFlick");
 		tabbedPane = new JTabbedPane();
-		homePanel = new HomePanel();
-		searchPanel = new SearchPanel();
+		homePanel = new HomePanel(ratingHistory);
+		searchPanel = new SearchPanel(homePanel);
 		searchPanel.setBackground(Color.WHITE);
 		homePanel.setBackground(Color.WHITE);
 
@@ -111,7 +113,9 @@ public class GUI {
 	public int tabClick() { // STUB
 		return 0;
 	}
-	// public static void main(String[] args){ //TESTING GUI
-	// GUI g = new GUI();
-	// }
+
+	public RatingHistory getRatingHistory(){
+		return this.ratingHistory;
+	}
+
 }

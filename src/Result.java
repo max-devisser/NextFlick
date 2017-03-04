@@ -9,15 +9,14 @@ import java.util.Enumeration;
 import java.util.ArrayList;
 import java.awt.event.*;
 import javax.swing.BorderFactory; 
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
 import javax.swing.border.*;
 
 public class Result extends JPanel{
 	private Movie movie;
 	private JLabel title;
-	public Result(Movie movie){
-		movie = movie;
+	JButton rate;
+	public Result(Movie movie, int rating){
+		movie = movie; // don't you mean this.movie = movie?
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setOpaque(true);
 		this.setBackground(new Color(243,243,243));
@@ -30,9 +29,11 @@ public class Result extends JPanel{
 		JLabel title = new JLabel(movie.getTitle());
 		title.setFont (title.getFont ().deriveFont (30.0f));		//make Title bigger
 		header.add(title);
-		JButton rate = new JButton("Rate");
-		rate.addActionListener(new RateListener(movie));
+		rate = new JButton("Rate");
 		header.add(rate);
+		if(rating != 0 ){
+			header.add(new JLabel("Current Rating: "+ rating));
+		}
 		this.add(header);
 
 		JLabel label1 = new JLabel("Release Date: " + movie.getDate());
@@ -59,13 +60,7 @@ public class Result extends JPanel{
 		this.setAlignmentX( Component.LEFT_ALIGNMENT );
 	}
 
-	class RateListener implements ActionListener{
-		Movie movie;
-		public RateListener(Movie m){
-			movie = m;
-		}
-		public void actionPerformed(ActionEvent e){
-			RatingFrame.displayRateFrame(movie);
-		}
+	public void addListener(SearchPanel.RateListener listener){
+		rate.addActionListener(listener);
 	}
 }

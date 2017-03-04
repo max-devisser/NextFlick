@@ -31,9 +31,15 @@ import src.Movie;
 
 public class MovieSerializationManager 
 {
+	/**
+	 * Inline defined class used by Gson to know how to encode Movie objects as JSON
+	 **/
 	public static class MovieSerializer implements JsonSerializer<Movie>
 	{
 
+		/**
+		 * Not much to see here, using Gson to set up conversion to JSON from Movie
+		 **/
 		@Override
 		public JsonElement serialize(final Movie movie, final Type arg1, final JsonSerializationContext arg2) {
 			final JsonObject result = new JsonObject();
@@ -60,13 +66,21 @@ public class MovieSerializationManager
 			result.add("criticalRating", new JsonPrimitive(movie.getCriticalRating()));
 			result.add("plot", new JsonPrimitive(movie.getPlot()));
 			result.add("imageURL", new JsonPrimitive(movie.getImageURL()));
+			result.add("tagline", new JsonPrimitive(movie.getTagline()));
+			result.add("popularity", new JsonPrimitive(movie.getPopularity()));
 			return result;
 		}
-		
 	}
+	
+	/**
+	 * Inline defined class used by Gson to know how to decode Movie objects from JSON
+	 **/
 	public static class MovieDeserializer implements JsonDeserializer<Movie>
 	{
 
+		/**
+		 * Not much to see here, using Gson to set up conversion from JSON to Movie
+		 **/
 		@Override
 		public Movie deserialize(final JsonElement element, final Type type, final JsonDeserializationContext context)
 				throws JsonParseException {
@@ -95,6 +109,10 @@ public class MovieSerializationManager
 			result.setPlot(plot.getAsString());
 			final JsonElement imageURL = json.get("imageURL");
 			result.setImageURL(imageURL.getAsString());
+			final JsonElement tagline = json.get("tagline");
+			result.setTagline(tagline.getAsString());
+			final JsonElement popularity = json.get("popularity");
+			result.setPopularity(popularity.getAsDouble());
 			final JsonArray genreJson = json.get("genre").getAsJsonArray();
 			final ArrayList<String> genre = new ArrayList<String>();
 			for (int i = 0; i < genreJson.size(); ++i)
@@ -115,12 +133,18 @@ public class MovieSerializationManager
 		}
 		
 	}
+	
+	/**
+	 * Converts text file to usual HashMap of movies
+	 * @param inFileName The file containing the JSON text to be decoded, looks in "res" folder
+	 * @return Spits out freshly minted Movie HashMap from input JSON text
+	 **/
 	public HashMap<Integer, Movie> deserialize(String inFileName) throws FileNotFoundException
 	{
 		GsonBuilder gsb = new GsonBuilder();
-		gsb.registerTypeAdapter(Movie.class, new MovieDeserializer());
+		gsb.registerTypeAdapter(Movie.class, new MovieDeserializer()); //Gson stuff
 		Gson gson = gsb.create();
-		Scanner in = new Scanner(new File("res" + File.separator + inFileName));
+		Scanner in = new Scanner(new File("res" + File.separator + inFileName)); //set up file reader for input file
 		String currLine = "";
 		HashMap<Integer, Movie> results = new HashMap<Integer, Movie>();
 		while(in.hasNextLine())
@@ -128,7 +152,7 @@ public class MovieSerializationManager
 			currLine = in.nextLine();
 			if (!currLine.isEmpty())
 			{
-				Movie currMovie = deserialize(currLine, gson);
+				Movie currMovie = deserialize(currLine, gson); //deserialize line by line
 				if (currMovie == null)
 				{
 					System.err.println("Deserialization failed.");
@@ -145,11 +169,23 @@ public class MovieSerializationManager
 		in.close();
 		return results;
 	}
+	
+	/**
+	 * Converts single JSON object to Movie
+	 * @param json Single JSON object read in from text file
+	 **/
 	private Movie deserialize(String json, Gson gson)
 	{
 		Movie result = gson.fromJson(json, Movie.class);
 		return result;
 	}
+	
+	/**
+	 * Converts collection of Movies to JSON objects in the given text file
+	 * @param movies The Movie objects to be serialized
+	 * @param outFileName The output file name for your JSON objects. Goes into "res" folder. Creates file if it doesn't exist or writes over it if it does
+	 * @return Returns true if all objects were successfully serialized
+	 **/
 	public boolean serialize(Collection<Movie> movies, String outFileName) throws IOException
 	{
 		final GsonBuilder gsb = new GsonBuilder();
@@ -164,11 +200,21 @@ public class MovieSerializationManager
 				return false;
 			}
 		}
+		writer.write('\n');
 		writer.close();
 		return true;
 	}
+	
+	/**
+	 * Converts a single Movie to a one-line JSON object. Makes sure that Movie object has valid Title and Genre fields before serializing it
+	 **/
 	private boolean serialize(Movie movie, String outFileName, Gson gson, BufferedWriter writer)
 	{
+		if (!checkIntegrity(movie))
+		{
+			System.err.println("Movie with key " + movie.getKey() + " was not grabbed properly and is being discarded.");
+			return true;
+		}
 		String json = gson.toJson(movie);
 		try {
 			writer.append(json);
@@ -179,6 +225,32 @@ public class MovieSerializationManager
 			return false;
 		}
 	}
+	
+	/**
+	 * Makes sure that Movie object has valid Title and Genre fields before serializing it
+	 **/
+	private boolean checkIntegrity(Movie movie)
+	{
+		if (movie.getGenre().isEmpty())
+		{
+			return false;
+		}
+		String title = movie.getTitle();
+												// some dank regex
+		title = title.replaceAll("\\s+",""); // remove all whitespace
+		if (title.isEmpty() || title.matches("\\?+")) // then check if everything that remains is a question mark - this checks for movies with messed up or empty titles
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Converts HashMap of Movies to JSON objects in the given text file
+	 * @param movies The Movie objects to be serialized
+	 * @param outFileName The output file name for your JSON objects. Goes into "res" folder. Creates file if it doesn't exist or writes over it if it does
+	 * @return Returns true if all objects were successfully serialized
+	 **/
 	public boolean serialize(Map<Integer, Movie> movies, String outFileName) throws IOException
 	{
 		final GsonBuilder gsb = new GsonBuilder();

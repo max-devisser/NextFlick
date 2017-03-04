@@ -37,17 +37,24 @@ public class SearchPanel extends JPanel {
 	private boolean sortDescending = true;
 	private String sortOptionSelected;
 
-
+	private HomePanel homePanel;
+	private RatingHistory ratingHistory;
 	/**
 	 * Constructor for SearchPanel. Adds fields for filters and displaying of
 	 * results
 	 */
-	public SearchPanel() {
+
+	public SearchPanel(HomePanel homeAccess) {
+		homePanel = homeAccess;
+		ratingHistory = homePanel.getRatingHistory(); //fix later
+
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); 
 
 		// Filter panel initialization
 		filterOptionsPanel = new JPanel();
 		filterOptionsPanel.setBackground(Color.WHITE);
+		filterSelectionPanel = new JPanel();
+		filterHandler = new FilterHandler();
 
 		for (String filter : filters) {
 			JButton button = new JButton(filter);
@@ -104,19 +111,7 @@ public class SearchPanel extends JPanel {
 
 		// Result panel initialization
 		result = filterHandler.getFullMovieList(); // NORMALLY WILL BE INITIALIZED TO CONTAIN WHOLE DATABASE
-		sortOptionSelected = (String) sortMenu.getItemAt(sortMenu.getSelectedIndex());
-		result = SortHandler.chooseSortingMethod(result, sortOptionSelected, sortDescending);
-
-		resultPanel = new JPanel();
-		resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS)); // results display vertically
-		resultPanel.setBackground(Color.WHITE);
-		for (Movie item: result)
-			resultPanel.add(new Result(item));
-
-		resultScroller = new JScrollPane(resultPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		resultScroller.setViewportView(resultPanel);
-		resultScroller.setMaximumSize(new Dimension(800, 400));
-		resultScroller.getVerticalScrollBar().setUnitIncrement(30);
+		setUpResultPanel();
 		// End result initialization
 
 		
@@ -148,8 +143,17 @@ public class SearchPanel extends JPanel {
 			result = SortHandler.chooseSortingMethod(result, sortOptionSelected, sortDescending);
 
 			if (result.size() != 0) { // display new results
-				for (Movie item: result)
-					resultPanel.add(new Result(item));
+				for (Movie item: result){
+					Result result;
+					if(ratingHistory.containsKey(item)){			//if the movie has been rated
+						result = new Result(item, ratingHistory.get(item));
+					}
+					else{
+						result = new Result(item, 0);
+					}
+					result.addListener(new RateListener(item));
+					resultPanel.add(result);
+				}
 			} else { // no results yielded from search
 				resultPanel.add(new JLabel("No Results"));
 				result = filterHandler.getFullMovieList();
@@ -161,6 +165,45 @@ public class SearchPanel extends JPanel {
 			this.add(resultScroller);
 			this.validate();
 			this.repaint();
+		}
+	}
+
+	public void setUpResultPanel(){
+		resultPanel = new JPanel();
+		resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS)); // results display vertically
+		resultPanel.setBackground(Color.WHITE);
+
+		sortOptionSelected = (String) sortMenu.getItemAt(sortMenu.getSelectedIndex());
+		result = SortHandler.chooseSortingMethod(result, sortOptionSelected, sortDescending);
+		
+		for (Movie item: result) {
+			Result ratingResult;
+			if(ratingHistory.containsKey(item)){			//if the movie has been rated
+				ratingResult = new Result(item, ratingHistory.get(item));
+			}
+			else{
+				ratingResult = new Result(item, 0);
+			}
+			ratingResult.addListener(new RateListener(item));
+			resultPanel.add(ratingResult);
+		}
+
+		resultScroller = new JScrollPane(resultPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		resultScroller.setViewportView(resultPanel);
+		resultScroller.setMaximumSize(new Dimension(800, 400));
+		resultScroller.getVerticalScrollBar().setUnitIncrement(30);
+	}
+
+	class RateListener implements ActionListener{
+		private Movie movie;
+		public RateListener(Movie m){
+			movie = m;
+		}
+		@Override
+		public void actionPerformed(ActionEvent e){
+			ratingHistory.displayRateFrame(movie);
+			SearchPanel.this.refresh();
+			homePanel.refresh();
 		}
 	}
 
@@ -254,10 +297,16 @@ public class SearchPanel extends JPanel {
 	class filterActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent event) {
-			String label = "Select one of the displayed filters to search according to "
+			String label = "Select one of the displayed filters to search for a movie according to "
 					+ event.getActionCommand() + " :";
 			searchLabel.setText(label);
 		}
+	}
+
+	public void refresh() {
+		this.remove(resultScroller);
+		setUpResultPanel();
+		this.add(resultScroller);
 	}
 
 	class sortActionListener implements ActionListener {

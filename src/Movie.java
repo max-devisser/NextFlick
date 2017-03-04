@@ -1,15 +1,15 @@
 package src;
 
 import java.util.ArrayList;
+import java.io.Serializable;
 
 // Stores info on movies
 // Have constructors to initialize data
 // Have getters for all information
 // String title, int year, String director, String genre, String[] actors, String parentalRating, String runtime, String language, 
 // String country, double IMdBRating, String plot, String imageURL
-import java.util.ArrayList;
 
-public class Movie {
+public class Movie implements Serializable{
    private int key;
    private String title;
    private String date;
@@ -23,6 +23,8 @@ public class Movie {
    private double criticalRating;
    private String plot;
    private String imageURL;
+   private String tagline;
+   private double popularity;
    
    /**
      * Creates a Movie object with default values for all variables, must provide key
@@ -43,6 +45,8 @@ public class Movie {
       criticalRating = 0.0;
       plot = "";
       imageURL = "";
+      tagline = "";
+      popularity = 0.0;
    }
    
    /**
@@ -50,10 +54,11 @@ public class Movie {
      * @param key The key for this movie
      * @param parameters List of all values to set variables of new movie object to in the order
      * title, date, director, genre, actors, parentalRating, runtime, language, country,
-     * criticalRating, plot, imageURL
+     * criticalRating, plot, imageURL, tagline, popularity
    **/
    @SuppressWarnings("unchecked")
    public Movie(int key, ArrayList<Object> parameters) {
+	    this.key = key;
         title = (String) parameters.get(0);
         date = (String) parameters.get(1);
         director = (String) parameters.get(2);
@@ -66,6 +71,8 @@ public class Movie {
         criticalRating = (double) parameters.get(9);
         plot = (String) parameters.get(10);
         imageURL = (String) parameters.get(11);
+        tagline = (String) parameters.get(12);
+        popularity = (double) parameters.get(13);
    }
    
    /**
@@ -76,7 +83,7 @@ public class Movie {
    {
       return "Movie Title: " + title + ", Release Date: " + date + ", Director: " + director + ", Genre(s): " + genre + ", Actors: " + actors
         + ", Parental Rating: " + parentalRating + ", Runtime: " + runtime + " (minutes), Language: " + language + ", Country: " + country 
-        + ", Critical Rating: " + criticalRating + ", Plot: " + plot;  
+        + ", Critical Rating: " + criticalRating + ", Plot: " + plot + ", Tagline: " + tagline + ", Popularity: " + popularity;  
    }
    
    /**
@@ -272,6 +279,36 @@ public class Movie {
    **/
    public void setImageURL(String imageURL) {
       this.imageURL = imageURL;
+   }
+   
+   /**
+    * @return The movie's short tagline
+  **/
+   public String getTagline()  {
+	   return this.tagline;
+   }
+   
+   /**
+    * Sets the movie's short tagline
+    * @param tagline New tagline for the movie
+  **/
+   public void setTagline(String tagline)  {
+	   this.tagline = tagline;
+   }
+   
+   /**
+    * @return The movie's popularity on TMDB
+  **/
+   public double getPopularity()  {
+	   return this.popularity;
+   }
+   
+   /**
+    * Sets the movie's popularity on TMDB
+    * @param tagline New TMDB popularity for the movie
+  **/
+   public void setPopularity(double popularity)  {
+	   this.popularity = popularity;
    }
    
    /**
