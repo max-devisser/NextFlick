@@ -1,12 +1,14 @@
 <project name="NextFlick" basedir="." default="main" xmlns:ivy="antlib:org.apache.ivy.ant">
 
     <property name="src.dir"     value="src"/>
-
     <property name="build.dir"   value="build"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
     <property name="jar.dir"     value="${build.dir}/jar"/>
 
     <property name="main-class"  value="${src.dir}/Controller"/>
+
+	<property name="javadoc_absolute_path" location="javadoc"/>
+	<property name="public_javadoc_absolute_path" location="../NextFlick_javadoc/javadoc"/>
 
 
 
@@ -55,6 +57,34 @@
     <target name="clean-build" depends="clean,jar"/>
 
     <target name="main" depends="clean,run"/>
+	
+	<target name="javadoc" depends="compile" description="Generate javadoc">
+	    <delete quiet="true">
+	      <fileset dir="javadoc" />
+	    </delete>
+	    <javadoc destdir="javadoc">
+	      <fileset dir="src" >
+		      <include name="*.java"/>
+	      </fileset>
+	      <link href="https://docs.oracle.com/javase/8/docs/api/" />          
+	    </javadoc>
+	    <echo>                                                                                       
+	      javadoc written to file://${javadoc_absolute_path}/index.html                              
+	      copying to ${public_javadoc_absolute_path}/index.html                                      
+	    </echo>                                                                                      
+	    <delete quiet="true">                                                                        
+	      <fileset dir="${public_javadoc_absolute_path}" />                                          
+	    </delete>                                                                                    
+	    <mkdir dir="${public_javadoc_absolute_path}" />                                              
+	    <copy todir="${public_javadoc_absolute_path}">                                               
+	      <fileset dir="javadoc" />                                                                  
+	    </copy>                                                                                      
+	    <echo>                                                                                       
+	      javadoc copied to ${public_javadoc_absolute_path}/index.html                               
+	      TO PUBLISH: cd into that repo, then git add javadoc;                                       
+	        git commit -m "update javadoc"; git push origin gh-pages                                
+	    </echo>                                                                                      
+	  </target>    
 
 </project>
 
