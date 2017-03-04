@@ -1,15 +1,15 @@
 package src;
 
 import java.util.ArrayList;
+import java.io.Serializable;
 
 // Stores info on movies
 // Have constructors to initialize data
 // Have getters for all information
 // String title, int year, String director, String genre, String[] actors, String parentalRating, String runtime, String language, 
 // String country, double IMdBRating, String plot, String imageURL
-import java.util.ArrayList;
 
-public class Movie {
+public class Movie implements Serializable{
    private int key;
    private String title;
    private String date;

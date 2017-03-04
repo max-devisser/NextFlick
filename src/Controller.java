@@ -4,6 +4,7 @@ package src;
 //Starts the program and manages interactions between the GUI and backend
 //Barbara Korycki
 import java.util.HashMap;
+import java.io.*;
 
 public class Controller {
 	private GUI gui;
@@ -57,6 +58,16 @@ public class Controller {
 	 */
 	public static void main(String[] args) {
 		RatingHistory history = new RatingHistory();
+		//Deserialize history object if it exists
+		try{
+			FileInputStream fs = new FileInputStream("History.ser");
+			ObjectInputStream is = new ObjectInputStream(fs); 
+			history = (RatingHistory)is.readObject();
+			is.close();
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
 		GUI gui = new GUI(history); // Home panel opens by default
 		Controller controller = new Controller(gui);
 		controller.go();

@@ -4,9 +4,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.io.*;
 
-public class RatingHistory{
-	private static int currentRating;
+public class RatingHistory implements Serializable{
+	private transient int currentRating;	//helper variable for action listener
 	private HashMap<Movie, Integer> history;
 
 	public RatingHistory(){
@@ -30,6 +31,8 @@ public class RatingHistory{
     					JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 		if(action ==0){
 			history.put(movie, currentRating);
+			serialize();
+			System.out.println(this);
 		}
 	}
 
@@ -41,5 +44,18 @@ public class RatingHistory{
 			map+= "\n" + title + ": " + rating;
 		}
 		return map;
+	}
+	/*
+	//	Called evertime history is updated to preserve it on the disc
+	*/
+	public void serialize(){
+		try{
+			FileOutputStream fo = new FileOutputStream("History.ser");
+			ObjectOutputStream os = new ObjectOutputStream(fo);
+			os.writeObject(this);
+			os.close();
+		}catch(IOException ex){
+			ex.printStackTrace();
+		}
 	}
 }

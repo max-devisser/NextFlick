@@ -61,5 +61,4 @@ public class Result extends JPanel{
 	public void addListener(SearchPanel.RateListener listener){
 		rate.addActionListener(listener);
 	}
-
 }
