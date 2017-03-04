@@ -9,30 +9,45 @@ import javax.swing.border.*;
 import src.movie_builder.TestCollectionBuilder;
 
 public class SearchPanel extends JPanel {
-	private JLabel searchLabel; // "Search by *filter type*: ""
-	private JPanel filterOptions; // menu of filters to select from
+
+	// Filter panel, filters, and handler
 	private JPanel filterSelectionPanel; // displays user's previous filters that they input
-	private JPanel resultPanel; // what displays the results
-	private JPanel centerPanel;
-	private JScrollPane resultScroller; // contains resultPanel
+	private JPanel filterOptionsPanel; // menu of filters to select from
 	private String[] filters = { "Title", "Year", "Genre", "Actors", "Director", "Parental Rating", "Length",
 			"Language", "Country", "Rating" };
-	private JTextField searchQuery;
-	private JButton searchButton;
+	private FilterHandler filterHandler;
+
+	// Result display panel and result list
+	private JScrollPane resultScroller; // contains resultPanel
+	private JPanel resultPanel; // what displays the results
 	private ArrayList<Movie> result; // the list of results returned by FilterHandler
 	private JLabel errorMessage = new JLabel("Please enter input");
-	private FilterHandler filterHandler;
+
+	// Search field panel
+	private JPanel searchOptionsPanel;
+	private JLabel searchLabel; // "Search by *filter type*: ""
+	private JTextField searchQuery;
+	private JButton searchButton;
+
+	// Sort menu panel and sort options
+	private JPanel sortOptionsPanel;
+	private JComboBox sortMenu;
+	private JLabel sortLabel;
+	private JButton sortType; // ascending or descending
+	private boolean sortDescending = true;
+	private String sortOptionSelected;
+
 
 	/**
 	 * Constructor for SearchPanel. Adds fields for filters and displaying of
 	 * results
 	 */
 	public SearchPanel() {
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); //Might need this to be able to do scrolling
-		filterOptions = new JPanel();
-		filterOptions.setBackground(Color.WHITE);
-		filterSelectionPanel = new JPanel();
-		filterHandler = new FilterHandler();
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); 
+
+		// Filter panel initialization
+		filterOptionsPanel = new JPanel();
+		filterOptionsPanel.setBackground(Color.WHITE);
 
 		for (String filter : filters) {
 			JButton button = new JButton(filter);
@@ -41,11 +56,20 @@ public class SearchPanel extends JPanel {
 												// search label based on filter
 												// selected
 			button.addActionListener(new filterActionListener());
-			filterOptions.add(button);
+			filterOptionsPanel.add(button);
 		}
-		filterOptions.setMaximumSize(new Dimension(1000, filterOptions.getMinimumSize().height));
-		this.add(filterOptions);
 
+		filterSelectionPanel = new JPanel();
+		filterSelectionPanel.setBackground(Color.WHITE);
+		filterSelectionPanel.setBorder(new EmptyBorder(0, 0, 0, 5));
+		filterSelectionPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, filterSelectionPanel.getMinimumSize().height));
+
+		filterHandler = new FilterHandler();
+		filterOptionsPanel.setMaximumSize(new Dimension(1000, filterOptionsPanel.getMinimumSize().height));
+		// End filter initialization
+
+
+		// Search field panel initialization
 		String filterSearchWord = "Title ";
 		searchLabel = new JLabel(
 				"Select one of the displayed filters to search for a movie according to " + filterSearchWord + ":");
@@ -53,8 +77,36 @@ public class SearchPanel extends JPanel {
 		searchQuery.setPreferredSize(new Dimension(1000, searchQuery.getMinimumSize().height));
 		searchButton = new JButton("Enter");
 		searchButton.addActionListener(new searchActionListener());
+
+		searchOptionsPanel = new JPanel();
+		searchOptionsPanel.add(BorderLayout.NORTH, searchLabel);
+		searchOptionsPanel.add(BorderLayout.NORTH, searchQuery);
+		searchOptionsPanel.add(BorderLayout.NORTH, searchButton);
+		searchOptionsPanel.setMaximumSize(new Dimension(1100, searchOptionsPanel.getMinimumSize().height));
+		// End search initialization
+
+
+		// Sort panel initilization
+		sortType = new JButton("in descending order");
+		sortType.addActionListener(new sortDescendingActionListener());
+		String[] sortOptions = { "Title", "Date", "Critical Rating", "Length" };
+		sortMenu = new JComboBox(sortOptions);
+		sortMenu.addActionListener(new sortActionListener());
+
+		sortOptionsPanel = new JPanel();
+		sortLabel = new JLabel("Sort by");
+		sortOptionsPanel.add(BorderLayout.NORTH, sortLabel);
+		sortOptionsPanel.add(BorderLayout.NORTH, sortMenu);
+		sortOptionsPanel.add(BorderLayout.NORTH, sortType);
+		sortOptionsPanel.setMaximumSize(new Dimension(1100, searchOptionsPanel.getMinimumSize().height));
+		// End sort initilization
+
+
+		// Result panel initialization
 		result = filterHandler.getFullMovieList(); // NORMALLY WILL BE INITIALIZED TO CONTAIN WHOLE DATABASE
-		
+		sortOptionSelected = (String) sortMenu.getItemAt(sortMenu.getSelectedIndex());
+		result = SortHandler.chooseSortingMethod(result, sortOptionSelected, sortDescending);
+
 		resultPanel = new JPanel();
 		resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS)); // results display vertically
 		resultPanel.setBackground(Color.WHITE);
@@ -64,28 +116,25 @@ public class SearchPanel extends JPanel {
 		resultScroller = new JScrollPane(resultPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		resultScroller.setViewportView(resultPanel);
 		resultScroller.setMaximumSize(new Dimension(800, 400));
+		resultScroller.getVerticalScrollBar().setUnitIncrement(30);
+		// End result initialization
 
-		centerPanel = new JPanel();
-		centerPanel.add(BorderLayout.NORTH, searchLabel);
-		centerPanel.add(BorderLayout.NORTH, searchQuery);
-		centerPanel.add(BorderLayout.NORTH, searchButton);
-		centerPanel.setPreferredSize(new Dimension(800, centerPanel.getMinimumSize().height + 5));
-		centerPanel.setMaximumSize(new Dimension(1200, centerPanel.getMinimumSize().height + 5));
-
-		this.add(centerPanel);
+		
+		// Add everything to the JFrame
+		this.add(filterOptionsPanel);
+		this.add(searchOptionsPanel);
+		this.add(sortOptionsPanel);
+		this.add(filterSelectionPanel);
 		this.add(resultScroller);
 	}
 
 	public void updateResultPanel(boolean inputWasEmpty) {
 		if (inputWasEmpty) {
-			// this.remove(resultScroller);
-			// this.add(BorderLayout.NORTH, errorMessage);
-			// this.add(BorderLayout.SOUTH, resultScroller);
 			resultScroller.getViewport().remove(resultPanel);
 			resultScroller.getViewport().add(errorMessage);
 			this.validate();
 		} else {
-			this.remove(errorMessage);
+			resultScroller.getViewport().remove(errorMessage);
 			if (resultPanel != null) {
 				resultScroller.getViewport().remove(resultPanel);
 			}
@@ -94,6 +143,9 @@ public class SearchPanel extends JPanel {
 			resultPanel.setBackground(Color.WHITE);
 	
 			updateFilterSelectionPanel();
+
+			sortOptionSelected = (String) sortMenu.getItemAt(sortMenu.getSelectedIndex());
+			result = SortHandler.chooseSortingMethod(result, sortOptionSelected, sortDescending);
 
 			if (result.size() != 0) { // display new results
 				for (Movie item: result)
@@ -114,7 +166,9 @@ public class SearchPanel extends JPanel {
 
 	// Updates the display of filters that the user has so far selected
 	public void updateFilterSelectionPanel() {
-		if(filterSelectionPanel != null) { this.remove(filterSelectionPanel); }
+		if(filterSelectionPanel != null) 
+			this.remove(filterSelectionPanel); 
+
 		filterSelectionPanel = new JPanel();
 		filterSelectionPanel.setBackground(Color.WHITE);
 
@@ -152,10 +206,6 @@ public class SearchPanel extends JPanel {
 		filterSelectionPanel.validate();
 		filterSelectionPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, filterSelectionPanel.getMinimumSize().height));
 		this.add(filterSelectionPanel);
-		resultPanel.validate();
-
-		// resultScroller.getViewport().add(resultPanel);
-		// resultScroller.setViewportView(resultPanel);
 	
 		this.validate();
 		this.repaint();
@@ -204,9 +254,38 @@ public class SearchPanel extends JPanel {
 	class filterActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent event) {
-			String label = "Select one of the displayed filters to search for a movie according to "
+			String label = "Select one of the displayed filters to search according to "
 					+ event.getActionCommand() + " :";
 			searchLabel.setText(label);
+		}
+	}
+
+	class sortActionListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent event) {
+				sortOptionSelected = (String) sortMenu.getItemAt(sortMenu.getSelectedIndex());
+				result = SortHandler.chooseSortingMethod(result, sortOptionSelected, sortDescending);
+				updateResultPanel(false);
+			}
+		}
+
+	class sortDescendingActionListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent event) {
+			if (sortDescending) {
+				sortType.setLabel("in ascending order");
+				sortDescending = false;
+			} else {
+				sortType.setLabel("in descending order");
+				sortDescending = true;
+			}
+			sortOptionSelected = (String) sortMenu.getItemAt(sortMenu.getSelectedIndex());
+			result = SortHandler.chooseSortingMethod(result, sortOptionSelected, sortDescending);
+
+			if(searchQuery.getText().isEmpty())
+				updateResultPanel(true);
+			else
+				updateResultPanel(false);
 		}
 	}
 
@@ -223,6 +302,7 @@ public class SearchPanel extends JPanel {
 	public String getSort() {
 		return "";
 	}
+
 }
 
 

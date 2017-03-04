@@ -56,6 +56,7 @@ public class Result extends JPanel{
 		this.setPreferredSize(new Dimension(600, 200));
 		this.setMaximumSize(new Dimension(800, 200));
 		this.setMinimumSize(new Dimension(800, 200));
+		this.setAlignmentX( Component.LEFT_ALIGNMENT );
 	}
 
 	class RateListener implements ActionListener{
