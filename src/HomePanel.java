@@ -38,8 +38,14 @@ public class HomePanel extends JPanel
 		historyPanel.setBackground(Color.WHITE);
 		HashMap<Movie,Integer> historyMap = ratingHistory.getHistory();
 		for(HashMap.Entry<Movie, Integer> entry: historyMap.entrySet()){
-			Result result = new Result(entry.getKey());
-			//result.addListener(new RateListener(item));
+			Movie movie = entry.getKey();
+			Result result;
+			if(ratingHistory.containsKey(movie)){			//if the movie has been rated
+				result = new Result(entry.getKey(), ratingHistory.get(movie));
+			}
+			else{
+				result = new Result(entry.getKey(), 0);
+			}
 			historyPanel.add(result);
 			System.out.println("*");
 		}

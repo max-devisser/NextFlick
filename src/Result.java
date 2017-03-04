@@ -9,15 +9,13 @@ import java.util.Enumeration;
 import java.util.ArrayList;
 import java.awt.event.*;
 import javax.swing.BorderFactory; 
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
 import javax.swing.border.*;
 
 public class Result extends JPanel{
 	private Movie movie;
 	private JLabel title;
 	JButton rate;
-	public Result(Movie movie){
+	public Result(Movie movie, int rating){
 		movie = movie; // don't you mean this.movie = movie?
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setOpaque(true);
@@ -33,6 +31,9 @@ public class Result extends JPanel{
 		header.add(title);
 		rate = new JButton("Rate");
 		header.add(rate);
+		if(rating != 0 ){
+			header.add(new JLabel("Current Rating: "+ rating));
+		}
 		this.add(header);
 
 		JLabel label1 = new JLabel("Release Date: " + movie.getDate());

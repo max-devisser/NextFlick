@@ -58,19 +58,7 @@ public class SearchPanel extends JPanel {
 		searchButton.addActionListener(new searchActionListener());
 		result = filterHandler.getFullMovieList(); 
 		
-		resultPanel = new JPanel();
-		resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS)); // results display vertically
-		resultPanel.setBackground(Color.WHITE);
-		for (Movie item: result){
-			Result result = new Result(item);
-			result.addListener(new RateListener(item));
-			resultPanel.add(result);
-		}
-
-		resultScroller = new JScrollPane(resultPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		resultScroller.setViewportView(resultPanel);
-		resultScroller.setMaximumSize(new Dimension(800, 400));
-
+		setUpResultPanel();
 		centerPanel = new JPanel();
 		centerPanel.add(BorderLayout.NORTH, searchLabel);
 		centerPanel.add(BorderLayout.NORTH, searchQuery);
@@ -103,7 +91,13 @@ public class SearchPanel extends JPanel {
 
 			if (result.size() != 0) { // display new results
 				for (Movie item: result){
-					Result result = new Result(item);
+					Result result;
+					if(ratingHistory.containsKey(item)){			//if the movie has been rated
+						result = new Result(item, ratingHistory.get(item));
+					}
+					else{
+						result = new Result(item, 0);
+					}
 					result.addListener(new RateListener(item));
 					resultPanel.add(result);
 				}
@@ -120,6 +114,26 @@ public class SearchPanel extends JPanel {
 			this.repaint();
 		}
 	}
+	public void setUpResultPanel(){
+		resultPanel = new JPanel();
+		resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS)); // results display vertically
+		resultPanel.setBackground(Color.WHITE);
+		for (Movie item: result){
+			Result result;
+			if(ratingHistory.containsKey(item)){			//if the movie has been rated
+				result = new Result(item, ratingHistory.get(item));
+			}
+			else{
+				result = new Result(item, 0);
+			}
+			result.addListener(new RateListener(item));
+			resultPanel.add(result);
+		}
+
+		resultScroller = new JScrollPane(resultPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		resultScroller.setViewportView(resultPanel);
+		resultScroller.setMaximumSize(new Dimension(800, 400));
+	}
 	class RateListener implements ActionListener{
 		private Movie movie;
 		public RateListener(Movie m){
@@ -128,6 +142,7 @@ public class SearchPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e){
 			ratingHistory.displayRateFrame(movie);
+			SearchPanel.this.refresh();
 			homePanel.refresh();
 		}
 	}
@@ -228,6 +243,11 @@ public class SearchPanel extends JPanel {
 					+ event.getActionCommand() + " :";
 			searchLabel.setText(label);
 		}
+	}
+	public void refresh(){
+		this.remove(resultScroller);
+		setUpResultPanel();
+		this.add(resultScroller);
 	}
 
 	public String getSearch() {

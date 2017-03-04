@@ -61,4 +61,10 @@ public class RatingHistory implements Serializable{
 	public HashMap<Movie,Integer> getHistory(){
 		return this.history;
 	}
+	public boolean containsKey(Movie movie){
+		return history.containsKey(movie);
+	}
+	public Integer get(Movie movie){
+		return history.get(movie);
+	}
 }
