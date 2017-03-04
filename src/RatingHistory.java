@@ -58,4 +58,7 @@ public class RatingHistory implements Serializable{
 			ex.printStackTrace();
 		}
 	}
+	public HashMap<Movie,Integer> getHistory(){
+		return this.history;
+	}
 }

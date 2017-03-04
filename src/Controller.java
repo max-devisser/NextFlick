@@ -57,7 +57,7 @@ public class Controller {
 	 * @param args Not used here
 	 */
 	public static void main(String[] args) {
-		RatingHistory history = new RatingHistory();
+		RatingHistory history;
 		//Deserialize history object if it exists
 		try{
 			FileInputStream fs = new FileInputStream("History.ser");
@@ -65,8 +65,8 @@ public class Controller {
 			history = (RatingHistory)is.readObject();
 			is.close();
 		}
-		catch(Exception ex){
-			ex.printStackTrace();
+		catch(Exception ex){		//file has not yet been created: start from scratch
+			history = new RatingHistory();
 		}
 		GUI gui = new GUI(history); // Home panel opens by default
 		Controller controller = new Controller(gui);

@@ -28,8 +28,8 @@ public class GUI {
 		frame.getContentPane().setBackground(new Color(204, 0, 0) );
 		frame.setTitle("NextFlick");
 		tabbedPane = new JTabbedPane();
-		homePanel = new HomePanel();
-		searchPanel = new SearchPanel(ratingHistory);
+		homePanel = new HomePanel(ratingHistory);
+		searchPanel = new SearchPanel(homePanel);
 		searchPanel.setBackground(Color.WHITE);
 		homePanel.setBackground(Color.WHITE);
 

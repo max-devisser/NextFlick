@@ -22,13 +22,15 @@ public class SearchPanel extends JPanel {
 	private ArrayList<Movie> result; // the list of results returned by FilterHandler
 	private JLabel errorMessage = new JLabel("Please enter input");
 	private FilterHandler filterHandler;
+	private HomePanel homePanel;
 	private RatingHistory ratingHistory;
 	/**
 	 * Constructor for SearchPanel. Adds fields for filters and displaying of
 	 * results
 	 */
-	public SearchPanel(RatingHistory ratingHistory) {
-		this.ratingHistory = ratingHistory;
+	public SearchPanel(HomePanel homeAccess) {
+		homePanel = homeAccess;
+		ratingHistory = homePanel.getRatingHistory();
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); //Might need this to be able to do scrolling
 		filterOptions = new JPanel();
 		filterOptions.setBackground(Color.WHITE);
@@ -126,6 +128,7 @@ public class SearchPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e){
 			ratingHistory.displayRateFrame(movie);
+			homePanel.refresh();
 		}
 	}
 
