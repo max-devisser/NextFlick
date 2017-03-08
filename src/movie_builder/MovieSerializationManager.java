@@ -139,12 +139,21 @@ public class MovieSerializationManager
 	 * @param inFileName The file containing the JSON text to be decoded, looks in "res" folder
 	 * @return Spits out freshly minted Movie HashMap from input JSON text
 	 **/
-	public HashMap<Integer, Movie> deserialize(String inFileName) throws FileNotFoundException
+	public HashMap<Integer, Movie> deserialize(String inFileName)
 	{
 		GsonBuilder gsb = new GsonBuilder();
 		gsb.registerTypeAdapter(Movie.class, new MovieDeserializer()); //Gson stuff
 		Gson gson = gsb.create();
-		Scanner in = new Scanner(new File("res" + File.separator + inFileName)); //set up file reader for input file
+		Scanner in = null;
+		try
+		{
+			in = new Scanner(new File("res" + File.separator + inFileName)); //set up file reader for input file
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 		String currLine = "";
 		HashMap<Integer, Movie> results = new HashMap<Integer, Movie>();
 		while(in.hasNextLine())

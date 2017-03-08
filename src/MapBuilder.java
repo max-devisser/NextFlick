@@ -1,7 +1,8 @@
 package src;
 
 import java.util.*;
-import src.movie_builder.TestCollectionBuilder;
+
+import src.movie_builder.MovieSerializationManager;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 
@@ -24,7 +25,7 @@ public class MapBuilder
 	private HashMap<String, ArrayList<Movie>> countryMap = new HashMap<String, ArrayList<Movie>>();
 	private HashMap<Double, ArrayList<Movie>> criticalRatingMap = new HashMap<Double, ArrayList<Movie>>();
 	
-	private TestCollectionBuilder TCB;
+	private MovieSerializationManager MSM;
 	private HashMap<Integer, Movie> fullMovieMap;
 	private ArrayList<Movie> fullMovieList = new ArrayList<Movie>();
 
@@ -35,8 +36,8 @@ public class MapBuilder
 
 	public MapBuilder() {
 
-		TCB = new TestCollectionBuilder();
-		fullMovieMap = TCB.getTestCollection();
+		MSM = new MovieSerializationManager();
+		fullMovieMap = MSM.deserialize("Top_250_serialized4.txt");
 
 		for (Integer key: fullMovieMap.keySet())
 			fullMovieList.add(fullMovieMap.get(key));
