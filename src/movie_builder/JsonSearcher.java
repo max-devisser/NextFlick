@@ -150,4 +150,19 @@ public class JsonSearcher {
 		}
 		return results;
 	}
+	public ArrayList<Integer> readSearchArray()
+	{
+		skipToContainer("results");
+		int endIndex = input.indexOf("\"total_results\"");
+		ArrayList<Integer> results = new ArrayList<Integer>();
+		while (index < endIndex && index != -1) 
+		{
+			skipToField("id");
+			if (index < endIndex && index != -1) 
+			{
+				results.add(readInt());
+			}
+		}
+		return results;
+	}
 }

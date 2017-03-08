@@ -14,7 +14,7 @@ public class MapBuilder
 	//private HashMap<String, ArrayList<Movie>> plotMap;
 	//private HashMap<String, ArrayList<Movie>> imageURLMap;
 
-
+	
 	private HashMap<String, ArrayList<Movie>> dateMap = new HashMap<String, ArrayList<Movie>>();
 	private HashMap<String, ArrayList<Movie>> directorMap = new HashMap<String, ArrayList<Movie>>();
 	private HashMap<String, ArrayList<Movie>> genreMap = new HashMap<String, ArrayList<Movie>>();

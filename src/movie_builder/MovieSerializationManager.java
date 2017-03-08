@@ -238,7 +238,7 @@ public class MovieSerializationManager
 	/**
 	 * Makes sure that Movie object has valid Title and Genre fields before serializing it
 	 **/
-	private boolean checkIntegrity(Movie movie)
+	public boolean checkIntegrity(Movie movie)
 	{
 		if (movie.getGenre().isEmpty())
 		{

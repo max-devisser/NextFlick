@@ -28,6 +28,7 @@
 		<ivy:cachepath pathid="compile.path">
 			<dependency org="com.google.code.gson" name="gson" rev="2.8.0"/>
 			<dependency org="com.mashape.unirest" name="unirest-java" rev="1.4.9"/>
+			<dependency org="junit" name="junit" rev="4.11"/>
 		</ivy:cachepath>
 	</target>
 			

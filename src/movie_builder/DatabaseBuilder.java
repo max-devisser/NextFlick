@@ -22,7 +22,7 @@ public class DatabaseBuilder
 			{
 				if (!currLine.isEmpty())
 				{
-					Thread.sleep(400);
+					Thread.sleep(375);
 					System.out.println("Current query: " + currLine);
 					int id = parser.getIdFromSearch(currLine);
 					System.out.println("Grabbing movie with ID " + id);
