@@ -10,7 +10,7 @@
 	<property name="javadoc_absolute_path" location="javadoc"/>
 	<property name="public_javadoc_absolute_path" location="../NextFlick_javadoc/javadoc"/>
 
-
+	
 
     <target name="clean">
         <delete dir="${build.dir}"/>
@@ -25,20 +25,23 @@
 	</target>
 	
 	<target name="resolve" depends="install-ivy" description="Use ivy to resolve classpaths">
-		<ivy:cachepath pathid="compile.path">
-			<dependency org="com.google.code.gson" name="gson" rev="2.8.0"/>
-			<dependency org="com.mashape.unirest" name="unirest-java" rev="1.4.9"/>
-			<dependency org="junit" name="junit" rev="4.11"/>
-		</ivy:cachepath>
+		<ivy:retrieve />
 	</target>
+	
+	<!-- pattern="libraries/[artifact]-[revision]-[type].[ext] -->
 			
-    <target name="compile" depends="resolve" description="Compiles project">
-        <mkdir dir="${classes.dir}"/>
-        <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false" classpathref="compile.path">
-    		<classpath>
-    			<pathelement location="${classes.dir}"/>
-    			<pathelement location="lib/junit-4.12.jar"/>
-    		</classpath>
+	<path id="compile.classpath">
+		<fileset dir="lib">
+			<include name="*.jar"/>
+		</fileset>
+		
+		<pathelement location="${build.dir}"/>
+	</path>
+	
+    <target name="compile" depends="clean,resolve" description="Compiles project">
+        <mkdir dir="${classes.dir}" />
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false" debug="true">
+        	<classpath refid="compile.classpath" />
         </javac>
     </target>
 
