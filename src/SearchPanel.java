@@ -6,7 +6,6 @@ import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.border.*;
-import src.movie_builder.TestCollectionBuilder;
 
 public class SearchPanel extends JPanel {
 

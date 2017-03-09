@@ -4,7 +4,7 @@ import java.util.ArrayList;
 //pulls out relevant information from TMDB JSON requests
 public class JsonSearcher {
 	private StringBuilder input; //full JSON text
-	private int index = 0; //current search index
+	private int index; //current search index
 
 	/**
      * Constructs JsonSearcher with the given String-formatted JSON
@@ -13,6 +13,7 @@ public class JsonSearcher {
 	public JsonSearcher(String in)
 	{
 		input.append(in);
+		index = 0;
 	}
 	
 	/**
@@ -22,6 +23,7 @@ public class JsonSearcher {
 	public JsonSearcher(StringBuilder in)
 	{
 		input = in;
+		index = 0;
 	}
 	
 	/**

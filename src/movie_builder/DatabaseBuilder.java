@@ -1,6 +1,7 @@
 package src.movie_builder;
 import src.Movie;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.io.File;
@@ -12,11 +13,11 @@ public class DatabaseBuilder
 		MovieParser parser = new MovieParser();
 		Scanner scan;
 		String currLine = "";
-		HashMap<Integer, Movie> database = new HashMap<Integer, Movie>();
+		ArrayList<Movie> database = new ArrayList<Movie>();
 		MovieSerializationManager msm = new MovieSerializationManager();
 		try
 		{
-			scan = new Scanner(new File("Movies_Encoded.txt"));
+			scan = new Scanner(new File("res" + File.separator + "popular_keys_sanitized.txt"));
 			currLine = scan.nextLine();
 			while(scan.hasNextLine())
 			{
@@ -27,11 +28,11 @@ public class DatabaseBuilder
 					int id = parser.getIdFromSearch(currLine);
 					System.out.println("Grabbing movie with ID " + id);
 					Movie result = parser.constructMovieById(id, "credits,releases");
-					database.put(id, result);
+					database.add(result);
 					currLine = scan.nextLine();
 				}
 			}
-			msm.serialize(database, "Top_250_serialized4.txt");
+			msm.serializeOverwrite(database, "Tmdb_top_10000.txt");
 			scan.close();
 		}
 		catch (Exception e)
