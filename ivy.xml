@@ -4,5 +4,7 @@
         <dependency org="com.google.code.gson" name="gson" rev="2.8.0"/>
 		<dependency org="com.mashape.unirest" name="unirest-java" rev="1.4.9"/>
 		<dependency org="junit" name="junit" rev="4.11"/>
+		<dependency org="org.apache.mahout" name="mahout-core" rev="0.9"/>
+		<dependency org="org.slf4j" name="slf4j-nop" rev="1.7.24"/>
     </dependencies>
 </ivy-module>
