@@ -17,7 +17,7 @@ public class DatabaseBuilder
 		MovieSerializationManager msm = new MovieSerializationManager();
 		try
 		{
-			scan = new Scanner(new File("res" + File.separator + "popular_keys_sanitized.txt"));
+			scan = new Scanner(new File("Movies_encoded.txt"));
 			currLine = scan.nextLine();
 			while(scan.hasNextLine())
 			{
@@ -32,7 +32,7 @@ public class DatabaseBuilder
 					currLine = scan.nextLine();
 				}
 			}
-			msm.serializeOverwrite(database, "Tmdb_top_10000.txt");
+			msm.serializeOverwrite(database, "Top_250_serialized5.txt");
 			scan.close();
 		}
 		catch (Exception e)

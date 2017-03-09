@@ -105,7 +105,7 @@ public class MovieParser {
 	{
 		search.resetIndex();
 		search.skipToContainer("crew");
-		search.skipToField("Director");
+		search.skipTo("\"Director\",");
 		search.skipToField("name");
 		return search.readString();
 	}

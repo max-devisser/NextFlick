@@ -37,7 +37,7 @@ public class MapBuilder
 	public MapBuilder() {
 
 		MSM = new MovieSerializationManager();
-		fullMovieMap = MSM.deserialize("Top_250_serialized4.txt");
+		fullMovieMap = MSM.deserialize("Top_250_serialized5.txt");
 
 		for (Integer key: fullMovieMap.keySet())
 			fullMovieList.add(fullMovieMap.get(key));

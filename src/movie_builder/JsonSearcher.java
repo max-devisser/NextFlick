@@ -68,6 +68,17 @@ public class JsonSearcher {
 	}
 	
 	/**
+     * Skips to next instance of given text, within a field or value
+     * @param target The string to match
+     * @return Returns true if target is found or false if not
+   **/
+	public boolean skipTo(String target)
+	{
+		index = input.indexOf(target, index);
+		return (index != 1);
+	}
+	
+	/**
      * Resets index to zero. Should be called before each new field or array search
    **/
 	public void resetIndex()
