@@ -36,6 +36,7 @@
 		</fileset>
 		
 		<pathelement location="${build.dir}"/>
+		<pathelement location="."/>
 	</path>
 	
     <target name="compile" depends="clean,resolve" description="Compiles project">
@@ -49,7 +50,7 @@
         <mkdir dir="${jar.dir}"/>
         <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
             <manifest>
-                <attribute name="Main-Class" value="${main-class}"/>
+                <attribute name="main-class" value="${main-class}"/>
             </manifest>
         </jar>
     </target>
