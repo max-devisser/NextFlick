@@ -55,7 +55,15 @@
     </target>
 
     <target name="run" depends="jar">
-        <java jar="${jar.dir}/${ant.project.name}.jar" fork="true"/>
+        <!--java jar="${jar.dir}/${ant.project.name}.jar" classpath="compile.classpath" fork="true"/-->
+    	<java classname="${main-class}" fork="true" >
+    	  <classpath>
+    	  	<fileset dir="lib">
+    	  		<include name="*.jar"/>
+    	  	</fileset>
+    	    <pathelement location="${jar.dir}/${ant.project.name}.jar"/>
+    	  </classpath>
+    	</java>
     </target>
 
     <target name="clean-build" depends="clean,jar"/>
