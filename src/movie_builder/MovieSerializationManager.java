@@ -195,12 +195,13 @@ public class MovieSerializationManager
 	 * @param outFileName The output file name for your JSON objects. Goes into "res" folder. Creates file if it doesn't exist or writes over it if it does
 	 * @return Returns true if all objects were successfully serialized
 	 **/
-	public boolean serialize(Collection<Movie> movies, String outFileName) throws IOException
+	public boolean serializeAppend(Collection<Movie> movies, String outFileName) throws IOException
 	{
 		final GsonBuilder gsb = new GsonBuilder();
 		gsb.registerTypeAdapter(Movie.class, new MovieSerializer());
 		final Gson gson = gsb.create();
-		final BufferedWriter writer = new BufferedWriter(new FileWriter(new File("res" + File.separator + outFileName)));
+		final FileWriter fw = new FileWriter("res" + File.separator + outFileName, true);
+		final BufferedWriter writer = new BufferedWriter(fw);
 		for (Movie m : movies)
 		{
 			if (!serialize(m, outFileName, gson, writer))
@@ -238,7 +239,7 @@ public class MovieSerializationManager
 	/**
 	 * Makes sure that Movie object has valid Title and Genre fields before serializing it
 	 **/
-	public boolean checkIntegrity(Movie movie)
+	private boolean checkIntegrity(Movie movie)
 	{
 		if (movie.getGenre().isEmpty())
 		{
@@ -260,13 +261,13 @@ public class MovieSerializationManager
 	 * @param outFileName The output file name for your JSON objects. Goes into "res" folder. Creates file if it doesn't exist or writes over it if it does
 	 * @return Returns true if all objects were successfully serialized
 	 **/
-	public boolean serialize(Map<Integer, Movie> movies, String outFileName) throws IOException
+	public boolean serializeOverwrite(Collection<Movie> movies, String outFileName) throws IOException
 	{
 		final GsonBuilder gsb = new GsonBuilder();
 		gsb.registerTypeAdapter(Movie.class, new MovieSerializer());
 		final Gson gson = gsb.create();
 		BufferedWriter writer = new BufferedWriter(new FileWriter(new File("res" + File.separator + outFileName)));
-		for (Movie m : movies.values())
+		for (Movie m : movies)
 		{
 			if (!serialize(m, outFileName, gson, writer))
 			{
