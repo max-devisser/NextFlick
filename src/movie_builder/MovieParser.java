@@ -126,7 +126,7 @@ public class MovieParser {
 	private String grabTitle(JsonSearcher search, String lang)
 	{
 		search.resetIndex();
-		if (lang != "en") //if the language isn't english we want the translated title
+		if (lang != "English") //if the language isn't english we want the translated title
 		{
 			search.skipToField("tagline");
 			search.skipToField("title");

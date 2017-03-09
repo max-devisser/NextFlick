@@ -36,6 +36,7 @@
 		</fileset>
 		
 		<pathelement location="${build.dir}"/>
+		<pathelement location="."/>
 	</path>
 	
     <target name="compile" depends="clean,resolve" description="Compiles project">
