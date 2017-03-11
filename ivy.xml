@@ -1,7 +1,6 @@
 <ivy-module version="2.3">
     <info organisation="maxdevisser" module="NextFlick" revision="1.0"/>
     <dependencies>
-        <dependency org="com.google.code.gson" name="gson" rev="2.8.0"/>
 		<dependency org="com.mashape.unirest" name="unirest-java" rev="1.4.9"/>
 		<dependency org="junit" name="junit" rev="4.11"/>
 		<dependency org="org.apache.mahout" name="mahout-core" rev="0.9"/>

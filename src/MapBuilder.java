@@ -4,6 +4,7 @@ import java.util.*;
 
 import src.movie_builder.MovieSerializationManager;
 import java.lang.reflect.Method;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 
@@ -36,8 +37,8 @@ public class MapBuilder
 
 	public MapBuilder() {
 
-		MSM = new MovieSerializationManager();
-		fullMovieMap = MSM.deserialize("Top_250_serialized5.txt");
+		MSM = new MovieSerializationManager(null);
+		fullMovieMap = MSM.deserialize("Top_250_serialized.ser");
 
 		for (Integer key: fullMovieMap.keySet())
 			fullMovieList.add(fullMovieMap.get(key));

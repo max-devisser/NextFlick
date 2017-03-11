@@ -14,7 +14,7 @@ public class DatabaseBuilder
 		Scanner scan;
 		String currLine = "";
 		ArrayList<Movie> database = new ArrayList<Movie>();
-		MovieSerializationManager msm = new MovieSerializationManager();
+		//MovieSerializationManager msm = new MovieSerializationManager();
 		try
 		{
 			scan = new Scanner(new File("Movies_encoded.txt"));
@@ -32,7 +32,7 @@ public class DatabaseBuilder
 					currLine = scan.nextLine();
 				}
 			}
-			msm.serializeOverwrite(database, "Top_250_serialized5.txt");
+			//msm.serializeOverwrite(database, "Top_250_serialized5.txt");
 			scan.close();
 		}
 		catch (Exception e)

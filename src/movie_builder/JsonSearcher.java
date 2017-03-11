@@ -12,6 +12,7 @@ public class JsonSearcher {
    **/
 	public JsonSearcher(String in)
 	{
+		input = new StringBuilder();
 		input.append(in);
 		index = 0;
 	}

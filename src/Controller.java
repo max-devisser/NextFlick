@@ -52,6 +52,7 @@ public class Controller {
 		}
 	}
 
+	
 	/**
 	 * Main method. Initializes GUI object, initializes and starts Controller object
 	 * @param args Not used here
