@@ -18,7 +18,7 @@ import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 public class MovieRecommender {
 
 	public static void main(String[] args) throws IOException, TasteException {
-		DataModel model = new FileDataModel(new File("res/ml-latest-small/ratings_formatted.csv"));
+		DataModel model = new FileDataModel(new File("res/ml-latest-small/ratings_id_replaced2.csv"));
 		UserSimilarity similarity = new PearsonCorrelationSimilarity(model); 
 		UserNeighborhood neighborhood = new ThresholdUserNeighborhood(0.1, similarity, model); 
 		UserBasedRecommender recommender = new GenericUserBasedRecommender(model, neighborhood, similarity);
