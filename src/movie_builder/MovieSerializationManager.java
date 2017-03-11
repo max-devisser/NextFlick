@@ -37,6 +37,7 @@ import src.Movie;
 //import src.MovieCollection;
 
 
+
 public class MovieSerializationManager implements Serializable
 {
 	private ArrayList<Movie> movies;
