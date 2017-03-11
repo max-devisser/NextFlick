@@ -17,7 +17,6 @@ import java.util.Scanner;
 //import com.google.gson.JsonPrimitive;
 //import com.google.gson.JsonSerializationContext;
 //import com.google.gson.JsonSerializer;
-import com.google.gson.*;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -34,7 +33,6 @@ import java.io.Reader;
 import java.io.Serializable;
 
 import src.Movie;
-import src.MovieCollection;
 
 
 public class MovieSerializationManager implements Serializable
