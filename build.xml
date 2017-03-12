@@ -5,7 +5,7 @@
     <property name="classes.dir" value="${build.dir}/classes"/>
     <property name="jar.dir"     value="${build.dir}/jar"/>
 
-    <property name="main-class"  value="${src.dir}/MovieRecommender"/>
+    <property name="main-class"  value="${src.dir}/Controller"/>
 
 	<property name="javadoc_absolute_path" location="javadoc"/>
 	<property name="public_javadoc_absolute_path" location="../NextFlick_javadoc/javadoc"/>
