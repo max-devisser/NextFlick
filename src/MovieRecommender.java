@@ -1,7 +1,6 @@
 package src;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 import org.apache.mahout.cf.taste.common.TasteException;
@@ -52,7 +51,27 @@ public class MovieRecommender {
 		
 	}
 	public static ArrayList<Movie> recommend(RatingHistory ratings){
+		if(ratings.isEmpty()){	//no recommendations if user has not rated any movies
+			return new ArrayList<Movie>();
+		}
 		//1. add user to database
+		try{
+			FileWriter fw = new FileWriter("res/ml-latest-small/ratings_id_replaced2.csv", true);
+		    BufferedWriter bw = new BufferedWriter(fw);
+		    HashMap<Movie, Integer> history = ratings.getHistory();
+		    for(Movie movie: history.keySet()){
+		    	int id = movie.getKey();
+		   		bw.newLine();
+		    	String append = "672,"+id+","+history.get(movie); //userID,movieID,rating
+	 			bw.write(append,0,append.length());
+			}
+			bw.flush();
+
+		} catch (IOException e) {
+			System.out.println("Unable to write user ratings to file: ");
+		    System.out.println(e.getMessage());
+		}
+
 
 		//2. Get the recs
 		List<RecommendedItem> recommendations = new ArrayList();
@@ -64,11 +83,14 @@ public class MovieRecommender {
 			recommendations = recommender.recommend(6, 10);
 		}
 		catch(Exception ex){
+			System.out.println("Unable to create recommendations: ");
 			System.out.println(ex.getMessage());
 		}
+		//3. Remove user from database
 
-		//3. Parse the RecommendedItems into Movies
+		//4. Parse the RecommendedItems into Movies
 		ArrayList<Movie> result = new ArrayList<Movie>();
+		System.out.println(recommendations.size());
 		for (RecommendedItem recommendation : recommendations) {
 			Movie movie = parse(recommendation.getItemID());
 			result.add(movie);
@@ -76,11 +98,13 @@ public class MovieRecommender {
 
 		return result;
 	}
-	public static Movie parse(long ID){
+	public static Movie parse(long id){
+		System.out.println("parse");
 		MapBuilder maps = new MapBuilder();
 		HashMap<Integer, Movie> data = maps.getFullMovieMap();
+				System.out.println("parse2");
 		for(Integer i: data.keySet()){
-			if(i==ID){
+			if(i==id){
 				return data.get(i);
 			}
 		}

@@ -22,6 +22,7 @@ public class RecPanel extends JPanel{
 	}
 	public void display(){
 		ArrayList<Movie> recommendations = MovieRecommender.recommend(ratingHistory);
+		System.out.println("Post-rec");
 		for(Movie movie: recommendations){
 			Result result = new Result(movie);
 			recommendationPanel.add(result);

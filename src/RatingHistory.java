@@ -67,4 +67,7 @@ public class RatingHistory implements Serializable{
 	public Integer get(Movie movie){
 		return history.get(movie);
 	}
+	public boolean isEmpty(){
+		return history.size()==0;
+	}
 }
