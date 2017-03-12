@@ -4,6 +4,7 @@ import java.util.*;
 
 import src.movie_builder.MovieSerializationManager;
 import java.lang.reflect.Method;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
@@ -38,7 +39,18 @@ public class MapBuilder
 	public MapBuilder() {
 
 		MSM = new MovieSerializationManager(null);
-		fullMovieMap = MSM.deserialize("Top_250_serialized.ser");
+		HashMap<Integer, Movie> partialMap = null;
+		fullMovieMap = new HashMap<Integer, Movie>();
+		final int CHUNKS = 20;
+		for (int i = 1; i <= CHUNKS; ++i)
+		{
+			partialMap = new HashMap<Integer, Movie>(MSM.deserialize("database" + File.separator + "DatabaseChunk" + i + ".ser"));
+			for (Movie m : partialMap.values())
+			{
+				fullMovieMap.put(m.getKey(), m);
+			}
+		}
+		
 
 		for (Integer key: fullMovieMap.keySet())
 			fullMovieList.add(fullMovieMap.get(key));

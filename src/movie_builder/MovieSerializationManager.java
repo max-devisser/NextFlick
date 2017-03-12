@@ -59,6 +59,17 @@ public class MovieSerializationManager implements Serializable
 				ex.printStackTrace();
 			}
 		}
+		public void serialize(String outfilename)
+		{
+			try{
+				FileOutputStream fo = new FileOutputStream("res" + File.separator + outfilename);
+				ObjectOutputStream os = new ObjectOutputStream(fo);
+				os.writeObject(this);
+				os.close();
+			}catch(IOException ex){
+				ex.printStackTrace();
+			}
+		}
 		public HashMap<Integer, Movie> deserialize(String inFileName)
 		{
 			HashMap<Integer, Movie> result = new HashMap<Integer, Movie>();

@@ -4,45 +4,54 @@ import src.Movie;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class DatabaseBuilder 
 {
-	public static void main(String[] args) 
+	public static void main(String[] args) throws InterruptedException, IOException 
 	{
 		MovieParser parser = new MovieParser();
 		Scanner scan;
-		String currLine = "";
-		ArrayList<Movie> database = new ArrayList<Movie>();
+		String currLine = "i";
+		ArrayList<String> keys = new ArrayList<String>();
 		//MovieSerializationManager msm = new MovieSerializationManager();
-		try
+		scan = new Scanner(new File("res" + File.separator + "ml-latest-small" + File.separator + "ratings_id_replaced2.csv"));
+		String currId = "";
+		while(scan.hasNextLine())
 		{
-			scan = new Scanner(new File("Movies_encoded.txt"));
-			currLine = scan.nextLine();
-			while(scan.hasNextLine())
+			if (!currLine.isEmpty())
 			{
-				if (!currLine.isEmpty())
+				currLine = scan.nextLine();
+				currId = "";
+				int index = 0;
+				while (currLine.charAt(index) != ',')
 				{
-					Thread.sleep(375);
-					System.out.println("Current query: " + currLine);
-					int id = parser.getIdFromSearch(currLine);
-					System.out.println("Grabbing movie with ID " + id);
-					Movie result = parser.constructMovieById(id, "credits,releases");
-					database.add(result);
-					currLine = scan.nextLine();
+					++index;
+				}
+				++index;
+				while (currLine.charAt(index) != ',')
+				{
+					currId += currLine.charAt(index);
+					++index;
+				}
+				if (!keys.contains(currId))
+				{
+					keys.add(currId);
 				}
 			}
-			//msm.serializeOverwrite(database, "Top_250_serialized5.txt");
-			scan.close();
 		}
-		catch (Exception e)
+		scan.close();
+		BufferedWriter writer = new BufferedWriter(new FileWriter(new File("recommendation_ids.txt")));
+		for (String key : keys)
 		{
-			System.out.println("Something went wrong");
-			System.out.println("Current query: " + currLine);
-			e.printStackTrace();
-			System.exit(1);
+			writer.write(key);
+			writer.write('\n');
 		}
-		
+		writer.close();
 	}
 
 }

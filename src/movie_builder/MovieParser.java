@@ -55,6 +55,10 @@ public class MovieParser {
 	public Movie constructMovieByUrl(String url) // must have full request URL
 	{
 		StringBuilder rawtext = getRawRequest(url);
+		if (rawtext.indexOf("The resource you requested could not be found") != -1)
+		{
+			return new Movie(-1);
+		}
 		JsonSearcher search = new JsonSearcher(rawtext); //create JsonSearcher to help functions look through JSON text
 		Movie movie = new Movie(grabId(search));
 		movie.setLanguage(grabLanguage(search));
