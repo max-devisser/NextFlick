@@ -2,7 +2,7 @@ package src;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
@@ -23,7 +23,7 @@ public class MovieRecommender {
 		UserNeighborhood neighborhood = new ThresholdUserNeighborhood(0.1, similarity, model); 
 		UserBasedRecommender recommender = new GenericUserBasedRecommender(model, neighborhood, similarity);
 		List<RecommendedItem> recommendations = recommender.recommend(6, 10);
-		
+
 		System.out.println("User 6's top rated movies: (not all, just a few ");
 		System.out.println("Leon: The Professional");
 		System.out.println("Lawrence of Arabia");
@@ -51,5 +51,39 @@ public class MovieRecommender {
 
 		
 	}
+	public static ArrayList<Movie> recommend(RatingHistory ratings){
+		//1. add user to database
 
+		//2. Get the recs
+		List<RecommendedItem> recommendations = new ArrayList();
+		try{
+			DataModel model = new FileDataModel(new File("res/ml-latest-small/ratings_id_replaced2.csv"));
+			UserSimilarity similarity = new PearsonCorrelationSimilarity(model); 
+			UserNeighborhood neighborhood = new ThresholdUserNeighborhood(0.1, similarity, model); 
+			UserBasedRecommender recommender = new GenericUserBasedRecommender(model, neighborhood, similarity);
+			recommendations = recommender.recommend(6, 10);
+		}
+		catch(Exception ex){
+			System.out.println(ex.getMessage());
+		}
+
+		//3. Parse the RecommendedItems into Movies
+		ArrayList<Movie> result = new ArrayList<Movie>();
+		for (RecommendedItem recommendation : recommendations) {
+			Movie movie = parse(recommendation.getItemID());
+			result.add(movie);
+		}
+
+		return result;
+	}
+	public static Movie parse(long ID){
+		MapBuilder maps = new MapBuilder();
+		HashMap<Integer, Movie> data = maps.getFullMovieMap();
+		for(Integer i: data.keySet()){
+			if(i==ID){
+				return data.get(i);
+			}
+		}
+		return new Movie(0);
+	}
 }

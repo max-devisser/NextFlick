@@ -11,6 +11,7 @@ public class GUI {
 	private RatingHistory ratingHistory;
 	HomePanel homePanel;
 	SearchPanel searchPanel;
+	RecPanel recPanel;
 
 	/**
 	 * Constructor for GUI, just calls go()
@@ -30,8 +31,10 @@ public class GUI {
 		tabbedPane = new JTabbedPane();
 		homePanel = new HomePanel(ratingHistory);
 		searchPanel = new SearchPanel(homePanel);
+		recPanel = new RecPanel(ratingHistory);
 		searchPanel.setBackground(Color.WHITE);
 		homePanel.setBackground(Color.WHITE);
+		recPanel.setBackground(Color.WHITE);
 
 		JPanel searchWrapper = new JPanel();
 		searchWrapper.setLayout(new BoxLayout(searchWrapper, BoxLayout.Y_AXIS));
@@ -48,6 +51,7 @@ public class GUI {
 
 		tabbedPane.add("Search", searchPanel);
         tabbedPane.add("Home", homeScroll);
+        tabbedPane.add("Recommendations", recPanel);
 
 
 		frame.getContentPane().add(tabbedPane);
