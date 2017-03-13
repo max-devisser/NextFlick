@@ -9,6 +9,7 @@ import java.io.*;
 public class RatingHistory implements Serializable{
 	private transient int currentRating;	//helper variable for action listener
 	private HashMap<Movie, Integer> history;
+	private RecPanel reccomendationPanel;
 
 	public RatingHistory(){
 		history = new HashMap<Movie, Integer>();
@@ -32,6 +33,7 @@ public class RatingHistory implements Serializable{
 		if(action ==0){
 			history.put(movie, currentRating);
 			serialize();
+			reccomendationPanel.update();
 			System.out.println(this);
 		}
 	}
@@ -58,6 +60,9 @@ public class RatingHistory implements Serializable{
 			ex.printStackTrace();
 		}
 	}
+	public void addRecAccess(RecPanel recPanel){
+		reccomendationPanel = recPanel;
+	}
 	public HashMap<Movie,Integer> getHistory(){
 		return this.history;
 	}
@@ -69,5 +74,8 @@ public class RatingHistory implements Serializable{
 	}
 	public boolean isEmpty(){
 		return history.size()==0;
+	}
+	public int size(){
+		return history.size();
 	}
 }

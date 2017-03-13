@@ -22,15 +22,27 @@ public class RecPanel extends JPanel{
 	}
 	public void display(){
 		ArrayList<Movie> recommendations = MovieRecommender.recommend(ratingHistory);
-		System.out.println("Post-rec");
-		for(Movie movie: recommendations){
-			Result result = new Result(movie);
-			recommendationPanel.add(result);
+		if(recommendations.isEmpty()){
+			JLabel message = new JLabel("In order to view your recommendations, please first rate more movies.");
+			recommendationPanel.add(message);
+		}
+		else{
+			for(Movie movie: recommendations){
+				Result result = new Result(movie);
+				recommendationPanel.add(result);
+			}
 		}
 
 		scroller = new JScrollPane(recommendationPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scroller.setViewportView(recommendationPanel);
 		scroller.setMaximumSize(new Dimension(800, 600));
 		this.add(scroller);
+    }
+    public void update(){
+    	this.remove(scroller);
+    	recommendationPanel = new JPanel();
+		recommendationPanel.setLayout(new BoxLayout(recommendationPanel, BoxLayout.Y_AXIS)); // results display vertically
+		recommendationPanel.setBackground(Color.WHITE);
+		display();
     }
 }
