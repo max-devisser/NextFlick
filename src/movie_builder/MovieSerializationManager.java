@@ -41,9 +41,7 @@ import src.Movie;
 public class MovieSerializationManager implements Serializable
 {
 	private ArrayList<Movie> movies;
-	/**
-	 * Inline defined class used by Gson to know how to encode Movie objects as JSON
-	 **/
+	
 		public MovieSerializationManager(ArrayList<Movie> mov)
 		{
 			movies = mov;

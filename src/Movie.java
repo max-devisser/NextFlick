@@ -9,6 +9,7 @@ import java.io.Serializable;
 // String title, int year, String director, String genre, String[] actors, String parentalRating, String runtime, String language, 
 // String country, double IMdBRating, String plot, String imageURL
 
+@SuppressWarnings("serial")
 public class Movie implements Serializable{
    private int key;
    private String title;
