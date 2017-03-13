@@ -82,6 +82,8 @@ public class MapBuilder
 
 			try{
 				String filterMapKey = (String) m.invoke(currentMovie);
+				if (methodName == "getDate")
+				    filterMapKey = filterMapKey.substring(0,4);
 
 				if (!outputMap.containsKey(filterMapKey)) {
 					ArrayList<Movie> myList = new ArrayList<Movie>();

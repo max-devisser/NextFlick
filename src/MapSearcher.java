@@ -54,21 +54,20 @@ public class MapSearcher {
 		Method m = findMethod(methodName);
 
 		try{
-				HashMap<String, ArrayList<Movie>> currentMap = (HashMap<String, ArrayList<Movie>>) m.invoke(filterMaps);
-				if (currentMap.containsKey(filterParameter))
-					resultList = currentMap.get(filterParameter);
-				else {
-					for (String key : currentMap.keySet()) {
-						if (key.toLowerCase().contains(filterParameter.toLowerCase()))
-							resultList = currentMap.get(key);
-					}
+			HashMap<String, ArrayList<Movie>> currentMap = (HashMap<String, ArrayList<Movie>>) m.invoke(filterMaps);
+			if (currentMap.containsKey(filterParameter))
+				resultList = currentMap.get(filterParameter);
+			else {
+				for (String key : currentMap.keySet()) {
+					if (key.toLowerCase().contains(filterParameter.toLowerCase()))
+						resultList.addAll(currentMap.get(key));
 				}
-
+			}
 		}catch (IllegalAccessException e) {
 				System.err.println("IllegalAccessException: " + e.getMessage());
-			} catch (InvocationTargetException e) {
-				System.err.println("InvocationTargetException: " + e.getMessage());
-			}
+		} catch (InvocationTargetException e) {
+			System.err.println("InvocationTargetException: " + e.getMessage());
+		}
 
 		return resultList;
 	}

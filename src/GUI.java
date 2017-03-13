@@ -36,6 +36,8 @@ public class GUI {
 		homePanel.setBackground(Color.WHITE);
 		recPanel.setBackground(Color.WHITE);
 
+		ratingHistory.addRecAccess(recPanel);
+
 		JPanel searchWrapper = new JPanel();
 		searchWrapper.setLayout(new BoxLayout(searchWrapper, BoxLayout.Y_AXIS));
 		searchWrapper.add(searchPanel);
@@ -50,7 +52,7 @@ public class GUI {
         searchScroll.setBounds(0, 0, 0, 0);
 
 		tabbedPane.add("Search", searchPanel);
-        tabbedPane.add("Home", homeScroll);
+        tabbedPane.add("History", homeScroll);
         tabbedPane.add("Recommendations", recPanel);
 
 
