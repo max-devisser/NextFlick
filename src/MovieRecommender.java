@@ -118,13 +118,12 @@ public class MovieRecommender {
 
 		}
 
-
 		//2. Get the recs
 		List<RecommendedItem> recommendations = new ArrayList();
 		try{
 			DataModel model = new FileDataModel(new File("res/ml-latest-small/ratings_id_replaced3.csv"));
 			UserSimilarity similarity = new PearsonCorrelationSimilarity(model); 
-			UserNeighborhood neighborhood = new ThresholdUserNeighborhood(0.1, similarity, model); 
+			UserNeighborhood neighborhood = new ThresholdUserNeighborhood(0.01, similarity, model); 
 			UserBasedRecommender recommender = new GenericUserBasedRecommender(model, neighborhood, similarity);
 			recommendations = recommender.recommend(672, 10);
 		}
