@@ -16,14 +16,14 @@ public class RecommendationPanel extends RatePanel {
 		generateRecButton = new JButton("Click to generate a list of recommended movies");
 		recommendLabel = new JLabel("You might like these movies: ");
 
-		updateRecommendationPanel();
+		updateResultPanel();
 
 		this.add(generateRecButton);
 		this.add(recommendLabel);
 		this.add(recommendScrollPane);
 	}
 
-	public void updateRecommendationPanel() {
+	public void updateResultPanel() {
 		if (recommendPanel != null) {
 			recommendScrollPane.getViewport().remove(recommendPanel);
 			recommendPanel = createMovieListPanel(Controller.recommendFacade.generateRecommendations());
@@ -45,7 +45,7 @@ public class RecommendationPanel extends RatePanel {
 	public class recommendationActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent event) {
-			updateRecommendationPanel();
+			updateResultPanel();
 		}
 	}
 

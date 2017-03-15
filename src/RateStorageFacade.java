@@ -33,7 +33,7 @@ public class RateStorageFacade {
 	public ArrayList<Movie> filterByRating(boolean[] ratingsToShow) {
 		ArrayList<Movie> filteredRatingHistory = new ArrayList<Movie>();
 
-		for (int rateListIndex = 0; rateListIndex < 4; rateListIndex++) {
+		for (int rateListIndex = 0; rateListIndex < 5; rateListIndex++) {
 			if (ratingsToShow[rateListIndex])
 				filteredRatingHistory.addAll(RateLogic.getRatingList(rateListIndex));
 		}

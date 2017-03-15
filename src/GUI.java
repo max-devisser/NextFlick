@@ -4,6 +4,7 @@ import javax.swing.*;
 //import javax.swing.border.*;
 import java.awt.Color;
 import java.awt.event.*;
+import javax.swing.event.*;
 
 public class GUI {
 	private JFrame frame;
@@ -38,6 +39,7 @@ public class GUI {
 		tabbedPane.add("Search", searchPanel);
         tabbedPane.add("Home", historyPanel);
         tabbedPane.add("Recommendations", recommendPanel);
+        tabbedPane.addChangeListener(new updateResultListener());
 
 		frame.getContentPane().add(tabbedPane);
 
@@ -46,22 +48,21 @@ public class GUI {
 		frame.setLocationByPlatform(true);
 		frame.setVisible(true);
 	}
-	
-	/**
-	 * @return
-	 */
-	public boolean quit() { 
-		return false;
-	}
 
-	// return 0 if still on home panel
-	// return 1 if on search panel
-	/**
-	 * Getter for what tab the user is on
-	 * 
-	 * @return int representation of the current tab. 0 for home, 1 for search
-	 */
-	public int tabClick() { 
-		return 0;
+	public class updateResultListener implements ChangeListener {
+		public void stateChanged(ChangeEvent e) {
+			JTabbedPane sourcePane = (JTabbedPane) e.getSource();
+			String selectedTitle = sourcePane.getTitleAt(sourcePane.getSelectedIndex());
+			switch (selectedTitle) {
+				case "Home":
+					historyPanel.updateResultPanel();
+					break;
+				case "Search":
+					searchPanel.updateResultPanel(false);
+					break;
+				case "Recommendations":
+					recommendPanel.updateResultPanel();
+			}
+		}
 	}
 }

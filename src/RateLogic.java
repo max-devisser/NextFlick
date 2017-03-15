@@ -7,11 +7,10 @@ public class RateLogic {
 	public static int getRating(Movie movie) {
 		int userRating = 0;
 
-		if (!RateStorageFacade.ratingStorage.isEmpty()) {
+		if (RateStorageFacade.ratingStorage.containsMovie(movie.getKey())) {
 			HashMap<Integer, Integer> ratingMap = RateStorageFacade.ratingStorage.getRatingMap();
 			userRating = ratingMap.get(movie.getKey());
 		}
-		
 		return userRating;
 	}
 

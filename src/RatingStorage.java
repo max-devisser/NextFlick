@@ -16,8 +16,8 @@ public class RatingStorage implements Serializable {
 		ratingMap = new HashMap<Integer, Integer>();
 	}
 
-	public boolean isEmpty() {
-		return ratingMap.isEmpty();
+	public boolean containsMovie(int tmdbID) {
+		return ratingMap.containsKey(tmdbID);
 	}
 
 	public ArrayList<Movie>[] getRatingLists() {
@@ -29,7 +29,8 @@ public class RatingStorage implements Serializable {
 	}
 
 	public void addRating(Movie movie, int rating) {
-		ratingLists[rating].add(movie);
+		ratingLists[rating - 1].add(movie);
+		ratingMap.put(movie.getKey(), rating);
 	}
 
 	public String toString() {

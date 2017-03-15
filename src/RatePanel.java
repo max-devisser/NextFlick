@@ -12,6 +12,7 @@ public abstract class RatePanel extends JPanel {
 		private Movie movie;
 		private JLabel movieTitle;
 		private JPanel titlePanel;
+		private JLabel ratingLabel;
 		private JLabel rating;
 		JButton rateButton;
 		
@@ -37,14 +38,14 @@ public abstract class RatePanel extends JPanel {
 			titlePanel.add(title);
 
 			// Rating button and rating display
-			rating = new JLabel(" " + Controller.rateStorageFacade.getRating(movie));
+			ratingLabel = new JLabel("Your Rating:");
 			rateButton = new JButton("Rate");
 			titlePanel.add(rateButton);
 			if (Controller.rateStorageFacade.getRating(movie) > 0) {
-				titlePanel.add(new JLabel("Your Rating:"));
+				rating = new JLabel(" " + Controller.rateStorageFacade.getRating(movie));
+				titlePanel.add(ratingLabel);
 				titlePanel.add(rating);
 			}
-
 
 			this.add(titlePanel);
 
@@ -76,8 +77,12 @@ public abstract class RatePanel extends JPanel {
 		}
 
 		public void updateRating() {
-			titlePanel.remove(rating);
+			if (rating != null) {
+				titlePanel.remove(ratingLabel);
+				titlePanel.remove(rating);
+			}	
 			rating = new JLabel(" " + Controller.rateStorageFacade.getRating(movie));
+			titlePanel.add(ratingLabel);
 			titlePanel.add(rating);
 		}
 	}
