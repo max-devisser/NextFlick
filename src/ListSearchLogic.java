@@ -4,7 +4,7 @@ import java.util.*;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 
-public class ListSearcher {
+public class ListSearchLogic {
 	
 	@SuppressWarnings("unchecked")
 	public static ArrayList<Movie> filterMovieListString(ArrayList<Movie> inputList, String methodName,

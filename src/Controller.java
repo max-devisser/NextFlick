@@ -1,22 +1,26 @@
 package src;
 
-//Controller class
-//Starts the program and manages interactions between the GUI and backend
-//Barbara Korycki
-import java.util.HashMap;
 import java.io.*;
 
 public class Controller {
-	private GUI gui;
-	private RatingHistory ratingHistory;
+	private GUI nextFlickGUI;
+	public static RateStorageFacade rateStorageFacade;
+	public static LibraryFacade libraryFacade;
+	public static RecommendationFacade recommendFacade;
+
 
 	/**
 	 * Constructor for Controller object
-	 * @param g GUI object 
+	 * @param gui GUI object 
 	 */
-	public Controller(GUI g) {
-		gui = g;
-		ratingHistory = g.getRatingHistory();		//originally empty--no ratings s
+	public Controller() {
+		rateStorageFacade = new RateStorageFacade();
+		libraryFacade = new LibraryFacade();
+		recommendFacade = new RecommendationFacade();
+	}
+
+	public void addGUI(GUI gui) {
+		nextFlickGUI = gui;
 	}
 
 	/**
@@ -31,46 +35,24 @@ public class Controller {
 	}
 
 	/**
-	 * 
-	 * @param gui
-	 */
-	public void wait(GUI gui) {
-		while ((gui.getSearch()).isEmpty() || !gui.quit()) { // HomeGUI class needs a getSearch() method that returns a string
-			// return empty string if user has not entered anything?
-			// needs to stop user from searching an empty string
-			Controller.sleep();
-		}
-	}
-
-	/**
 	 * Will be used to switch between getting data from User account and GUI
 	 */
 	public void go() {
-		while (!gui.quit()) { // genGUI quit() method checks if user quit
-			wait(gui);
-
-		}
+		// while (!nextFlickGUI.quit()) { // genGUI quit() method checks if user quit
+		// 	wait(nextFlickGUI);
+		// }
+		nextFlickGUI.go();
 	}
 
-	
 	/**
 	 * Main method. Initializes GUI object, initializes and starts Controller object
 	 * @param args Not used here
 	 */
+
 	public static void main(String[] args) {
-		RatingHistory history;
-		//Deserialize history object if it exists
-		try{
-			FileInputStream fs = new FileInputStream("History.ser");
-			ObjectInputStream is = new ObjectInputStream(fs); 
-			history = (RatingHistory)is.readObject();
-			is.close();
-		}
-		catch(Exception ex){		//file has not yet been created: start from scratch
-			history = new RatingHistory();
-		}
-		GUI gui = new GUI(history); // Home panel opens by default
-		Controller controller = new Controller(gui);
+		Controller controller = new Controller();
+		GUI gui = new GUI(); // Home panel opens by default
+		controller.addGUI(gui);
 		controller.go();
 	}
 }

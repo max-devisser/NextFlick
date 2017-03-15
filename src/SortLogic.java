@@ -7,12 +7,12 @@ import src.movie_builder.TestCollectionBuilder;
 
 //Sort by Date, Critical Rating, Length, or Alphabetical 
 //Works for Critical Rating, Length, Alpha
-public class SortHandler
+public class SortLogic
 {
 	//Descending = true
 	//Ascending = false
 	//Title, Date, Critical Rating, Length
-	public static ArrayList<Movie> chooseSortingMethod(ArrayList<Movie> inputList, String sortingMethod, boolean sortDescending) {	
+	public static ArrayList<Movie> sortList(ArrayList<Movie> inputList, String sortingMethod, boolean sortDescending) {	
 		if (inputList.size() <= 1)
 			return inputList;
 

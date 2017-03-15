@@ -14,46 +14,13 @@ import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.apache.mahout.cf.taste.recommender.UserBasedRecommender;
 import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 
-public class MovieRecommender {
+public class RecommendationLogic {
 
-	public static void main(String[] args) throws IOException, TasteException {
-		DataModel model = new FileDataModel(new File("res/ml-latest-small/ratings_id_replaced2.csv"));
-		UserSimilarity similarity = new PearsonCorrelationSimilarity(model); 
-		UserNeighborhood neighborhood = new ThresholdUserNeighborhood(0.1, similarity, model); 
-		UserBasedRecommender recommender = new GenericUserBasedRecommender(model, neighborhood, similarity);
-		List<RecommendedItem> recommendations = recommender.recommend(6, 10);
-
-		System.out.println("User 6's top rated movies: (not all, just a few ");
-		System.out.println("Leon: The Professional");
-		System.out.println("Lawrence of Arabia");
-		System.out.println("LotR: The Two Towers");
-		System.out.println("The Iron Giant");
-		System.out.println("Stand by Me");
-		System.out.println("Theme: adventure");
-		
-		System.out.println("Number values of recommendations");
-		for (RecommendedItem recommendation : recommendations) {
-		  System.out.println(recommendation);
-		}
-		
-		System.out.println("Recommendation names");
-		System.out.println("Les Diaboliques, Horror/mystery/thriller");
-		System.out.println("A Passage to India, Adventure/drama");
-		System.out.println("Hello, Dolly!, Comedy/musical/romance");
-		System.out.println("The Unvanquished, Drama");
-		System.out.println("'night, Mother, Drama");
-		System.out.println("Trouble in Paradise, Comedy/romance");
-		System.out.println("The Holy Mountain, Drama");
-		System.out.println("Shall we Dance, Comedy/musical/romance");
-		System.out.println("A Face in the Crowd, Drama");
-		System.out.println("Black Cat, White Cat, Comedy/Romance");
-
-		
-	}
-	public static ArrayList<Movie> recommend(RatingHistory ratings){
-		if(ratings.size() < 4){	//no recommendations if user has rated less than 4 movies
+	public static ArrayList<Movie> getRecommendationList(RatingStorage ratingStorage) {
+		if(ratingStorage.getRatingMap().size() < 4) {	//no recommendations if user has rated less than 4 movies
 			return new ArrayList<Movie>();
 		}
+
 		//1. add user to database
 		//first create copy the data to a new file which will be overwritten every time with
 		//the user's ratings appended to the end.
@@ -99,11 +66,10 @@ public class MovieRecommender {
 		try{
 			FileWriter fw = new FileWriter("res/ml-latest-small/ratings_id_replaced3.csv", true);
 		    BufferedWriter bw = new BufferedWriter(fw);
-		    HashMap<Movie, Integer> history = ratings.getHistory();
-		    for(Movie movie: history.keySet()){
-		    	int id = movie.getKey();
+		    HashMap<Integer, Integer> history = ratingStorage.getRatingMap();
+		    for(Integer currentID : history.keySet()){
 		   		bw.newLine();
-		    	String append = "672,"+id+","+history.get(movie); //userID,movieID,rating
+		    	String append = "672,"+ currentID +","+ Controller.libraryFacade.getMovie(currentID); //userID,movieID,rating
 	 			bw.write(append,0,append.length());
 			}
 			bw.flush();
@@ -146,12 +112,11 @@ public class MovieRecommender {
 	}
 	public static Movie parse(long id){
 		System.out.println("parse");
-		MapBuilder maps = new MapBuilder();
-		HashMap<Integer, Movie> data = maps.getFullMovieMap();
-				System.out.println("parse2");
-		for(Integer i: data.keySet()){
-			if(i==id){
-				return data.get(i);
+		HashMap<Integer, Movie> library = Controller.libraryFacade.getFullLibraryMap();
+		System.out.println("parse2");
+		for(Integer currentID : library.keySet()) {
+			if (currentID == id){
+				return library.get(currentID);
 			}
 		}
 		return new Movie(-1);

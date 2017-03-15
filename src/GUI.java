@@ -1,23 +1,21 @@
 package src;
+
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.HashMap;
+//import javax.swing.border.*;
+import java.awt.Color;
+import java.awt.event.*;
 
 public class GUI {
 	private JFrame frame;
 	private JTabbedPane tabbedPane;
-	private RatingHistory ratingHistory;
-	HomePanel homePanel;
-	SearchPanel searchPanel;
-	RecPanel recPanel;
+	private HistoryPanel historyPanel;
+	private SearchPanel searchPanel;
+	private RecommendationPanel recommendPanel;
 
 	/**
 	 * Constructor for GUI, just calls go()
 	 */
-	public GUI(RatingHistory ratings) {
-		ratingHistory = ratings;
+	public GUI() {
 		go();
 	}
 
@@ -29,32 +27,17 @@ public class GUI {
 		frame.getContentPane().setBackground(new Color(204, 0, 0) );
 		frame.setTitle("NextFlick");
 		tabbedPane = new JTabbedPane();
-		homePanel = new HomePanel(ratingHistory);
-		searchPanel = new SearchPanel(homePanel);
-		recPanel = new RecPanel(ratingHistory);
+		historyPanel = new HistoryPanel();
+		searchPanel = new SearchPanel();
+		recommendPanel = new RecommendationPanel();
+		
+		historyPanel.setBackground(Color.WHITE);
 		searchPanel.setBackground(Color.WHITE);
-		homePanel.setBackground(Color.WHITE);
-		recPanel.setBackground(Color.WHITE);
-
-		ratingHistory.addRecAccess(recPanel);
-
-		JPanel searchWrapper = new JPanel();
-		searchWrapper.setLayout(new BoxLayout(searchWrapper, BoxLayout.Y_AXIS));
-		searchWrapper.add(searchPanel);
-		searchWrapper.setMaximumSize(new Dimension(400, 200));
-
-		JScrollPane homeScroll = new JScrollPane(homePanel);
-		JScrollPane searchScroll = new JScrollPane(searchWrapper);
-        homeScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        homeScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        searchScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        searchScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        searchScroll.setBounds(0, 0, 0, 0);
+		recommendPanel.setBackground(Color.WHITE);
 
 		tabbedPane.add("Search", searchPanel);
-        tabbedPane.add("History", homeScroll);
-        tabbedPane.add("Recommendations", recPanel);
-
+        tabbedPane.add("Home", historyPanel);
+        tabbedPane.add("Recommendations", recommendPanel);
 
 		frame.getContentPane().add(tabbedPane);
 
@@ -63,49 +46,11 @@ public class GUI {
 		frame.setLocationByPlatform(true);
 		frame.setVisible(true);
 	}
+	
 	/**
-	 * Sets results field to display the input map
-	 * 
-	 * @param collection
-	 *            HashMap of movies to be displayed
-	 */
-	public void setResults(HashMap<Integer, Movie> collection) {
-
-	}
-
-	/**
-	 * Getter for search field
-	 * 
-	 * @return What is currently in the search field
-	 */
-	public String getSearch() { // STUB
-		return "";
-	}
-
-	/**
-	 * Getter for applied filters
-	 * 
-	 * @return Currently applied filters
-	 */
-	public String getFilter() { // STUB
-		return "";
-
-	}
-
-	/**
-	 * Getter for current sort method
-	 * 
-	 * @return Currently applied sort
-	 */
-	public String getSort() { // STUB
-		return "";
-	}
-
-	/**
-	 * 
 	 * @return
 	 */
-	public boolean quit() { // STuB
+	public boolean quit() { 
 		return false;
 	}
 
@@ -116,12 +61,7 @@ public class GUI {
 	 * 
 	 * @return int representation of the current tab. 0 for home, 1 for search
 	 */
-	public int tabClick() { // STUB
+	public int tabClick() { 
 		return 0;
 	}
-
-	public RatingHistory getRatingHistory(){
-		return this.ratingHistory;
-	}
-
 }
