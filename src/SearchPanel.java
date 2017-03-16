@@ -209,8 +209,18 @@ public class SearchPanel extends RatePanel {
 			if (queryInput.isEmpty()) {
 				updateResultPanel(true);
 			} else {
-				currentFilters.add(filterInput);
-				searchQueries.add(queryInput);
+				if(filterInput.equals("Actors") || filterInput.equals("Genre")){
+					currentFilters.add(filterInput);
+					searchQueries.add(queryInput);
+				}
+				else if(currentFilters.contains(filterInput)){	//filter already searched, just need to update its query
+					int filterIndex = currentFilters.indexOf(filterInput);
+					searchQueries.set(filterIndex, queryInput);
+				}
+				else{
+					currentFilters.add(filterInput);
+					searchQueries.add(queryInput);
+				}
 				updateResultPanel(false);
 			}
 		}
