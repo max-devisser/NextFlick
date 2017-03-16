@@ -81,9 +81,11 @@ public abstract class RatePanel extends JPanel {
 				titlePanel.remove(ratingLabel);
 				titlePanel.remove(rating);
 			}	
-			rating = new JLabel(" " + Controller.rateStorageFacade.getRating(movie));
-			titlePanel.add(ratingLabel);
-			titlePanel.add(rating);
+			if(Controller.rateStorageFacade.getRating(movie) != 0){
+				rating = new JLabel(" " + Controller.rateStorageFacade.getRating(movie));
+				titlePanel.add(ratingLabel);
+				titlePanel.add(rating);
+			}
 		}
 	}
 
