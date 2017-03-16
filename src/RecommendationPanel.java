@@ -5,7 +5,6 @@ import java.awt.event.*;
 import java.awt.Dimension;
 
 public class RecommendationPanel extends RatePanel {
-	private JButton generateRecButton;
 	private JLabel recommendLabel;
 	private JPanel recommendPanel;
 	private JScrollPane recommendScrollPane;
@@ -13,12 +12,10 @@ public class RecommendationPanel extends RatePanel {
 	public RecommendationPanel() {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		generateRecButton = new JButton("Click to generate a list of recommended movies");
 		recommendLabel = new JLabel("You might like these movies: ");
 
 		updateResultPanel();
 
-		this.add(generateRecButton);
 		this.add(recommendLabel);
 		this.add(recommendScrollPane);
 	}
@@ -32,23 +29,12 @@ public class RecommendationPanel extends RatePanel {
 		} else {
 			recommendPanel = createMovieListPanel(Controller.recommendFacade.generateRecommendations());
 			recommendScrollPane = new JScrollPane(recommendPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-			recommendScrollPane.setViewportView(recommendPanel);
-			recommendScrollPane.setMaximumSize(new Dimension(800, 400));
-			recommendScrollPane.getVerticalScrollBar().setUnitIncrement(30);
-
-			recommendScrollPane.getViewport().add(recommendPanel);
-			recommendScrollPane.setViewportView(recommendPanel);
 		}
-
+		recommendScrollPane.setViewportView(recommendPanel);
+		recommendScrollPane.setPreferredSize(new Dimension(800, 800));
+		recommendScrollPane.getVerticalScrollBar().setUnitIncrement(30);
 		this.validate();
 		this.repaint();
-	}
-
-	public class recommendationActionListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent event) {
-			updateResultPanel();
-		}
 	}
 
 }
