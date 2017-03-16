@@ -2,12 +2,22 @@ package src;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.io.*;
 
 public class RateStorageFacade {
 	public static RatingStorage ratingStorage;
 
 	public RateStorageFacade() {
-		ratingStorage = new RatingStorage();
+		//Deserialize rating storage object if it exists
+		try{
+			FileInputStream fs = new FileInputStream("res/History.ser");
+			ObjectInputStream is = new ObjectInputStream(fs); 
+			ratingStorage = (RatingStorage)is.readObject();
+			is.close();
+		}
+		catch(Exception ex){		//file has not yet been created: start from scratch
+			ratingStorage = new RatingStorage();
+		}
 	}
 
 	// public boolean ratingStorageEmpty() {
