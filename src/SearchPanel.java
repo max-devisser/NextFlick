@@ -237,10 +237,7 @@ public class SearchPanel extends RatePanel {
 
 			currentSortOption = (String) sortMenu.getItemAt(sortMenu.getSelectedIndex());
 
-			if (searchQuery.getText().isEmpty())
-				updateResultPanel(true);
-			else
-				updateResultPanel(false);
+			updateResultPanel(false);
 		}
 	}
 }
