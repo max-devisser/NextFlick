@@ -149,6 +149,8 @@ public class SearchPanel extends RatePanel {
 	}
 
 	public void updateFilterRemovalPanel() {
+		if(resultScrollPane!=null)
+			this.remove(resultScrollPane);
 		if (filterRemovalPanel != null) 
 			this.remove(filterRemovalPanel); 
 
@@ -177,8 +179,11 @@ public class SearchPanel extends RatePanel {
 		filterRemovalPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, filterRemovalPanel.getMinimumSize().height));
 		
 		this.add(filterRemovalPanel);
+		if(resultScrollPane != null)
+			this.add(resultScrollPane);
 		this.validate();
 		this.repaint();
+
 	}
 
 	public class addFilterActionListener implements ActionListener {
