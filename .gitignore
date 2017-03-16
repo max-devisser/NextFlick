@@ -18,3 +18,4 @@ build/
 hs_err_pid*
 
 res/ml-latest-small/ratings_id_replaced3.csv
+res/History.ser
