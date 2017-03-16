@@ -94,7 +94,7 @@ public class RecommendationLogic {
 			UserSimilarity similarity = new PearsonCorrelationSimilarity(model); 
 			UserNeighborhood neighborhood = new ThresholdUserNeighborhood(0.01, similarity, model); 
 			UserBasedRecommender recommender = new GenericUserBasedRecommender(model, neighborhood, similarity);
-			recommendations = recommender.recommend(672, 100);
+			recommendations = recommender.recommend(672, 10);
 		}
 		catch(Exception ex){
 			System.out.println("Unable to create recommendations: ");
@@ -110,10 +110,7 @@ public class RecommendationLogic {
 			long id = recommendation.getItemID();
 			Integer intID = (int) id;
 			Movie recommendedMovie = library.get(intID);
-			System.out.println(intID);
 			if (recommendedMovie != null) {	//make sure the movie is in our database as well
-				
-				System.out.println("WWWWWWW " + recommendedMovie.getTitle());
 				result.add(recommendedMovie);
 			}
 			
