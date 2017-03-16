@@ -17,7 +17,7 @@ public class GUI {
 	 * Constructor for GUI, just calls go()
 	 */
 	public GUI() {
-		go();
+		//go();
 	}
 
 	/**

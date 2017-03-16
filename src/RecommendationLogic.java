@@ -69,7 +69,7 @@ public class RecommendationLogic {
 		    HashMap<Integer, Integer> history = ratingStorage.getRatingMap();
 		    for(Integer currentID : history.keySet()){
 		   		bw.newLine();
-		    	String append = "672,"+ currentID +","+ Controller.libraryFacade.getMovie(currentID); //userID,movieID,rating
+		   		String append = "672,"+ currentID +","+ history.get(currentID);
 	 			bw.write(append,0,append.length());
 			}
 			bw.flush();
@@ -96,6 +96,7 @@ public class RecommendationLogic {
 		catch(Exception ex){
 			System.out.println("Unable to create recommendations: ");
 			System.out.println(ex.getMessage());
+			ex.printStackTrace();
 		}
 
 		//3. Parse the RecommendedItems into Movies
