@@ -93,7 +93,7 @@ public abstract class RatePanel extends JPanel {
 		JPanel resultPanel = new JPanel();
 		resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS)); // results display vertically
 		resultPanel.setBackground(Color.WHITE);
-
+		
 		for (Movie currentMovie : movieList) {
 			MoviePanel moviePanel = new MoviePanel(currentMovie);
 			moviePanel.addListener(new RateActionListener(moviePanel));
@@ -144,5 +144,6 @@ public abstract class RatePanel extends JPanel {
 			moviePanel.updateRating();
 		}
 	}
+	
 }
 

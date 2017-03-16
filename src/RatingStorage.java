@@ -29,6 +29,13 @@ public class RatingStorage implements Serializable {
 	}
 
 	public void addRating(Movie movie, int rating) {
+		if (ratingMap.containsKey(movie.getKey())) {
+			int previousRating = ratingMap.get(movie.getKey());
+			ratingLists[previousRating - 1].remove(movie);
+			ratingMap.remove(movie.getKey());
+		}
+		
+		
 		ratingLists[rating - 1].add(movie);
 		ratingMap.put(movie.getKey(), rating);
 		serialize();
@@ -45,16 +52,11 @@ public class RatingStorage implements Serializable {
 	}
 
 	public void serialize() {
-		System.out.println("serialized");
 		try {
-					System.out.println("try");
-
 			FileOutputStream fo = new FileOutputStream("res/History.ser");
 			ObjectOutputStream os = new ObjectOutputStream(fo);
 			os.writeObject(this);
 			os.close();
-					System.out.println("success");
-
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}

@@ -2,30 +2,23 @@ package src;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.io.*;
 
 public class RateStorageFacade {
-	public static RatingStorage ratingStorage;
+	private static RatingStorage ratingStorage;
 
 	public RateStorageFacade() {
-		//Deserialize rating storage object if it exists
-		try{
+		// Deserialize rating storage object if it exists
+		try {
 			FileInputStream fs = new FileInputStream("res/History.ser");
-			ObjectInputStream is = new ObjectInputStream(fs); 
-			ratingStorage = (RatingStorage)is.readObject();
+			ObjectInputStream is = new ObjectInputStream(fs);
+			ratingStorage = (RatingStorage) is.readObject();
 			is.close();
-		}
-		catch(Exception ex){		//file has not yet been created: start from scratch
+		} catch (Exception ex) { // file has not yet been created: start from scratch
 			ratingStorage = new RatingStorage();
 		}
 	}
-
-	// public boolean ratingStorageEmpty() {
-	// 	if (ratingStorage.getRatingMap().isEmpty())
-	// 		return true;
-	// 	else
-	// 		return false;
-	// }
 
 	public RatingStorage getRatingStorage() {
 		return ratingStorage;
@@ -51,5 +44,28 @@ public class RateStorageFacade {
 		Collections.reverse(filteredRatingHistory);
 
 		return filteredRatingHistory;
+	}
+
+	
+	
+	private static class RateLogic {
+		public static int getRating(Movie movie) {
+			int userRating = 0;
+
+			if (ratingStorage.containsMovie(movie.getKey())) {
+				HashMap<Integer, Integer> ratingMap = ratingStorage.getRatingMap();
+				userRating = ratingMap.get(movie.getKey());
+			}
+			return userRating;
+		}
+
+		public static ArrayList<Movie> getRatingList(int rateListIndex) {
+			ArrayList<Movie> ratingList = ratingStorage.getRatingLists()[rateListIndex];
+			return ratingList;
+		}
+
+		public static void addRating(Movie movie, int rating) {
+			ratingStorage.addRating(movie, rating);
+		}
 	}
 }
