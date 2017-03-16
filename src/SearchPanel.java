@@ -209,12 +209,17 @@ public class SearchPanel extends RatePanel {
 		public void actionPerformed(ActionEvent event) {
 			String unCutFilter = searchLabel.getText();
 			String filterInput = unCutFilter.substring(10, unCutFilter.length() - 2);
-			String queryInput = searchQuery.getText();
+			String queryInput = searchQuery.getText().toLowerCase();
 
 			if (queryInput.isEmpty()) {
 				updateResultPanel(true);
 			} else {
 				if(filterInput.equals("Actors") || filterInput.equals("Genre")){
+					String queryLowerCase = queryInput.toLowerCase();
+					if(searchQueries.contains(queryInput)){
+						searchQuery.setText("");
+						return;
+					}
 					currentFilters.add(filterInput);
 					searchQueries.add(queryInput);
 				}
