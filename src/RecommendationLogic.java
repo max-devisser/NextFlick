@@ -26,7 +26,7 @@ public class RecommendationLogic {
 		//need to overwrite so that the same rating does not get added multiple times
 		
 		//File sourceFile = new File("res/ml-latest-small/ratings_id_replaced2.csv");
-		File sourceFile = new File("res/ml-latest-small/temp_source.csv");
+		File sourceFile = new File("res/ml-latest-small/ratings_id_replaced2.csv");
 		File destFile = new File("res/ml-latest-small/ratings_id_replaced3.csv");
 		
 		/* if file not exist then create one */

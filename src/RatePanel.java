@@ -99,7 +99,7 @@ public abstract class RatePanel extends JPanel {
 		}
 
 		if (movieList.isEmpty())
-			resultPanel.add(new JLabel("No Results"));
+			resultPanel.add(new JLabel("Please rate more movies in order to view your recommendations."));
 
 		return resultPanel;
 	}
