@@ -25,8 +25,10 @@ public class RecommendationPanel extends RatePanel {
 
 	public void updateResultPanel() {
 		if (recommendPanel != null) {
-			recommendScrollPane.getViewport().remove(recommendPanel);
 			recommendPanel = createMovieListPanel(Controller.recommendFacade.generateRecommendations());
+			this.remove(recommendScrollPane);
+			recommendScrollPane = new JScrollPane(recommendPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			this.add(recommendScrollPane);
 		} else {
 			recommendPanel = createMovieListPanel(Controller.recommendFacade.generateRecommendations());
 			recommendScrollPane = new JScrollPane(recommendPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
