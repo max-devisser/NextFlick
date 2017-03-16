@@ -37,7 +37,7 @@ public class GUI {
 		recommendPanel.setBackground(Color.WHITE);
 
 		tabbedPane.add("Search", searchPanel);
-        tabbedPane.add("Home", historyPanel);
+        tabbedPane.add("History", historyPanel);
         tabbedPane.add("Recommendations", recommendPanel);
         tabbedPane.addChangeListener(new updateResultListener());
 
@@ -54,7 +54,7 @@ public class GUI {
 			JTabbedPane sourcePane = (JTabbedPane) e.getSource();
 			String selectedTitle = sourcePane.getTitleAt(sourcePane.getSelectedIndex());
 			switch (selectedTitle) {
-				case "Home":
+				case "History":
 					historyPanel.updateResultPanel();
 					break;
 				case "Search":
