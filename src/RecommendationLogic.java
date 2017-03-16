@@ -17,16 +17,18 @@ import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 public class RecommendationLogic {
 
 	public static ArrayList<Movie> getRecommendationList(RatingStorage ratingStorage) {
-		if(ratingStorage.getRatingMap().size() < 4) {	//no recommendations if user has rated less than 4 movies
-			return new ArrayList<Movie>();
-		}
-
+//		if(ratingStorage.getRatingMap().size() < 4) {	//no recommendations if user has rated less than 4 movies
+//			return new ArrayList<Movie>();
+//		}
 		//1. add user to database
 		//first create copy the data to a new file which will be overwritten every time with
 		//the user's ratings appended to the end.
 		//need to overwrite so that the same rating does not get added multiple times
-		File sourceFile = new File("res/ml-latest-small/ratings_id_replaced2.csv");
+		
+		//File sourceFile = new File("res/ml-latest-small/ratings_id_replaced2.csv");
+		File sourceFile = new File("res/ml-latest-small/temp_source.csv");
 		File destFile = new File("res/ml-latest-small/ratings_id_replaced3.csv");
+		
 		/* if file not exist then create one */
 		if (!destFile.exists()) {
 			try {
@@ -83,15 +85,16 @@ public class RecommendationLogic {
 		finally{
 
 		}
-
+		
 		//2. Get the recs
 		List<RecommendedItem> recommendations = new ArrayList();
 		try{
 			DataModel model = new FileDataModel(new File("res/ml-latest-small/ratings_id_replaced3.csv"));
+			//DataModel model = new FileDataModel(sourceFile);
 			UserSimilarity similarity = new PearsonCorrelationSimilarity(model); 
 			UserNeighborhood neighborhood = new ThresholdUserNeighborhood(0.01, similarity, model); 
 			UserBasedRecommender recommender = new GenericUserBasedRecommender(model, neighborhood, similarity);
-			recommendations = recommender.recommend(672, 10);
+			recommendations = recommender.recommend(672, 100);
 		}
 		catch(Exception ex){
 			System.out.println("Unable to create recommendations: ");
@@ -102,24 +105,20 @@ public class RecommendationLogic {
 		//3. Parse the RecommendedItems into Movies
 		ArrayList<Movie> result = new ArrayList<Movie>();
 		System.out.println(recommendations.size());
+		HashMap<Integer, Movie> library = Controller.libraryFacade.getFullLibraryMap();
 		for (RecommendedItem recommendation : recommendations) {
-			Movie movie = parse(recommendation.getItemID());
-			if(movie.getKey() != -1){		//make sure the movie is in our database as well
-				result.add(movie);
+			long id = recommendation.getItemID();
+			Integer intID = (int) id;
+			Movie recommendedMovie = library.get(intID);
+			System.out.println(intID);
+			if (recommendedMovie != null) {	//make sure the movie is in our database as well
+				
+				System.out.println("WWWWWWW " + recommendedMovie.getTitle());
+				result.add(recommendedMovie);
 			}
+			
 		}
 
 		return result;
-	}
-	public static Movie parse(long id){
-		System.out.println("parse");
-		HashMap<Integer, Movie> library = Controller.libraryFacade.getFullLibraryMap();
-		System.out.println("parse2");
-		for(Integer currentID : library.keySet()) {
-			if (currentID == id){
-				return library.get(currentID);
-			}
-		}
-		return new Movie(-1);
 	}
 }
