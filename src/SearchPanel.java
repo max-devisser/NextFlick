@@ -73,6 +73,7 @@ public class SearchPanel extends RatePanel {
 		searchLabel = new JLabel("Search by " + filterSearchWord + ":");
 		searchQuery = new JTextField(40);
 		searchQuery.setPreferredSize(new Dimension(1000, searchQuery.getMinimumSize().height));
+		searchQuery.addKeyListener(new enterKeyListener());
 		searchButton = new JButton("Enter");
 		searchButton.addActionListener(new searchActionListener());
 
@@ -207,34 +208,52 @@ public class SearchPanel extends RatePanel {
 	public class searchActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent event) {
-			String unCutFilter = searchLabel.getText();
-			String filterInput = unCutFilter.substring(10, unCutFilter.length() - 2);
-			String queryInput = searchQuery.getText();//.toLowerCase();
-
-			if (queryInput.isEmpty()) {
-				updateResultPanel(true);
-			} else {
-				if(filterInput.equals("Actors") || filterInput.equals("Genre")){
-					for(String q: searchQueries){
-						if(q.toLowerCase().equals(queryInput.toLowerCase())){
-							searchQuery.setText("");
-							return;
-						}
-					}
-					currentFilters.add(filterInput);
-					searchQueries.add(queryInput);
-				}
-				else if(currentFilters.contains(filterInput)){	//filter already searched, just need to update its query
-					int filterIndex = currentFilters.indexOf(filterInput);
-					searchQueries.set(filterIndex, queryInput);
-				}
-				else{
-					currentFilters.add(filterInput);
-					searchQueries.add(queryInput);
-				}
-				updateResultPanel(false);
-			}
+			SearchPanel.this.searchListener();
 		}
+
+	}
+	public class enterKeyListener implements KeyListener{
+		@Override
+		public void keyPressed(KeyEvent event) {
+			if(event.getKeyCode()==10)
+				SearchPanel.this.searchListener();
+		}
+		@Override
+		public void keyReleased(KeyEvent event){
+		}
+		@Override
+		public void keyTyped (KeyEvent event){
+		}
+	}
+
+	public void searchListener(){
+		String unCutFilter = searchLabel.getText();
+		String filterInput = unCutFilter.substring(10, unCutFilter.length() - 2);
+		String queryInput = searchQuery.getText();//.toLowerCase();
+
+		if (queryInput.isEmpty()) {
+			updateResultPanel(true);
+		} else {
+			if(filterInput.equals("Actors") || filterInput.equals("Genre")){
+				for(String q: searchQueries){
+					if(q.toLowerCase().equals(queryInput.toLowerCase())){
+						searchQuery.setText("");
+						return;
+					}
+				}
+				currentFilters.add(filterInput);
+				searchQueries.add(queryInput);
+			}
+			else if(currentFilters.contains(filterInput)){	//filter already searched, just need to update its query
+				int filterIndex = currentFilters.indexOf(filterInput);
+				searchQueries.set(filterIndex, queryInput);
+			}
+			else{
+				currentFilters.add(filterInput);
+				searchQueries.add(queryInput);
+			}
+			updateResultPanel(false);
+		}	
 	}
 
 	class sortActionListener implements ActionListener {
