@@ -4,6 +4,9 @@ import java.io.*;
 import java.util.*;
 
 import org.apache.mahout.cf.taste.common.TasteException;
+import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
+import org.apache.mahout.cf.taste.eval.RecommenderEvaluator;
+import org.apache.mahout.cf.taste.impl.eval.AverageAbsoluteDifferenceRecommenderEvaluator;
 import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
 import org.apache.mahout.cf.taste.impl.neighborhood.ThresholdUserNeighborhood;
 import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
@@ -11,6 +14,7 @@ import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
 import org.apache.mahout.cf.taste.model.DataModel;
 import org.apache.mahout.cf.taste.neighborhood.UserNeighborhood;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
+import org.apache.mahout.cf.taste.recommender.Recommender;
 import org.apache.mahout.cf.taste.recommender.UserBasedRecommender;
 import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 
@@ -94,7 +98,7 @@ public class RecommendationLogic {
 			UserSimilarity similarity = new PearsonCorrelationSimilarity(model); 
 			UserNeighborhood neighborhood = new ThresholdUserNeighborhood(0.01, similarity, model); 
 			UserBasedRecommender recommender = new GenericUserBasedRecommender(model, neighborhood, similarity);
-			recommendations = recommender.recommend(672, 10);
+			recommendations = recommender.recommend(672, 100);
 		}
 		catch(Exception ex){
 			System.out.println("Unable to create recommendations: ");
@@ -104,7 +108,6 @@ public class RecommendationLogic {
 
 		//3. Parse the RecommendedItems into Movies
 		ArrayList<Movie> result = new ArrayList<Movie>();
-		System.out.println(recommendations.size());
 		HashMap<Integer, Movie> library = Controller.libraryFacade.getFullLibraryMap();
 		for (RecommendedItem recommendation : recommendations) {
 			long id = recommendation.getItemID();
@@ -115,6 +118,8 @@ public class RecommendationLogic {
 			}
 			
 		}
+		
+		
 
 		return result;
 	}
