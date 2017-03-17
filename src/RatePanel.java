@@ -15,7 +15,8 @@ public abstract class RatePanel extends JPanel {
 		private JLabel ratingLabel;
 		private JLabel rating;
 		JButton rateButton;
-		
+		JButton unRateButton;
+
 		public MoviePanel(Movie movie) {
 			this.movie = movie; 
 
@@ -45,6 +46,8 @@ public abstract class RatePanel extends JPanel {
 				rating = new JLabel(" " + Controller.rateStorageFacade.getRating(movie));
 				titlePanel.add(ratingLabel);
 				titlePanel.add(rating);
+				unRateButton = new JButton("Delete Rating");
+				titlePanel.add(unRateButton);
 			}
 
 			this.add(titlePanel);
@@ -71,6 +74,10 @@ public abstract class RatePanel extends JPanel {
 		public void addListener(RateActionListener ratingListener){
 			rateButton.addActionListener(ratingListener);
 		}
+		public void addDeleteListener(UnRateActionListener ratingListener){
+			if(unRateButton != null)
+				unRateButton.addActionListener(ratingListener);
+		}
 
 		public Movie getMovie() {
 			return movie;
@@ -81,10 +88,17 @@ public abstract class RatePanel extends JPanel {
 				titlePanel.remove(ratingLabel);
 				titlePanel.remove(rating);
 			}	
+			if(unRateButton != null){
+				titlePanel.remove(unRateButton);
+			}
 			if(Controller.rateStorageFacade.getRating(movie) != 0){
 				rating = new JLabel(" " + Controller.rateStorageFacade.getRating(movie));
+				unRateButton = new JButton("Delete Rating");
 				titlePanel.add(ratingLabel);
 				titlePanel.add(rating);
+				addDeleteListener(new UnRateActionListener(this));
+				titlePanel.add(unRateButton);
+
 			}
 		}
 	}
@@ -97,6 +111,7 @@ public abstract class RatePanel extends JPanel {
 		for (Movie currentMovie : movieList) {
 			MoviePanel moviePanel = new MoviePanel(currentMovie);
 			moviePanel.addListener(new RateActionListener(moviePanel));
+			moviePanel.addDeleteListener(new UnRateActionListener(moviePanel));
 			resultPanel.add(moviePanel);
 		}
 
@@ -144,6 +159,19 @@ public abstract class RatePanel extends JPanel {
 			moviePanel.updateRating();
 		}
 	}
-	
+	public class UnRateActionListener implements ActionListener {
+		private Movie movie;
+		private MoviePanel moviePanel;
+
+		public UnRateActionListener(MoviePanel ratedMovie) {
+			movie = ratedMovie.getMovie();
+			moviePanel = ratedMovie;
+		}
+		@Override
+		public void actionPerformed(ActionEvent e){
+			Controller.rateStorageFacade.unRateMovie(movie);
+			moviePanel.updateRating();			
+		}
+	}
 }
 
