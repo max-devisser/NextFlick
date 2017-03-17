@@ -35,20 +35,15 @@ public class LibraryFacade {
 		ArrayList<Movie> filteredList = new ArrayList<Movie>();
 		String currentFilter;
 		String currentQuery;
-
-		if (filters.isEmpty())
+		
+		if (filters.isEmpty()) {
 			filteredList = movieLibrary.getFullMovieList();
-		else {
-			for (int currentFilterIndex = 0; currentFilterIndex < filters.size(); currentFilterIndex++) {
-				if (currentFilterIndex == 0) {
-					currentFilter = filters.get(currentFilterIndex);
-					currentQuery = queries.get(currentFilterIndex);
-					filteredList = LibraryLogic.filterLibrary(movieLibrary, currentFilter, currentQuery);
-				} else {
-					currentFilter = filters.get(currentFilterIndex);
-					currentQuery = queries.get(currentFilterIndex);
-					filteredList = LibraryLogic.filterMovieList(filteredList, currentFilter, currentQuery);
-				}
+		} else {
+			filteredList = LibraryLogic.filterLibrary(movieLibrary, filters.get(0), queries.get(0));
+			for (int currentFilterIndex = 1; currentFilterIndex < filters.size(); currentFilterIndex++) {
+				currentFilter = filters.get(currentFilterIndex);
+				currentQuery = queries.get(currentFilterIndex);
+				filteredList = LibraryLogic.filterMovieList(filteredList, currentFilter, currentQuery);
 			}
 		}
 

@@ -27,9 +27,8 @@ public class SearchPanel extends RatePanel {
 	private JComboBox sortMenu;
 	private JLabel sortLabel;
 	private JButton sortOrder;
-	private String currentSortOption;	
+	private String currentSortOption;
 	private boolean sortDescending = true;
-	
 
 	// Result panel displaying filtered library
 	private JScrollPane resultScrollPane;
@@ -37,14 +36,12 @@ public class SearchPanel extends RatePanel {
 	private JLabel errorMessage = new JLabel("Please enter input");
 
 	/**
-	 * Constructor for SearchPanel. Adds fields for filters and displaying of
-	 * results
+	 * Constructor for SearchPanel. Adds fields for filters and displaying of results
 	 */
 	public SearchPanel() {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		// Filter panel initialization
-			// adding filters
+		// Filter panel initialization adding filters
 		filterSelectionPanel = new JPanel();
 		filterSelectionPanel.setBackground(Color.WHITE);
 
@@ -52,9 +49,8 @@ public class SearchPanel extends RatePanel {
 			JButton filterButton = new JButton(currentFilter);
 			filterButton.setActionCommand(currentFilter);
 			filterButton.setPreferredSize(new Dimension(120, 30));
-			filterButton.setActionCommand(currentFilter); // allows us to be able to update
-												  		  // search label based on filter
-														  // selected
+			filterButton.setActionCommand(currentFilter); 	// allows us to be able to update search label based 
+															// on filter selected
 			filterButton.addActionListener(new addFilterActionListener());
 			filterSelectionPanel.add(filterButton);
 		}
@@ -64,7 +60,7 @@ public class SearchPanel extends RatePanel {
 		currentFilters = new ArrayList<String>();
 		searchQueries = new ArrayList<String>();
 
-			// removing filters
+		// removing filters
 		updateFilterRemovalPanel();
 		// End filter initialization
 
@@ -100,7 +96,7 @@ public class SearchPanel extends RatePanel {
 		// End sort initilization
 
 		// Result panel initilization
-		updateResultPanel(false);
+		updateResultPanel();
 		// End results initilization
 
 		// Add everything to the JFrame
@@ -109,35 +105,30 @@ public class SearchPanel extends RatePanel {
 		this.add(searchFieldPanel);
 		this.add(sortPanel);
 		this.add(resultScrollPane);
-	}	
+	}
 
-	public void updateResultPanel(boolean inputEmpty) {
+	public void updateResultPanel() {
 		currentSortOption = (String) sortMenu.getItemAt(sortMenu.getSelectedIndex());
 		updateFilterRemovalPanel();
 		
-		if (inputEmpty) {
-			resultScrollPane.getViewport().remove(resultPanel);
-			resultScrollPane.getViewport().add(errorMessage);
-
-		} else if (resultPanel == null) {
+		 if (resultPanel == null) {
 			resultPanel = createMovieListPanel(Controller.libraryFacade.getFullLibraryList(currentSortOption, sortDescending));
 			resultScrollPane = new JScrollPane(resultPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			resultScrollPane.setViewportView(resultPanel);
 			resultScrollPane.setMaximumSize(new Dimension(800, 400));
 			resultScrollPane.getVerticalScrollBar().setUnitIncrement(30);
-
 		} else if (currentFilters.isEmpty()) {
 			resultScrollPane.getViewport().remove(resultPanel);
-			resultPanel = createMovieListPanel(Controller.libraryFacade.getFullLibraryList(currentSortOption, sortDescending));
+			resultPanel = createMovieListPanel(
+					Controller.libraryFacade.getFullLibraryList(currentSortOption, sortDescending));
 			resultScrollPane.getViewport().add(resultPanel);
-			resultScrollPane.setViewportView(resultPanel);	
-
+			resultScrollPane.setViewportView(resultPanel);
 		} else {
 			resultScrollPane.getViewport().remove(errorMessage);
 			resultScrollPane.getViewport().remove(resultPanel);
 			currentSortOption = (String) sortMenu.getItemAt(sortMenu.getSelectedIndex());
-			resultPanel = createMovieListPanel(Controller.libraryFacade.getFilteredLibrary(currentFilters, searchQueries, 
-																		   currentSortOption, sortDescending));
+			resultPanel = createMovieListPanel(Controller.libraryFacade.getFilteredLibrary(currentFilters,
+					searchQueries, currentSortOption, sortDescending));
 			resultScrollPane.getViewport().add(resultPanel);
 			resultScrollPane.setViewportView(resultPanel);
 		}
@@ -149,11 +140,11 @@ public class SearchPanel extends RatePanel {
 		this.repaint();
 	}
 
-	public void updateFilterRemovalPanel() {
-		if(resultScrollPane!=null)
+	private void updateFilterRemovalPanel() {
+		if (resultScrollPane != null)
 			this.remove(resultScrollPane);
-		if (filterRemovalPanel != null) 
-			this.remove(filterRemovalPanel); 
+		if (filterRemovalPanel != null)
+			this.remove(filterRemovalPanel);
 
 		filterRemovalPanel = new JPanel();
 		filterRemovalPanel.setBackground(Color.WHITE);
@@ -178,16 +169,16 @@ public class SearchPanel extends RatePanel {
 
 		filterRemovalPanel.validate();
 		filterRemovalPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, filterRemovalPanel.getMinimumSize().height));
-		
+
 		this.add(filterRemovalPanel);
-		if(resultScrollPane != null)
+		if (resultScrollPane != null)
 			this.add(resultScrollPane);
 		this.validate();
 		this.repaint();
 
 	}
 
-	public class addFilterActionListener implements ActionListener {
+	private class addFilterActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent event) {
 			String label = "Search by " + event.getActionCommand() + ": ";
@@ -195,45 +186,45 @@ public class SearchPanel extends RatePanel {
 		}
 	}
 
-	public class removeFilterActionListener implements ActionListener {
+	private class removeFilterActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent event) {
 			String[] filters = event.getActionCommand().split("/");
 			currentFilters.remove(filters[0]);
 			searchQueries.remove(filters[1]);	
-			updateResultPanel(false);
+			updateResultPanel();
 		}
 	}
 
-	public class searchActionListener implements ActionListener {
+	private class searchActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent event) {
-			SearchPanel.this.searchListener();
+			searchPerformed();
 		}
 
 	}
-	public class enterKeyListener implements KeyListener{
+
+	private class enterKeyListener implements KeyListener{
 		@Override
 		public void keyPressed(KeyEvent event) {
-			if(event.getKeyCode()==10)
-				SearchPanel.this.searchListener();
+			if (event.getKeyCode() == 10) {
+				searchPerformed();
+			}
 		}
+
 		@Override
-		public void keyReleased(KeyEvent event){
-		}
+		public void keyReleased(KeyEvent event) { }
+
 		@Override
-		public void keyTyped (KeyEvent event){
-		}
+		public void keyTyped(KeyEvent event) { }
 	}
 
-	public void searchListener(){
+	private void searchListener(){
 		String unCutFilter = searchLabel.getText();
 		String filterInput = unCutFilter.substring(10, unCutFilter.length() - 2);
-		String queryInput = searchQuery.getText();//.toLowerCase();
+		String queryInput = searchQuery.getText();
 
-		if (queryInput.isEmpty()) {
-			updateResultPanel(true);
-		} else {
+		if (!queryInput.isEmpty()) {
 			if(filterInput.equals("Actors") || filterInput.equals("Genre")){
 				for(String q: searchQueries){
 					if(q.toLowerCase().equals(queryInput.toLowerCase())){
@@ -243,24 +234,21 @@ public class SearchPanel extends RatePanel {
 				}
 				currentFilters.add(filterInput);
 				searchQueries.add(queryInput);
-			}
-			else if(currentFilters.contains(filterInput)){	//filter already searched, just need to update its query
-				int filterIndex = currentFilters.indexOf(filterInput);
-				searchQueries.set(filterIndex, queryInput);
-			}
-			else{
+			} else if (currentFilters.contains(filterInput)) { // filter already searched, just need to update its query
+				searchQueries.set(currentFilters.indexOf(filterInput), queryInput);
+			} else {
 				currentFilters.add(filterInput);
 				searchQueries.add(queryInput);
 			}
-			updateResultPanel(false);
+			updateResultPanel();
 		}	
 	}
 
 	class sortActionListener implements ActionListener {
-	@Override
-	public void actionPerformed(ActionEvent event) {
+		@Override
+		public void actionPerformed(ActionEvent event) {
 			currentSortOption = (String) sortMenu.getItemAt(sortMenu.getSelectedIndex());
-			updateResultPanel(false);
+			updateResultPanel();
 		}
 	}
 
@@ -277,8 +265,7 @@ public class SearchPanel extends RatePanel {
 
 			currentSortOption = (String) sortMenu.getItemAt(sortMenu.getSelectedIndex());
 
-			updateResultPanel(false);
+			updateResultPanel();
 		}
 	}
 }
-
