@@ -170,7 +170,9 @@ public abstract class RatePanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e){
 			Controller.rateStorageFacade.unRateMovie(movie);
-			moviePanel.updateRating();			
+			moviePanel.updateRating();		
+			if((RatePanel.this) instanceof HistoryPanel)
+				((HistoryPanel)RatePanel.this).updateResultPanel();	
 		}
 	}
 }

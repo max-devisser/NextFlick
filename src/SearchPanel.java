@@ -219,7 +219,7 @@ public class SearchPanel extends RatePanel {
 		public void keyTyped(KeyEvent event) { }
 	}
 
-	private void searchListener(){
+	private void searchPerformed(){
 		String unCutFilter = searchLabel.getText();
 		String filterInput = unCutFilter.substring(10, unCutFilter.length() - 2);
 		String queryInput = searchQuery.getText();
