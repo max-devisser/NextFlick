@@ -27,8 +27,7 @@ public class SearchPanel extends RatePanel {
 	// Filter panel displaying buttons to select filter
 	private JPanel filterSelectionPanel;
 	private JPanel filterRemovalPanel;
-	private String[] filterOptions = { "Title", "Year", "Genre", "Actors", "Director", "Parental Rating", "Length",
-			"Language", "Country", "Rating" };
+	private String[] filterOptions = {"Title", "Year", "Genre", "Actors", "Director", "Parental Rating", "Length"};
 	private ArrayList<String> currentFilters;
 
 	// Search field panel
@@ -40,7 +39,7 @@ public class SearchPanel extends RatePanel {
 
 	// Sort menu panel and options
 	private JPanel sortPanel;
-	private JComboBox sortMenu;
+	private JComboBox<String> sortMenu;
 	private JLabel sortLabel;
 	private JButton sortOrder;
 	private String currentSortOption;
@@ -100,7 +99,7 @@ public class SearchPanel extends RatePanel {
 		sortOrder = new JButton("in descending order");
 		sortOrder.addActionListener(new sortDescendingActionListener());
 		String[] sortOptions = { "Title", "Date", "Critical Rating", "Length" };
-		sortMenu = new JComboBox(sortOptions);
+		sortMenu = new JComboBox<String>(sortOptions);
 		sortMenu.addActionListener(new sortActionListener());
 
 		sortPanel = new JPanel();
@@ -287,14 +286,14 @@ public class SearchPanel extends RatePanel {
 		@Override
 		public void actionPerformed(ActionEvent event) {
 			if (sortDescending) {
-				sortOrder.setLabel("in ascending order");
+				sortOrder.setText("in ascending order");
 				sortDescending = false;
 			} else {
-				sortOrder.setLabel("in descending order");
+				sortOrder.setText("in descending order");
 				sortDescending = true;
 			}
 
-			currentSortOption = (String) sortMenu.getItemAt(sortMenu.getSelectedIndex());
+			currentSortOption = sortMenu.getItemAt(sortMenu.getSelectedIndex());
 
 			updateResultPanel();
 		}
