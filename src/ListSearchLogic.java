@@ -46,7 +46,7 @@ public class ListSearchLogic {
 				System.err.println("InvocationTargetException: " + e.getMessage());
 			}
 		}
-		System.out.println("end movielist loop");
+		
 		return resultList;
 	}
 

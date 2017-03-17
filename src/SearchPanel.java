@@ -31,7 +31,7 @@ public class SearchPanel extends RatePanel {
 	private JPanel filterRemovalPanel;
 	private String[] filterOptions = { "Title", "Year", "Genre", "Actors", "Director", "Parental Rating", "Length" };
 	private ArrayList<String> currentFilters;
-
+	
 	// Search field panel
 	private JPanel searchFieldPanel;
 	private JLabel searchLabel;
@@ -154,8 +154,18 @@ public class SearchPanel extends RatePanel {
 			isValidInput = true;
 			resultScrollPane.getViewport().remove(resultPanel);
 			currentSortOption = (String) sortMenu.getItemAt(sortMenu.getSelectedIndex());
-			resultPanel = createMovieListPanel(Controller.libraryApplication.getFilteredLibrary(currentFilters,
-					searchQueries, currentSortOption, sortDescending));
+			ArrayList<Movie> currentList = Controller.libraryApplication.getFilteredLibrary(currentFilters,
+					searchQueries, currentSortOption, sortDescending);
+			if (currentList.isEmpty() && currentFilters.contains("Parental Rating")) {
+				resultPanel = new JPanel();
+				resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS)); // results display vertically
+				resultPanel.setBackground(Color.WHITE);
+				resultPanel.add(new JLabel("No results"));
+				resultPanel.add(new JLabel("When searching for parental rating, please be exact and "
+											+ "search for G, PG, PG-13, R, NC-17, or NR/Unknown"));
+			} else {
+				resultPanel = createMovieListPanel(currentList);				
+			}
 			resultScrollPane.getViewport().add(resultPanel);
 			resultScrollPane.setViewportView(resultPanel);
 		}
@@ -308,7 +318,12 @@ public class SearchPanel extends RatePanel {
 			} catch (NumberFormatException ex) {
 				isValidInput = false;
 			}
-		}
+		} 
+//			else if (filterInput.equals("Parental Rating")) {
+//			System.out.println("!");
+//			resultPanel
+//		}
+		
 
 		if (!isValidInput) {
 			if (resultPanel != null) {
@@ -386,5 +401,9 @@ public class SearchPanel extends RatePanel {
 
 			updateResultPanel();
 		}
+	}
+	
+	public ArrayList<String> getCurrentFilters() {
+		return currentFilters;
 	}
 }
