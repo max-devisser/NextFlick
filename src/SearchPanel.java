@@ -112,7 +112,7 @@ public class SearchPanel extends RatePanel {
 		updateFilterRemovalPanel();
 		
 		 if (resultPanel == null) {
-			resultPanel = createMovieListPanel(Controller.libraryFacade.getFullLibraryList(currentSortOption, sortDescending));
+			resultPanel = createMovieListPanel(Controller.libraryApplication.getFullLibraryList(currentSortOption, sortDescending));
 			resultScrollPane = new JScrollPane(resultPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			resultScrollPane.setViewportView(resultPanel);
 			resultScrollPane.setMaximumSize(new Dimension(800, 400));
@@ -120,14 +120,14 @@ public class SearchPanel extends RatePanel {
 		} else if (currentFilters.isEmpty()) {
 			resultScrollPane.getViewport().remove(resultPanel);
 			resultPanel = createMovieListPanel(
-					Controller.libraryFacade.getFullLibraryList(currentSortOption, sortDescending));
+					Controller.libraryApplication.getFullLibraryList(currentSortOption, sortDescending));
 			resultScrollPane.getViewport().add(resultPanel);
 			resultScrollPane.setViewportView(resultPanel);
 		} else {
 			resultScrollPane.getViewport().remove(errorMessage);
 			resultScrollPane.getViewport().remove(resultPanel);
 			currentSortOption = (String) sortMenu.getItemAt(sortMenu.getSelectedIndex());
-			resultPanel = createMovieListPanel(Controller.libraryFacade.getFilteredLibrary(currentFilters,
+			resultPanel = createMovieListPanel(Controller.libraryApplication.getFilteredLibrary(currentFilters,
 					searchQueries, currentSortOption, sortDescending));
 			resultScrollPane.getViewport().add(resultPanel);
 			resultScrollPane.setViewportView(resultPanel);

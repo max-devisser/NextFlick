@@ -14,7 +14,7 @@ public class HistoryPanel extends RatePanel {
 
 		this.add(new JLabel("Movies you've rated: "));
 
-		resultPanel = createMovieListPanel(Controller.rateStorageFacade.filterByRating(ratingsToShow));
+		resultPanel = createMovieListPanel(Controller.rateStorageApplication.filterByRating(ratingsToShow));
 
 		resultScrollPane = new JScrollPane(resultPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		resultScrollPane.setViewportView(resultPanel);
@@ -28,7 +28,7 @@ public class HistoryPanel extends RatePanel {
 		if (resultPanel != null)
 			resultScrollPane.getViewport().remove(resultPanel);
 
-		resultPanel = createMovieListPanel(Controller.rateStorageFacade.filterByRating(ratingsToShow));
+		resultPanel = createMovieListPanel(Controller.rateStorageApplication.filterByRating(ratingsToShow));
 		resultScrollPane.getViewport().add(resultPanel);
 		resultScrollPane.setViewportView(resultPanel);	
 	}

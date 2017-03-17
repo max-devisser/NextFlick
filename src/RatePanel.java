@@ -42,8 +42,8 @@ public abstract class RatePanel extends JPanel {
 			ratingLabel = new JLabel("Your Rating:");
 			rateButton = new JButton("Rate");
 			titlePanel.add(rateButton);
-			if (Controller.rateStorageFacade.getRating(movie) > 0) {
-				rating = new JLabel(" " + Controller.rateStorageFacade.getRating(movie));
+			if (Controller.rateStorageApplication.getRating(movie) > 0) {
+				rating = new JLabel(" " + Controller.rateStorageApplication.getRating(movie));
 				titlePanel.add(ratingLabel);
 				titlePanel.add(rating);
 				unRateButton = new JButton("Delete Rating");
@@ -91,8 +91,8 @@ public abstract class RatePanel extends JPanel {
 			if(unRateButton != null){
 				titlePanel.remove(unRateButton);
 			}
-			if(Controller.rateStorageFacade.getRating(movie) != 0){
-				rating = new JLabel(" " + Controller.rateStorageFacade.getRating(movie));
+			if(Controller.rateStorageApplication.getRating(movie) != 0){
+				rating = new JLabel(" " + Controller.rateStorageApplication.getRating(movie));
 				unRateButton = new JButton("Delete Rating");
 				titlePanel.add(ratingLabel);
 				titlePanel.add(rating);
@@ -150,7 +150,7 @@ public abstract class RatePanel extends JPanel {
 	    					JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
 			if (action == 0)
-				Controller.rateStorageFacade.rateMovie(movie, currentRating);
+				Controller.rateStorageApplication.rateMovie(movie, currentRating);
 		}
 
 		@Override
@@ -169,7 +169,7 @@ public abstract class RatePanel extends JPanel {
 		}
 		@Override
 		public void actionPerformed(ActionEvent e){
-			Controller.rateStorageFacade.unRateMovie(movie);
+			Controller.rateStorageApplication.unRateMovie(movie);
 			moviePanel.updateRating();		
 			if((RatePanel.this) instanceof HistoryPanel)
 				((HistoryPanel)RatePanel.this).updateResultPanel();	

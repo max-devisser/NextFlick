@@ -52,7 +52,7 @@ public class RatingStorage implements Serializable {
 	public String toString() {
 		String libraryStringList = "";
 		for (Integer currentID : ratingMap.keySet()) {
-			String title = Controller.libraryFacade.getMovie(currentID).getTitle();
+			String title = Controller.libraryApplication.getMovie(currentID).getTitle();
 			String rating = ratingMap.get(currentID).toString();
 			libraryStringList+= "\n" + title + ": " + rating;
 		}
