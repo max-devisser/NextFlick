@@ -41,7 +41,7 @@ public class MovieParser {
 		try {
 			HttpResponse<String> request = Unirest.get(url).asString();
 			stringtext.append(request.getBody());
-		} catch (UnirestException e) {
+		} catch (UnirestException e){
 			e.printStackTrace();
 			System.out.println("Unirest threw an error when connecting to given URL.");
 			return null;
@@ -56,10 +56,10 @@ public class MovieParser {
 	 *            The full API request URL to be retrieved
 	 * @return Returns Movie object constructed from the JSON object
 	 **/
-	public Movie constructMovieByUrl(String url) // must have full request URL
+	public Movie constructMovieByUrl(String url)// must have full request URL
 	{
 		StringBuilder rawtext = getRawRequest(url);
-		if (rawtext.indexOf("The resource you requested could not be found") != -1) {
+		if (rawtext.indexOf("The resource you requested could not be found") != -1 || emptyCheck(rawtext)) {
 			return new Movie(-1);
 		}
 		JsonSearcher search = new JsonSearcher(rawtext); // create JsonSearcher to help functions look through JSON text
@@ -288,4 +288,39 @@ public class MovieParser {
 		return grabId(new JsonSearcher(getRawRequest(url)));
 	}
 
+	/**
+	 * If multiple fields in the JSON object are empty (e.g. bad Movie object)
+	 * returns false
+	 * 
+	 * @param text
+	 *            Text to check if empty
+	 * @return Returns false if multiple objects are empty
+	 */
+	private boolean emptyCheck(StringBuilder text) {
+		ArrayList<Integer> openBrackets = new ArrayList<Integer>();
+		ArrayList<Integer> closeBrackets = new ArrayList<Integer>();
+		int openBracket = 0;
+		int index = 0;
+		while ((openBracket = text.indexOf("[", index)) != -1) {
+			openBrackets.add(openBracket);
+			index = openBracket + 1;
+		}
+		index = 0;
+		int closeBracket = 0;
+		while ((closeBracket = text.indexOf("]", index)) != -1) {
+			closeBrackets.add(closeBracket);
+			index = closeBracket + 1;
+		}
+		int emptyCount = 0;
+		for (int i = 0; i < openBrackets.size(); ++i) {
+			if (openBrackets.get(i) == closeBrackets.get(i) - 1) {
+				emptyCount++;
+			}
+		}
+		if (emptyCount >= 2) {
+			return true;
+		}
+		return false;
+	}
+	
 }

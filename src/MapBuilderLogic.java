@@ -21,7 +21,8 @@ public class MapBuilderLogic {
 		MovieSerializationManager MSM = new MovieSerializationManager(null);
 		HashMap<Integer, Movie> partialMap = null;
 		HashMap<Integer, Movie> fullMovieMap = new HashMap<Integer, Movie>();
-		final int CHUNKS = 82;
+		
+		final int CHUNKS = 90;
 		for (int i = 1; i <= CHUNKS; ++i) {
 			partialMap = new HashMap<Integer, Movie>(MSM.deserialize("database" + File.separator + "DatabaseChunk" + i + ".ser"));
 			for (Movie m : partialMap.values())

@@ -146,6 +146,8 @@ public abstract class RatePanel extends JPanel {
 				titlePanel.add(unRateButton);
 
 			}
+			this.revalidate();
+			this.repaint();
 		}
 	}
 
@@ -260,8 +262,10 @@ public abstract class RatePanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			Controller.rateStorageApplication.unRateMovie(movie);
 			moviePanel.updateRating();
-			if ((RatePanel.this) instanceof HistoryPanel)
-				((HistoryPanel) RatePanel.this).updateResultPanel();
+			moviePanel.repaint();
+			if((RatePanel.this) instanceof HistoryPanel) {
+				((HistoryPanel)RatePanel.this).updateResultPanel();	
+			}
 		}
 	}
 }
