@@ -81,7 +81,16 @@ public class RateStorageApplication {
 
 	
 	
+	/**
+	 * Logic class that is only used within RateStorageApplication. Used for getting, adding, and removing ratings
+	 */
 	private static class RateLogic {
+		
+		/**
+		 * Getter
+		 * @param movie Movie to get rating for
+		 * @return Rating of the specified movie
+		 */
 		public static int getRating(Movie movie) {
 			int userRating = 0;
 
@@ -92,14 +101,29 @@ public class RateStorageApplication {
 			return userRating;
 		}
 
+		/**
+		 * Getter
+		 * @param rateListIndex What rating to pull a list for (0 is 1 star movies, 4 is 5 star movies)
+		 * @return List of all movies with the specified rating
+		 */
 		public static ArrayList<Movie> getRatingList(int rateListIndex) {
 			ArrayList<Movie> ratingList = ratingStorage.getRatingLists()[rateListIndex];
 			return ratingList;
 		}
 
+		/**
+		 * Adds rating to a movie
+		 * @param movie Movie to rate
+		 * @param rating Rating to give
+		 */
 		public static void addRating(Movie movie, int rating) {
 			ratingStorage.addRating(movie, rating);
 		}
+		
+		/**
+		 * Removes rating from a movie
+		 * @param movie Movie to remove rating from
+		 */
 		public static void removeRating(Movie movie) {
 			ratingStorage.deleteRating(movie);
 		}

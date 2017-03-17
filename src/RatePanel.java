@@ -19,12 +19,14 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 
 /**
- * Abstract class that each of the three panels extends. Provides MoviePanel and rating functionality
+ * Abstract class that each of the three panels extends. Provides MoviePanel and
+ * rating functionality
  */
 public abstract class RatePanel extends JPanel {
 
 	/**
-	 * Panel for an individual Movie. Displays necessary information and rating options
+	 * Panel for an individual Movie. Displays necessary information and rating
+	 * options
 	 */
 	public class MoviePanel extends JPanel {
 		private Movie movie;
@@ -36,27 +38,29 @@ public abstract class RatePanel extends JPanel {
 
 		/**
 		 * Constructor, initializes and displays all data and rating options
-		 * @param movie Movie to display
+		 * 
+		 * @param movie
+		 *            Movie to display
 		 */
 		public MoviePanel(Movie movie) {
-			this.movie = movie; 
+			this.movie = movie;
 
 			// Formatting
 			this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			this.setOpaque(true);
-			this.setBackground(new Color(243,243,243));
+			this.setBackground(new Color(243, 243, 243));
 			Border border = this.getBorder();
 			Border margin = new LineBorder(Color.WHITE, 12);
 			this.setBorder(new CompoundBorder(border, margin));
 			this.setPreferredSize(new Dimension(600, 200));
 			this.setMaximumSize(new Dimension(800, 200));
 			this.setMinimumSize(new Dimension(800, 200));
-			this.setAlignmentX( Component.LEFT_ALIGNMENT );
+			this.setAlignmentX(Component.LEFT_ALIGNMENT);
 
 			// Title formatting
 			titlePanel = new JPanel();
 			JLabel title = new JLabel(movie.getTitle());
-			title.setFont(title.getFont().deriveFont(30.0f));	
+			title.setFont(title.getFont().deriveFont(30.0f));
 			titlePanel.add(title);
 
 			// Rating button and rating display
@@ -94,23 +98,28 @@ public abstract class RatePanel extends JPanel {
 
 		/**
 		 * Adds an ActionListener to the rateButton
-		 * @param ratingListener Listener to be added
+		 * 
+		 * @param ratingListener
+		 *            Listener to be added
 		 */
-		public void addListener(RateActionListener ratingListener){
+		public void addListener(RateActionListener ratingListener) {
 			rateButton.addActionListener(ratingListener);
 		}
-		
+
 		/**
 		 * Adds an ActionListener to the unRateButton
-		 * @param ratingListener Listener to be added
+		 * 
+		 * @param ratingListener
+		 *            Listener to be added
 		 */
-		public void addDeleteListener(UnRateActionListener ratingListener){
-			if(unRateButton != null)
+		public void addDeleteListener(UnRateActionListener ratingListener) {
+			if (unRateButton != null)
 				unRateButton.addActionListener(ratingListener);
 		}
 
 		/**
 		 * Getter
+		 * 
 		 * @return Movie associated with the movie panel
 		 */
 		public Movie getMovie() {
@@ -124,11 +133,11 @@ public abstract class RatePanel extends JPanel {
 			if (rating != null) {
 				titlePanel.remove(ratingLabel);
 				titlePanel.remove(rating);
-			}	
-			if(unRateButton != null){
+			}
+			if (unRateButton != null) {
 				titlePanel.remove(unRateButton);
 			}
-			if(Controller.rateStorageApplication.getRating(movie) != 0){
+			if (Controller.rateStorageApplication.getRating(movie) != 0) {
 				rating = new JLabel(" " + Controller.rateStorageApplication.getRating(movie));
 				unRateButton = new JButton("Delete Rating");
 				titlePanel.add(ratingLabel);
@@ -140,12 +149,18 @@ public abstract class RatePanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Adds all movies given into a JPanel
+	 * 
+	 * @param movieList
+	 *            List of movies to display
+	 * @return
+	 */
 	public JPanel createMovieListPanel(ArrayList<Movie> movieList) {
 		JPanel resultPanel = new JPanel();
 		resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS)); // results display vertically
 		resultPanel.setBackground(Color.WHITE);
-		if (movieList.isEmpty())
-		{
+		if (movieList.isEmpty()) {
 			resultPanel.add(new JLabel("No results"));
 			return resultPanel;
 		}
@@ -159,22 +174,35 @@ public abstract class RatePanel extends JPanel {
 		return resultPanel;
 	}
 
+	/**
+	 * Listener for rating movies
+	 */
 	public class RateActionListener implements ActionListener {
 		private Movie movie;
 		private MoviePanel moviePanel;
 		private int currentRating;
 
+		/**
+		 * Constructor, stores the movie associated with the listener
+		 * 
+		 * @param ratedMovie
+		 *            Movie to associate with the listener
+		 */
 		public RateActionListener(MoviePanel ratedMovie) {
 			movie = ratedMovie.getMovie();
 			moviePanel = ratedMovie;
 		}
 
+		/**
+		 * Displays the rating pop-up box
+		 */
 		public void displayRateFrame() {
 			JPanel ratingPanel = new JPanel();
-			ratingPanel.add(new JLabel("Please rate " + movie.getTitle() + " by selecting one of the following options"));
-			
+			ratingPanel
+					.add(new JLabel("Please rate " + movie.getTitle() + " by selecting one of the following options"));
+
 			ButtonGroup ratingButtons = new ButtonGroup();
-			for (Integer i = 1; i <=5; i++){
+			for (Integer i = 1; i <= 5; i++) {
 				JRadioButton rateButton = new JRadioButton(i.toString());
 				rateButton.setActionCommand(i.toString());
 				rateButton.addActionListener(e -> currentRating = Integer.parseInt(e.getActionCommand()));
@@ -183,35 +211,57 @@ public abstract class RatePanel extends JPanel {
 			}
 
 			Object[] options = { "OK", "CANCEL" };
-			int action = JOptionPane.showOptionDialog(null, ratingPanel,
-	    					"Rate", JOptionPane.DEFAULT_OPTION,
-	    					JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+			int action = JOptionPane.showOptionDialog(null, ratingPanel, "Rate", JOptionPane.DEFAULT_OPTION,
+					JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
 			if (action == 0)
 				Controller.rateStorageApplication.rateMovie(movie, currentRating);
 		}
 
+		/*
+		 * (non-Javadoc) Displays rating pop-up and updates rating of the movie
+		 * panel
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.
+		 * ActionEvent)
+		 */
 		@Override
-		public void actionPerformed(ActionEvent e){
+		public void actionPerformed(ActionEvent e) {
 			displayRateFrame();
 			moviePanel.updateRating();
 		}
 	}
+
+	/**
+	 * Listener for removing ratings
+	 */
 	public class UnRateActionListener implements ActionListener {
 		private Movie movie;
 		private MoviePanel moviePanel;
 
+		/**
+		 * Constructor, stores the movie associated with the listener
+		 * 
+		 * @param ratedMovie
+		 *            Movie to associate with the listener
+		 */
 		public UnRateActionListener(MoviePanel ratedMovie) {
 			movie = ratedMovie.getMovie();
 			moviePanel = ratedMovie;
 		}
+
+		/*
+		 * (non-Javadoc) Removes rating from associated movie
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.
+		 * ActionEvent)
+		 */
 		@Override
-		public void actionPerformed(ActionEvent e){
+		public void actionPerformed(ActionEvent e) {
 			Controller.rateStorageApplication.unRateMovie(movie);
-			moviePanel.updateRating();		
-			if((RatePanel.this) instanceof HistoryPanel)
-				((HistoryPanel)RatePanel.this).updateResultPanel();	
+			moviePanel.updateRating();
+			if ((RatePanel.this) instanceof HistoryPanel)
+				((HistoryPanel) RatePanel.this).updateResultPanel();
 		}
 	}
 }
-

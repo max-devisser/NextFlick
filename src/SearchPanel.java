@@ -1,7 +1,6 @@
 
 package src;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -22,12 +21,15 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
+/**
+ * Panel for displaying filters, sorting, and its results
+ */
 public class SearchPanel extends RatePanel {
 
 	// Filter panel displaying buttons to select filter
 	private JPanel filterSelectionPanel;
 	private JPanel filterRemovalPanel;
-	private String[] filterOptions = {"Title", "Year", "Genre", "Actors", "Director", "Parental Rating", "Length"};
+	private String[] filterOptions = { "Title", "Year", "Genre", "Actors", "Director", "Parental Rating", "Length" };
 	private ArrayList<String> currentFilters;
 
 	// Search field panel
@@ -53,7 +55,8 @@ public class SearchPanel extends RatePanel {
 	private boolean isValidInput = true;
 
 	/**
-	 * Constructor for SearchPanel. Adds fields for filters and displaying of results
+	 * Constructor for SearchPanel. Adds fields for filters and displaying of
+	 * results
 	 */
 	public SearchPanel() {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -66,8 +69,8 @@ public class SearchPanel extends RatePanel {
 			JButton filterButton = new JButton(currentFilter);
 			filterButton.setActionCommand(currentFilter);
 			filterButton.setPreferredSize(new Dimension(120, 30));
-			filterButton.setActionCommand(currentFilter); 	// allows us to be able to update search label based 
-															// on filter selected
+			filterButton.setActionCommand(currentFilter); 	// allows us to be able to update search label
+															// based on filter selected
 			filterButton.addActionListener(new addFilterActionListener());
 			filterSelectionPanel.add(filterButton);
 		}
@@ -124,13 +127,18 @@ public class SearchPanel extends RatePanel {
 		this.add(resultScrollPane);
 	}
 
+	/**
+	 * Applys filters and sorting to the result list and displays the results
+	 */
 	public void updateResultPanel() {
 		currentSortOption = (String) sortMenu.getItemAt(sortMenu.getSelectedIndex());
 		updateFilterRemovalPanel();
-		
-		 if (resultPanel == null) {
-			resultPanel = createMovieListPanel(Controller.libraryApplication.getFullLibraryList(currentSortOption, sortDescending));
-			resultScrollPane = new JScrollPane(resultPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+		if (resultPanel == null) {
+			resultPanel = createMovieListPanel(
+					Controller.libraryApplication.getFullLibraryList(currentSortOption, sortDescending));
+			resultScrollPane = new JScrollPane(resultPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			resultScrollPane.setViewportView(resultPanel);
 			resultScrollPane.setMaximumSize(new Dimension(1000, 400));
 			resultScrollPane.getVerticalScrollBar().setUnitIncrement(30);
@@ -159,6 +167,9 @@ public class SearchPanel extends RatePanel {
 		this.repaint();
 	}
 
+	/**
+	 * Displays currently selected filter-query pairs and buttons to remove them
+	 */
 	private void updateFilterRemovalPanel() {
 		if (resultScrollPane != null)
 			this.remove(resultScrollPane);
@@ -197,7 +208,17 @@ public class SearchPanel extends RatePanel {
 
 	}
 
+	/**
+	 * ActionListener for the filter buttons
+	 */
 	private class addFilterActionListener implements ActionListener {
+
+		/*
+		 * (non-Javadoc) Updates label next to search field
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.
+		 * ActionEvent)
+		 */
 		@Override
 		public void actionPerformed(ActionEvent event) {
 			String label = "Search by " + event.getActionCommand() + ": ";
@@ -205,17 +226,38 @@ public class SearchPanel extends RatePanel {
 		}
 	}
 
+	/**
+	 * Listener for filter removal button
+	 */
 	private class removeFilterActionListener implements ActionListener {
+
+		/*
+		 * (non-Javadoc) Removes the selected filter-query pair and updates the
+		 * result panel
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.
+		 * ActionEvent)
+		 */
 		@Override
 		public void actionPerformed(ActionEvent event) {
 			String[] filters = event.getActionCommand().split("/");
 			currentFilters.remove(filters[0]);
-			searchQueries.remove(filters[1]);	
+			searchQueries.remove(filters[1]);
 			updateResultPanel();
 		}
 	}
 
+	/**
+	 * Listener for the enter button
+	 */
 	private class searchActionListener implements ActionListener {
+
+		/*
+		 * (non-Javadoc) Calls searchPerformed
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.
+		 * ActionEvent)
+		 */
 		@Override
 		public void actionPerformed(ActionEvent event) {
 			searchPerformed();
@@ -223,7 +265,17 @@ public class SearchPanel extends RatePanel {
 
 	}
 
-	private class enterKeyListener implements KeyListener{
+	/**
+	 * Listener for the enter key
+	 */
+	private class enterKeyListener implements KeyListener {
+
+		/*
+		 * (non-Javadoc) Calls searchPerformed if the key pressed in the enter
+		 * key
+		 * 
+		 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+		 */
 		@Override
 		public void keyPressed(KeyEvent event) {
 			if (event.getKeyCode() == 10) {
@@ -232,61 +284,75 @@ public class SearchPanel extends RatePanel {
 		}
 
 		@Override
-		public void keyReleased(KeyEvent event) { }
+		public void keyReleased(KeyEvent event) {
+		}
 
 		@Override
-		public void keyTyped(KeyEvent event) { }
+		public void keyTyped(KeyEvent event) {
+		}
 	}
 
+	/**
+	 * Adds user input filter-query pair to the appropriate lists and updates
+	 * the resultPanel
+	 */
 	private void searchPerformed() {
 		String unCutFilter = searchLabel.getText();
 		String filterInput = unCutFilter.substring(10, unCutFilter.length() - 2);
 		String queryInput = searchQuery.getText();
 
-		// { "Title", "Year", "Genre", "Actors", "Director", "Parental Rating", "Length", "Language", "Country", "Rating" };
-		//   aplhanumeric  numeric,  alpha, alpha, alpha, alpha numeric, aplha-numeric
 		if (filterInput.equals("Length")) {
-			try{
-		        Integer.parseInt(queryInput);
-		        isValidInput = true;
-		    } catch (NumberFormatException ex)
-		    {
-		    	isValidInput = false;
+			try {
+				Integer.parseInt(queryInput);
+				isValidInput = true;
+			} catch (NumberFormatException ex) {
+				isValidInput = false;
 			}
 		}
-		
-		if (!isValidInput) {
-			if (resultPanel != null)
-				resultScrollPane.getViewport().remove(resultPanel);
 
+		if (!isValidInput) {
+			if (resultPanel != null) {
+				resultScrollPane.getViewport().remove(resultPanel);
+			}
 			resultScrollPane.getViewport().add(invalidInputMessage);
 			resultScrollPane.setViewportView(invalidInputMessage);
 			resultScrollPane.validate();
 			resultScrollPane.repaint();
 			return;
 		}
-		
+
 		if (!queryInput.isEmpty()) {
-			if(filterInput.equals("Actors") || filterInput.equals("Genre")){
-				for(String q: searchQueries){
-					if(q.toLowerCase().equals(queryInput.toLowerCase())){
+			if (filterInput.equals("Actors") || filterInput.equals("Genre")) {
+				for (String q : searchQueries) {
+					if (q.toLowerCase().equals(queryInput.toLowerCase())) {
 						searchQuery.setText("");
 						return;
 					}
 				}
 				currentFilters.add(filterInput);
 				searchQueries.add(queryInput);
-			} else if (currentFilters.contains(filterInput)) { // filter already searched, just need to update its query
+			} else if (currentFilters.contains(filterInput)) { 	// filter already searched, just need to
+																// update its query
 				searchQueries.set(currentFilters.indexOf(filterInput), queryInput);
 			} else {
 				currentFilters.add(filterInput);
 				searchQueries.add(queryInput);
 			}
 			updateResultPanel();
-		}	
+		}
 	}
 
+	/**
+	 * Listener for the JComboBox for sorting
+	 */
 	class sortActionListener implements ActionListener {
+
+		/*
+		 * (non-Javadoc) Updates currentSortOption and updates the resultPanel
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.
+		 * ActionEvent)
+		 */
 		@Override
 		public void actionPerformed(ActionEvent event) {
 			currentSortOption = (String) sortMenu.getItemAt(sortMenu.getSelectedIndex());
@@ -294,7 +360,18 @@ public class SearchPanel extends RatePanel {
 		}
 	}
 
+	/**
+	 * Listener for ascending/descending selection button
+	 */
 	class sortDescendingActionListener implements ActionListener {
+
+		/*
+		 * (non-Javadoc) Updates text in button, updates currentSortOption, then
+		 * updates resultPanel
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.
+		 * ActionEvent)
+		 */
 		@Override
 		public void actionPerformed(ActionEvent event) {
 			if (sortDescending) {

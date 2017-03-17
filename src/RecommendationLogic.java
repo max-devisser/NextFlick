@@ -23,17 +23,32 @@ import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.apache.mahout.cf.taste.recommender.UserBasedRecommender;
 import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 
+/**
+ * Uses Apache Mahout to generate recommendations based on similarity of users.
+ * Pulls rating histories of 671 users from a csv file of 100,000 ratings, then
+ * finds users with similar taste profiles to our user, and generates
+ * recommendations based on movies that similar users enjoyed that our user has
+ * not rated.
+ */
 public class RecommendationLogic {
 
+	/**
+	 * Creates a list of recommended movies
+	 * 
+	 * @param ratingStorage
+	 *            Lists of user's previous ratings
+	 * @return List of recommended movies
+	 */
 	public static ArrayList<Movie> getRecommendationList(RatingStorage ratingStorage) {
 
 		if (ratingStorage.getRatingMap().size() == 0) { // There are no previous ratings to base recommendations on
 			return new ArrayList<Movie>();
 		}
-		
-		// 1. add user to database first create copy the data to a new file which will be overwritten
-		// every time with the user's ratings appended to the end. need to overwrite so that the same 
-		// rating does not get added multiple times
+
+		// 1. add user to database first create copy the data to a new file
+		// which will be overwritten every time with the user's ratings
+		// appended to the end. Need to overwrite so that the same rating
+		// does not get added multiple times
 
 		File sourceFile = new File("res/ml-latest-small/ratings_id_replaced2.csv");
 		File destFile = new File("res/ml-latest-small/ratings_id_replaced3.csv");
@@ -46,7 +61,7 @@ public class RecommendationLogic {
 				e.printStackTrace();
 			}
 		}
-		
+
 		InputStream input = null;
 		OutputStream output = null;
 		try {
@@ -113,7 +128,6 @@ public class RecommendationLogic {
 			if (recommendedMovie != null) { // make sure the movie is in our database as well
 				result.add(recommendedMovie);
 			}
-
 		}
 
 		return result;

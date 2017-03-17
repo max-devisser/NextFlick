@@ -4,8 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import src.Movie;
 
+/**
+ * Test database with a few hard coded movies
+ */
 public class TestCollectionBuilder {
 	private HashMap<Integer, Movie> movies;
+	
+	/**
+	 * Getter
+	 * @return Map<ID, movie> of sample database
+	 */
 	public HashMap<Integer, Movie> getTestCollection()
 	{
 		movies = new HashMap<Integer, Movie>();
