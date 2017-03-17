@@ -9,12 +9,9 @@ public class MovieLibrary {
 	private static HashMap<String, ArrayList<Movie>> dateMap;
 	private static HashMap<String, ArrayList<Movie>> directorMap;
 	private static HashMap<String, ArrayList<Movie>> parentalRatingMap;
-	private static HashMap<String, ArrayList<Movie>> languageMap;
-	private static HashMap<String, ArrayList<Movie>> countryMap;
 	private static HashMap<String, ArrayList<Movie>> genreMap;
 	private static HashMap<String, ArrayList<Movie>> actorMap;
 	private static HashMap<Integer, ArrayList<Movie>> runtimeMap;
-	private static HashMap<Double, ArrayList<Movie>> criticalRatingMap;
 
 	private static HashMap<Integer, Movie> fullMovieMap;
 	private static ArrayList<Movie> fullMovieList;
@@ -29,14 +26,12 @@ public class MovieLibrary {
 		dateMap = new HashMap<String, ArrayList<Movie>>();
 		directorMap = new HashMap<String, ArrayList<Movie>>();
 		parentalRatingMap = new HashMap<String, ArrayList<Movie>>();
-		languageMap = new HashMap<String, ArrayList<Movie>>();
-		countryMap = new HashMap<String, ArrayList<Movie>>();
 		genreMap = new HashMap<String, ArrayList<Movie>>();
 		actorMap = new HashMap<String, ArrayList<Movie>>();
 		runtimeMap = new HashMap<Integer, ArrayList<Movie>>();
-		criticalRatingMap = new HashMap<Double, ArrayList<Movie>>();
 
-		MapBuilderLogic.createMaps(fullMovieMap, runtimeMap, criticalRatingMap, dateMap, directorMap, parentalRatingMap, countryMap, languageMap, genreMap, actorMap);
+
+		MapBuilderLogic.createMaps(fullMovieMap, runtimeMap, dateMap, directorMap, parentalRatingMap, genreMap, actorMap);
 	}
 
 	public static HashMap<Integer, Movie> getFullMovieMap() {
@@ -69,17 +64,5 @@ public class MovieLibrary {
 
 	public static HashMap<Integer, ArrayList<Movie>> getRuntimeMap() {
 		return runtimeMap;
-	}
-
-	public static HashMap<String, ArrayList<Movie>> getLanguageMap() {
-		return languageMap;
-	}
-
-	public static HashMap<String, ArrayList<Movie>> getCountryMap() {
-		return countryMap;
-	}
-
-	public static HashMap<Double, ArrayList<Movie>> getCriticalRatingMap() {
-		return criticalRatingMap;
 	}
 }

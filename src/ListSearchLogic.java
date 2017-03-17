@@ -56,27 +56,6 @@ public class ListSearchLogic {
 		return resultList;
 	}
 
-	public static ArrayList<Movie> filterMovieListDouble(ArrayList<Movie> inputList, String methodName,
-			double filterParameter) {
-		ArrayList<Movie> resultList = new ArrayList<Movie>();
-
-		for (Movie currentMovie : inputList) {
-			Method m = findMethod(methodName);
-
-			try {
-				if (((Double) m.invoke(currentMovie)) == filterParameter) {
-					resultList.add(currentMovie);
-				}
-			} catch (IllegalAccessException e) {
-				System.err.println("IllegalAccessException: " + e.getMessage());
-			} catch (InvocationTargetException e) {
-				System.err.println("InvocationTargetException: " + e.getMessage());
-			}
-		}
-
-		return resultList;
-	}
-
 	/**
 	 * Private helper method that looks for a specified method within the Movie
 	 * class and returns a Method object of it. Will be used to find getters.

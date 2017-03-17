@@ -27,6 +27,7 @@ public class MapSearchLogic {
 
 	public static ArrayList<Movie> filterMovieMapString(HashMap<String, ArrayList<Movie>> inputMap, String filterParameter) {
 		ArrayList<Movie> filteredList = new ArrayList<Movie>();
+		filterParameter = filterParameter.toLowerCase();
 
 		// Maybe make inputMap have all keys in lower case to allow non case sensitive searching
 		// in the if statement below
@@ -34,7 +35,7 @@ public class MapSearchLogic {
 			filteredList = inputMap.get(filterParameter);
 		} else if (!inputMap.equals(MovieLibrary.getParentalRatingMap())){
 			for (String key : inputMap.keySet()) {
-				if (key.toLowerCase().contains(filterParameter.toLowerCase()) && key != filterParameter)
+				if (key.toLowerCase().contains(filterParameter) && key != filterParameter)
 					filteredList.addAll(inputMap.get(key));
 			}
 		}
@@ -44,15 +45,6 @@ public class MapSearchLogic {
 	}
 
 	public static ArrayList<Movie> filterMovieMapInt(HashMap<Integer, ArrayList<Movie>> inputMap, int filterParameter) {
-		ArrayList<Movie> filteredList = new ArrayList<Movie>();
-
-		if (inputMap.containsKey(filterParameter))
-			filteredList = inputMap.get(filterParameter);
-
-		return filteredList;
-	}
-
-	public static ArrayList<Movie> filterMovieMapDouble(HashMap<Double, ArrayList<Movie>> inputMap, double filterParameter) {
 		ArrayList<Movie> filteredList = new ArrayList<Movie>();
 
 		if (inputMap.containsKey(filterParameter))

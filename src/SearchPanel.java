@@ -11,8 +11,7 @@ public class SearchPanel extends RatePanel {
 	// Filter panel displaying buttons to select filter
 	private JPanel filterSelectionPanel;
 	private JPanel filterRemovalPanel;
-	private String[] filterOptions = { "Title", "Year", "Genre", "Actors", "Director", "Parental Rating", "Length",
-			"Language", "Country", "Rating" };
+	private String[] filterOptions = { "Title", "Year", "Genre", "Actors", "Director", "Parental Rating", "Length"};
 	private ArrayList<String> currentFilters;
 
 	// Search field panel
@@ -34,6 +33,8 @@ public class SearchPanel extends RatePanel {
 	private JScrollPane resultScrollPane;
 	private JPanel resultPanel;
 	private JLabel errorMessage = new JLabel("Please enter input");
+	private JLabel invalidInputMessage = new JLabel("Your input is invalid for this filter");
+	private boolean isValidInput = true;
 
 	/**
 	 * Constructor for SearchPanel. Adds fields for filters and displaying of results
@@ -124,7 +125,9 @@ public class SearchPanel extends RatePanel {
 			resultScrollPane.getViewport().add(resultPanel);
 			resultScrollPane.setViewportView(resultPanel);
 		} else {
+			resultScrollPane.getViewport().remove(invalidInputMessage);
 			resultScrollPane.getViewport().remove(errorMessage);
+			isValidInput = true;
 			resultScrollPane.getViewport().remove(resultPanel);
 			currentSortOption = (String) sortMenu.getItemAt(sortMenu.getSelectedIndex());
 			resultPanel = createMovieListPanel(Controller.libraryApplication.getFilteredLibrary(currentFilters,
@@ -226,19 +229,27 @@ public class SearchPanel extends RatePanel {
 
 		// { "Title", "Year", "Genre", "Actors", "Director", "Parental Rating", "Length", "Language", "Country", "Rating" };
 		//   aplhanumeric  numeric,  alpha, alpha, alpha, alpha numeric, aplha-numeric
-		boolean isValidInput = false;
-		if (filterInput.equals(""))
-			isValidInput = false;
+		if (filterInput.equals("Length")) {
+			try{
+		        Integer.parseInt(queryInput);
+		        isValidInput = true;
+		    } catch (NumberFormatException ex)
+		    {
+		    	isValidInput = false;
+			}
+		}
 		
+		if (!isValidInput) {
+			if (resultPanel != null)
+				resultScrollPane.getViewport().remove(resultPanel);
 
-		try{
-	        Integer.parseInt(queryInput);
-	        isValidInput = true;
-	    } catch (NumberFormatException ex)
-	    {
-	    	isValidInput = false;
-	    }
-
+			resultScrollPane.getViewport().add(invalidInputMessage);
+			resultScrollPane.setViewportView(invalidInputMessage);
+			resultScrollPane.validate();
+			resultScrollPane.repaint();
+			return;
+		}
+		
 		if (!queryInput.isEmpty()) {
 			if(filterInput.equals("Actors") || filterInput.equals("Genre")){
 				for(String q: searchQueries){

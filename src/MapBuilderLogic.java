@@ -27,26 +27,21 @@ public class MapBuilderLogic {
 
 	@SafeVarargs
 	public static void createMaps(HashMap<Integer, Movie> fullMovieMap, HashMap<Integer, ArrayList<Movie>> intMap, 
-		HashMap<Double, ArrayList<Movie>> doubleMap, HashMap<String, ArrayList<Movie>>... stringMaps) {
+		HashMap<String, ArrayList<Movie>>... stringMaps) {
 		
-		assert(stringMaps.length == 7);
+		assert(stringMaps.length == 5);
 
 		//Make Integer Map
 		makeIntMap(fullMovieMap, intMap, "getRuntime");
-
-		//Make Double Map 
-		makeDoubleMap(fullMovieMap, doubleMap, "getCriticalRating");
 
 		//Make String Maps
 		makeStringMap(fullMovieMap, stringMaps[0], "getDate");
 		makeStringMap(fullMovieMap, stringMaps[1], "getDirector");
 		makeStringMap(fullMovieMap, stringMaps[2], "getParentalRating");
-		makeStringMap(fullMovieMap, stringMaps[3], "getLanguage");
-		makeStringMap(fullMovieMap, stringMaps[4], "getCountry");
 
 		//Make ArrayListMaps
-		makeArrayListMap(fullMovieMap, stringMaps[5], "getGenre");
-		makeArrayListMap(fullMovieMap, stringMaps[6], "getActors");	
+		makeArrayListMap(fullMovieMap, stringMaps[3], "getGenre");
+		makeArrayListMap(fullMovieMap, stringMaps[4], "getActors");	
 	}
 
 	//Make Filter HashMaps for String variables
