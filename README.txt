@@ -13,8 +13,7 @@ Downloaing our repo will put all of our files in the correct location. From ther
 2. Run using the command: ant run
 
 List of Known Bugs:
-1. Titles may be cut off due to long movie title names
-2. Buttons may be cut off due to long movie title names
+There are no known bugs.
 
 How to use:
 
