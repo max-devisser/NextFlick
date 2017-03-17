@@ -1,14 +1,15 @@
 package src;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 // Filter a movie collection based on a parameter
 // Pass in a MovieCollection and a parameter
 // Returns smaller MovieCollection of only Movies that match the parameter
 
 //Parameters for functions: HashMap and A parameter
 
-import java.util.*;
 
-import src.movie_builder.TestCollectionBuilder;
 
 public class MapSearchLogic {
 

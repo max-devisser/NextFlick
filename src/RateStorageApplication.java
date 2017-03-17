@@ -1,9 +1,11 @@
 package src;
 
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.io.*;
+
 
 public class RateStorageApplication {
 	private static RatingStorage ratingStorage;

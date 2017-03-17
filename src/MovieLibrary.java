@@ -1,9 +1,7 @@
 package src;
 
-import java.util.*;
-import src.movie_builder.MovieSerializationManager;
-import java.io.IOException;
-import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MovieLibrary {
 	private static HashMap<String, ArrayList<Movie>> dateMap;

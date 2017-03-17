@@ -118,17 +118,18 @@ public abstract class RatePanel extends JPanel {
 		JPanel resultPanel = new JPanel();
 		resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS)); // results display vertically
 		resultPanel.setBackground(Color.WHITE);
-		
-		for (Movie currentMovie : movieList) {
-			MoviePanel moviePanel = new MoviePanel(currentMovie);
+		if (movieList.isEmpty())
+		{
+			resultPanel.add(new JLabel("No results"));
+			return resultPanel;
+		}
+		int movies = movieList.size();
+		for (int i = 0; i < movies && i < 1000; ++i) {
+			MoviePanel moviePanel = new MoviePanel(movieList.get(i));
 			moviePanel.addListener(new RateActionListener(moviePanel));
 			moviePanel.addDeleteListener(new UnRateActionListener(moviePanel));
 			resultPanel.add(moviePanel);
 		}
-
-		if (movieList.isEmpty())
-			resultPanel.add(new JLabel("No results"));
-
 		return resultPanel;
 	}
 
