@@ -132,7 +132,7 @@ public class SearchPanel extends RatePanel {
 			resultPanel = createMovieListPanel(Controller.libraryApplication.getFullLibraryList(currentSortOption, sortDescending));
 			resultScrollPane = new JScrollPane(resultPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			resultScrollPane.setViewportView(resultPanel);
-			resultScrollPane.setMaximumSize(new Dimension(800, 400));
+			resultScrollPane.setMaximumSize(new Dimension(1000, 400));
 			resultScrollPane.getVerticalScrollBar().setUnitIncrement(30);
 		} else if (currentFilters.isEmpty()) {
 			resultScrollPane.getViewport().remove(resultPanel);

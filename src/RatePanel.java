@@ -18,8 +18,14 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 
+/**
+ * Abstract class that each of the three panels extends. Provides MoviePanel and rating functionality
+ */
 public abstract class RatePanel extends JPanel {
 
+	/**
+	 * Panel for an individual Movie. Displays necessary information and rating options
+	 */
 	public class MoviePanel extends JPanel {
 		private Movie movie;
 		private JPanel titlePanel;
@@ -28,6 +34,10 @@ public abstract class RatePanel extends JPanel {
 		JButton rateButton;
 		JButton unRateButton;
 
+		/**
+		 * Constructor, initializes and displays all data and rating options
+		 * @param movie Movie to display
+		 */
 		public MoviePanel(Movie movie) {
 			this.movie = movie; 
 
@@ -82,18 +92,34 @@ public abstract class RatePanel extends JPanel {
 			this.add(countryLabel);
 		}
 
+		/**
+		 * Adds an ActionListener to the rateButton
+		 * @param ratingListener Listener to be added
+		 */
 		public void addListener(RateActionListener ratingListener){
 			rateButton.addActionListener(ratingListener);
 		}
+		
+		/**
+		 * Adds an ActionListener to the unRateButton
+		 * @param ratingListener Listener to be added
+		 */
 		public void addDeleteListener(UnRateActionListener ratingListener){
 			if(unRateButton != null)
 				unRateButton.addActionListener(ratingListener);
 		}
 
+		/**
+		 * Getter
+		 * @return Movie associated with the movie panel
+		 */
 		public Movie getMovie() {
 			return movie;
 		}
 
+		/**
+		 * Displays the rating associated with the movie and the rating options
+		 */
 		public void updateRating() {
 			if (rating != null) {
 				titlePanel.remove(ratingLabel);

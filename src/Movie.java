@@ -9,6 +9,9 @@ import java.io.Serializable;
 // String title, int year, String director, String genre, String[] actors, String parentalRating, String runtime, String language, 
 // String country, double IMdBRating, String plot, String imageURL
 
+/**
+ * Encapsulates necessary information about movies
+ */
 public class Movie implements Serializable {
    private int key;
    private String title;
@@ -332,7 +335,7 @@ public class Movie implements Serializable {
             return false;
         }
         Movie movie = (Movie) o;
-        // Stub, make this more robust later
+
         return (movie.key == this.key);
    }
    
