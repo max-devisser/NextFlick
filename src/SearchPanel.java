@@ -333,6 +333,7 @@ public class SearchPanel extends RatePanel {
 			resultScrollPane.setViewportView(invalidInputMessage);
 			resultScrollPane.validate();
 			resultScrollPane.repaint();
+			isValidInput = true;
 			return;
 		}
 

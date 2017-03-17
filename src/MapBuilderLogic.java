@@ -22,12 +22,9 @@ public class MapBuilderLogic {
 		HashMap<Integer, Movie> partialMap = null;
 		HashMap<Integer, Movie> fullMovieMap = new HashMap<Integer, Movie>();
 		
-		final int CHUNKS = 90;
-		for (int i = 1; i <= CHUNKS; ++i) {
-			partialMap = new HashMap<Integer, Movie>(MSM.deserialize("database" + File.separator + "DatabaseChunk" + i + ".ser"));
-			for (Movie m : partialMap.values())
-				fullMovieMap.put(m.getKey(), m);
-		}
+		partialMap = new HashMap<Integer, Movie>(MSM.deserialize("database" + File.separator + "DatabaseChunks.ser"));
+		for (Movie m : partialMap.values())
+			fullMovieMap.put(m.getKey(), m);
 
 		return fullMovieMap;
 	}
