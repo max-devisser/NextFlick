@@ -7,7 +7,7 @@ public class LibraryFacade {
 	private MovieLibrary movieLibrary;
 	private ArrayList<Movie> fullMovieList;
 	private ArrayList<Movie> currentMovieList;
-
+	static final int MAX_RESULTS = 100;
 	public LibraryFacade() {
 		movieLibrary = new MovieLibrary(); 
 
@@ -35,7 +35,7 @@ public class LibraryFacade {
 		ArrayList<Movie> filteredList = new ArrayList<Movie>();
 		String currentFilter;
 		String currentQuery;
-
+		
 		if (filters.isEmpty())
 			filteredList = movieLibrary.getFullMovieList();
 		else {
@@ -51,7 +51,7 @@ public class LibraryFacade {
 				}
 			}
 		}
-
+		
 		filteredList = LibraryLogic.sortMovieList(filteredList, sortType, sortDescending); 
 		currentMovieList = filteredList;
 

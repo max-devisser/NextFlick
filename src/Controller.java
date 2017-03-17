@@ -1,6 +1,6 @@
 package src;
 
-import java.io.*;
+
 
 public class Controller {
 	private GUI nextFlickGUI;
