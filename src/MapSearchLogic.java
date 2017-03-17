@@ -28,13 +28,17 @@ public class MapSearchLogic {
 	public static ArrayList<Movie> filterMovieMapString(HashMap<String, ArrayList<Movie>> inputMap, String filterParameter) {
 		ArrayList<Movie> filteredList = new ArrayList<Movie>();
 
-		if (inputMap.containsKey(filterParameter))
+		// Maybe make inputMap have all keys in lower case to allow non case sensitive searching
+		// in the if statement below
+		if (inputMap.containsKey(filterParameter)) {
 			filteredList = inputMap.get(filterParameter);
-
-		for (String key : inputMap.keySet()) {
-			if (key.toLowerCase().contains(filterParameter.toLowerCase()) && key != filterParameter)
-				filteredList.addAll(inputMap.get(key));
+		} else if (!inputMap.equals(MovieLibrary.getParentalRatingMap())){
+			for (String key : inputMap.keySet()) {
+				if (key.toLowerCase().contains(filterParameter.toLowerCase()) && key != filterParameter)
+					filteredList.addAll(inputMap.get(key));
+			}
 		}
+		
 
 		return filteredList;
 	}

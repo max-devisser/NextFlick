@@ -1,11 +1,10 @@
 package src;
 
-import java.util.*;
-
 import src.movie_builder.MovieSerializationManager;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 
@@ -15,7 +14,7 @@ public class MapBuilderLogic {
 		MovieSerializationManager MSM = new MovieSerializationManager(null);
 		HashMap<Integer, Movie> partialMap = null;
 		HashMap<Integer, Movie> fullMovieMap = new HashMap<Integer, Movie>();
-		final int CHUNKS = 82;	//CAP: exceptions for values > 30
+		final int CHUNKS = 30;	//CAP: exceptions for values > 30
 		for (int i = 1; i <= CHUNKS; ++i) {
 			partialMap = new HashMap<Integer, Movie>(MSM.deserialize("database" + File.separator + "DatabaseChunk" + i + ".ser"));
 			for (Movie m : partialMap.values())
@@ -57,8 +56,9 @@ public class MapBuilderLogic {
 
 			try{
 				String filterMapKey = (String) m.invoke(currentMovie);
+				filterMapKey = filterMapKey.toLowerCase();
 				
-				if (methodName == "getDate")
+				if (methodName.equals("getDate"))
 					filterMapKey = filterMapKey.substring(0,4);
 
 				if (!outputMap.containsKey(filterMapKey)) {
@@ -89,6 +89,7 @@ public class MapBuilderLogic {
 				ArrayList<String> currentList = (ArrayList<String>) m.invoke(currentMovie);
 				
 				for (String item: currentList){
+					item = item.toLowerCase();
 					if (!outputMap.containsKey(item)) {
 						ArrayList<Movie> myList = new ArrayList<Movie>();
 						myList.add(currentMovie);
