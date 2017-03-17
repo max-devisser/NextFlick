@@ -1,28 +1,28 @@
 package src;
+
 import java.util.*;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 
 public class ListSearchLogic {
-	
+
 	@SuppressWarnings("unchecked")
 	public static ArrayList<Movie> filterMovieListString(ArrayList<Movie> inputList, String methodName,
 			String filterParameter) {
 		ArrayList<Movie> resultList = new ArrayList<Movie>();
+		Method m = findMethod(methodName);
 
-		for (Movie currentMovie: inputList) {
-			Method m = findMethod(methodName);
-
+		for (Movie currentMovie : inputList) {
 			try {
 				if (methodName.equals("getActors") || methodName.equals("getGenre")) {
 					ArrayList<String> currentArrayList = (ArrayList<String>) m.invoke(currentMovie);
 					for (String item : currentArrayList) {
-						if (item.toLowerCase().contains(filterParameter.toLowerCase()))
+						if (item.toLowerCase().contains(filterParameter.toLowerCase())) {
 							resultList.add(currentMovie);
+						}
 					}
-				} else {
-					if (((String) m.invoke(currentMovie)).toLowerCase().contains(filterParameter.toLowerCase()))
+				} else if (((String) m.invoke(currentMovie)).toLowerCase().contains(filterParameter.toLowerCase())) {
 						resultList.add(currentMovie);
 				}
 			} catch (IllegalAccessException e) {
@@ -30,18 +30,16 @@ public class ListSearchLogic {
 			} catch (InvocationTargetException e) {
 				System.err.println("InvocationTargetException: " + e.getMessage());
 			}
-
 		}
-
+		System.out.println("end movielist loop");
 		return resultList;
 	}
-
 
 	public static ArrayList<Movie> filterMovieListInt(ArrayList<Movie> inputList, String methodName,
 			int filterParameter) {
 		ArrayList<Movie> resultList = new ArrayList<Movie>();
 
-		for (Movie currentMovie: inputList) {
+		for (Movie currentMovie : inputList) {
 			Method m = findMethod(methodName);
 
 			try {
@@ -62,7 +60,7 @@ public class ListSearchLogic {
 			double filterParameter) {
 		ArrayList<Movie> resultList = new ArrayList<Movie>();
 
-		for (Movie currentMovie: inputList) {
+		for (Movie currentMovie : inputList) {
 			Method m = findMethod(methodName);
 
 			try {
@@ -79,14 +77,14 @@ public class ListSearchLogic {
 		return resultList;
 	}
 
-	// /**
-	//  * Private helper method that looks for a specified method within the Movie
-	//  * class and returns a Method object of it. Will be used to find getters.
-	//  * 
-	//  * @param methodName
-	//  *            Name of method you want to find
-	//  * @return Method object that references the specified method
-	//  */
+	/**
+	 * Private helper method that looks for a specified method within the Movie
+	 * class and returns a Method object of it. Will be used to find getters.
+	 * 
+	 * @param methodName
+	 *            Name of method you want to find
+	 * @return Method object that references the specified method
+	 */
 	private static Method findMethod(String methodName) {
 		Method m = null;
 		try {
