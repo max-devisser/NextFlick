@@ -1,7 +1,5 @@
 package src;
 
-import java.io.*;
-
 public class Controller {
 	private GUI nextFlickGUI;
 	public static RateStorageApplication rateStorageApplication;
@@ -56,3 +54,4 @@ public class Controller {
 		controller.go();
 	}
 }
+

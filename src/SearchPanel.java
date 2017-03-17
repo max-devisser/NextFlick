@@ -1,17 +1,33 @@
+
 package src;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import java.awt.*;
-import java.awt.event.*;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 
 public class SearchPanel extends RatePanel {
 
 	// Filter panel displaying buttons to select filter
 	private JPanel filterSelectionPanel;
 	private JPanel filterRemovalPanel;
-	private String[] filterOptions = { "Title", "Year", "Genre", "Actors", "Director", "Parental Rating", "Length"};
+	private String[] filterOptions = {"Title", "Year", "Genre", "Actors", "Director", "Parental Rating", "Length"};
 	private ArrayList<String> currentFilters;
 
 	// Search field panel
@@ -23,7 +39,7 @@ public class SearchPanel extends RatePanel {
 
 	// Sort menu panel and options
 	private JPanel sortPanel;
-	private JComboBox sortMenu;
+	private JComboBox<String> sortMenu;
 	private JLabel sortLabel;
 	private JButton sortOrder;
 	private String currentSortOption;
@@ -85,7 +101,7 @@ public class SearchPanel extends RatePanel {
 		sortOrder = new JButton("in descending order");
 		sortOrder.addActionListener(new sortDescendingActionListener());
 		String[] sortOptions = { "Title", "Date", "Critical Rating", "Length" };
-		sortMenu = new JComboBox(sortOptions);
+		sortMenu = new JComboBox<String>(sortOptions);
 		sortMenu.addActionListener(new sortActionListener());
 
 		sortPanel = new JPanel();
@@ -282,14 +298,14 @@ public class SearchPanel extends RatePanel {
 		@Override
 		public void actionPerformed(ActionEvent event) {
 			if (sortDescending) {
-				sortOrder.setLabel("in ascending order");
+				sortOrder.setText("in ascending order");
 				sortDescending = false;
 			} else {
-				sortOrder.setLabel("in descending order");
+				sortOrder.setText("in descending order");
 				sortDescending = true;
 			}
 
-			currentSortOption = (String) sortMenu.getItemAt(sortMenu.getSelectedIndex());
+			currentSortOption = sortMenu.getItemAt(sortMenu.getSelectedIndex());
 
 			updateResultPanel();
 		}
