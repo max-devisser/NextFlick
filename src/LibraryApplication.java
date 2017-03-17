@@ -3,22 +3,12 @@ package src;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-<<<<<<< HEAD:src/LibraryFacade.java
-public class LibraryFacade {
-	private ArrayList<Movie> fullMovieList;
-	private ArrayList<Movie> currentMovieList;
-
-	public LibraryFacade() {
-		MovieLibrary.createMovieLibrary(); 
-=======
 public class LibraryApplication {
-	private MovieLibrary movieLibrary;
 	private ArrayList<Movie> fullMovieList;
 	private ArrayList<Movie> currentMovieList;
 
 	public LibraryApplication() {
-		movieLibrary = new MovieLibrary(); 
->>>>>>> 731a636b204c185b50e93672c19a24ab1c3710c3:src/LibraryApplication.java
+		MovieLibrary.createMovieLibrary(); 
 
 		ArrayList<String> emptyFilterList = new ArrayList<String>();
 		ArrayList<String> emptyQueryList = new ArrayList<String>();
