@@ -1,7 +1,11 @@
 package src;
 
-import javax.swing.*;
 import java.awt.Dimension;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 /**
  * JPanel to display user's rating history
@@ -43,4 +47,5 @@ public class HistoryPanel extends RatePanel {
 		resultScrollPane.getViewport().add(resultPanel);
 		resultScrollPane.setViewportView(resultPanel);	
 	}
+
 }

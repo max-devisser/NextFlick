@@ -1,8 +1,7 @@
 package src;
 
-import java.util.*;
-
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.lang.reflect.InvocationTargetException;
 
 public class ListSearchLogic {
@@ -44,27 +43,6 @@ public class ListSearchLogic {
 
 			try {
 				if (((Integer) m.invoke(currentMovie)) == filterParameter) {
-					resultList.add(currentMovie);
-				}
-			} catch (IllegalAccessException e) {
-				System.err.println("IllegalAccessException: " + e.getMessage());
-			} catch (InvocationTargetException e) {
-				System.err.println("InvocationTargetException: " + e.getMessage());
-			}
-		}
-
-		return resultList;
-	}
-
-	public static ArrayList<Movie> filterMovieListDouble(ArrayList<Movie> inputList, String methodName,
-			double filterParameter) {
-		ArrayList<Movie> resultList = new ArrayList<Movie>();
-
-		for (Movie currentMovie : inputList) {
-			Method m = findMethod(methodName);
-
-			try {
-				if (((Double) m.invoke(currentMovie)) == filterParameter) {
 					resultList.add(currentMovie);
 				}
 			} catch (IllegalAccessException e) {

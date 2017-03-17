@@ -32,15 +32,6 @@ public class LibraryLogic {
 			case "Length":
 				filteredList = MapSearchLogic.filterMovieMapInt(MovieLibrary.getRuntimeMap(), Integer.parseInt(filterQuery));
 				break;
-			case "Language":
-				filteredList = MapSearchLogic.filterMovieMapString(MovieLibrary.getLanguageMap(), filterQuery);
-				break;
-			case "Country":
-				filteredList = MapSearchLogic.filterMovieMapString(MovieLibrary.getLanguageMap(), filterQuery);
-				break;
-			case "Rating":
-				filteredList = MapSearchLogic.filterMovieMapDouble(MovieLibrary.getCriticalRatingMap(), Double.parseDouble(filterQuery));
-				break;
 		}
 
 		return filteredList;
@@ -70,15 +61,6 @@ public class LibraryLogic {
 				break;
 			case "Length":
 				filteredList = ListSearchLogic.filterMovieListInt(movieList, "getRuntime", Integer.parseInt(filterQuery));
-				break;
-			case "Language":
-				filteredList = ListSearchLogic.filterMovieListString(movieList, "getLanguage", filterQuery);
-				break;
-			case "Country":
-				filteredList = ListSearchLogic.filterMovieListString(movieList, "getCountry", filterQuery);
-				break;
-			case "Rating":
-				filteredList = ListSearchLogic.filterMovieListDouble(movieList, "getCriticalRating", Double.parseDouble(filterQuery));
 				break;
 		}
 

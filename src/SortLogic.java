@@ -1,9 +1,7 @@
 package src;
 
-import java.util.*;
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
-import src.movie_builder.TestCollectionBuilder;
+import java.util.ArrayList;
+import java.util.Collections;
 
 //Sort by Date, Critical Rating, Length, or Alphabetical 
 //Works for Critical Rating, Length, Alpha

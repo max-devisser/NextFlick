@@ -1,11 +1,10 @@
 package src;
 
-import java.util.*;
-
 import src.movie_builder.MovieSerializationManager;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 
@@ -15,7 +14,7 @@ public class MapBuilderLogic {
 		MovieSerializationManager MSM = new MovieSerializationManager(null);
 		HashMap<Integer, Movie> partialMap = null;
 		HashMap<Integer, Movie> fullMovieMap = new HashMap<Integer, Movie>();
-		final int CHUNKS = 30;	//CAP: exceptions for values > 30
+		final int CHUNKS = 82;	//CAP: exceptions for values > 30
 		for (int i = 1; i <= CHUNKS; ++i) {
 			partialMap = new HashMap<Integer, Movie>(MSM.deserialize("database" + File.separator + "DatabaseChunk" + i + ".ser"));
 			for (Movie m : partialMap.values())
@@ -27,26 +26,21 @@ public class MapBuilderLogic {
 
 	@SafeVarargs
 	public static void createMaps(HashMap<Integer, Movie> fullMovieMap, HashMap<Integer, ArrayList<Movie>> intMap, 
-		HashMap<Double, ArrayList<Movie>> doubleMap, HashMap<String, ArrayList<Movie>>... stringMaps) {
+		HashMap<String, ArrayList<Movie>>... stringMaps) {
 		
-		assert(stringMaps.length == 7);
+		assert(stringMaps.length == 5);
 
 		//Make Integer Map
 		makeIntMap(fullMovieMap, intMap, "getRuntime");
-
-		//Make Double Map 
-		makeDoubleMap(fullMovieMap, doubleMap, "getCriticalRating");
 
 		//Make String Maps
 		makeStringMap(fullMovieMap, stringMaps[0], "getDate");
 		makeStringMap(fullMovieMap, stringMaps[1], "getDirector");
 		makeStringMap(fullMovieMap, stringMaps[2], "getParentalRating");
-		makeStringMap(fullMovieMap, stringMaps[3], "getLanguage");
-		makeStringMap(fullMovieMap, stringMaps[4], "getCountry");
 
 		//Make ArrayListMaps
-		makeArrayListMap(fullMovieMap, stringMaps[5], "getGenre");
-		makeArrayListMap(fullMovieMap, stringMaps[6], "getActors");	
+		makeArrayListMap(fullMovieMap, stringMaps[3], "getGenre");
+		makeArrayListMap(fullMovieMap, stringMaps[4], "getActors");	
 	}
 
 	//Make Filter HashMaps for String variables

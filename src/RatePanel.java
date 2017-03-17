@@ -1,16 +1,27 @@
 package src;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import java.util.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.LineBorder;
 
 public abstract class RatePanel extends JPanel {
 
 	public class MoviePanel extends JPanel {
 		private Movie movie;
-		private JLabel movieTitle;
 		private JPanel titlePanel;
 		private JLabel ratingLabel;
 		private JLabel rating;
@@ -107,17 +118,18 @@ public abstract class RatePanel extends JPanel {
 		JPanel resultPanel = new JPanel();
 		resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS)); // results display vertically
 		resultPanel.setBackground(Color.WHITE);
-		
-		for (Movie currentMovie : movieList) {
-			MoviePanel moviePanel = new MoviePanel(currentMovie);
+		if (movieList.isEmpty())
+		{
+			resultPanel.add(new JLabel("No results"));
+			return resultPanel;
+		}
+		int movies = movieList.size();
+		for (int i = 0; i < movies && i < 1000; ++i) {
+			MoviePanel moviePanel = new MoviePanel(movieList.get(i));
 			moviePanel.addListener(new RateActionListener(moviePanel));
 			moviePanel.addDeleteListener(new UnRateActionListener(moviePanel));
 			resultPanel.add(moviePanel);
 		}
-
-		if (movieList.isEmpty())
-			resultPanel.add(new JLabel("No results"));
-
 		return resultPanel;
 	}
 
