@@ -6,6 +6,9 @@ import java.awt.Color;
 import java.awt.event.*;
 import javax.swing.event.*;
 
+/**
+ * Main GUI module, holds each of the three panels
+ */
 public class GUI {
 	private JFrame frame;
 	private JTabbedPane tabbedPane;
@@ -21,7 +24,7 @@ public class GUI {
 	}
 
 	/**
-	 * Initializes the window with multiple panels
+	 * Initializes window, initializes each of the three panels
 	 */
 	public void go() {
 		frame = new JFrame();
@@ -49,6 +52,9 @@ public class GUI {
 		frame.setVisible(true);
 	}
 
+	/**
+	 * Updates whatever panel is currently selected
+	 */
 	public class updateResultListener implements ChangeListener {
 		public void stateChanged(ChangeEvent e) {
 			JTabbedPane sourcePane = (JTabbedPane) e.getSource();

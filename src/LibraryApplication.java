@@ -3,10 +3,17 @@ package src;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Intermediary class (much like a facade) to handle communicating with the library. 
+ */
 public class LibraryApplication {
 	private ArrayList<Movie> fullMovieList;
 	private ArrayList<Movie> currentMovieList;
 
+	
+	/**
+	 * Constructor. Creates the movie library and generates the full movie list.
+	 */
 	public LibraryApplication() {
 		MovieLibrary.createMovieLibrary(); 
 
@@ -16,6 +23,11 @@ public class LibraryApplication {
 		fullMovieList = getFilteredLibrary(emptyFilterList, emptyQueryList, "Title", false);
 	}
 
+	/**
+	 * @param sortType What to sort the list by (Title, rating, etc.)
+	 * @param sortDescending Whether to sort ascending or descending
+	 * @return The list of all movies sorted as specified
+	 */
 	public ArrayList<Movie> getFullLibraryList(String sortType, boolean sortDescending) {
 		return LibraryLogic.sortMovieList(fullMovieList, sortType, sortDescending); 
 	}
