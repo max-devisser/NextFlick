@@ -1,25 +1,20 @@
 package src;
 
-import java.util.*;
-import src.movie_builder.MovieSerializationManager;
-import java.io.IOException;
-import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MovieLibrary {
-	private HashMap<String, ArrayList<Movie>> dateMap;
-	private HashMap<String, ArrayList<Movie>> directorMap;
-	private HashMap<String, ArrayList<Movie>> parentalRatingMap;
-	private HashMap<String, ArrayList<Movie>> languageMap;
-	private HashMap<String, ArrayList<Movie>> countryMap;
-	private HashMap<String, ArrayList<Movie>> genreMap;
-	private HashMap<String, ArrayList<Movie>> actorMap;
-	private HashMap<Integer, ArrayList<Movie>> runtimeMap;
-	private HashMap<Double, ArrayList<Movie>> criticalRatingMap;
+	private static HashMap<String, ArrayList<Movie>> dateMap;
+	private static HashMap<String, ArrayList<Movie>> directorMap;
+	private static HashMap<String, ArrayList<Movie>> parentalRatingMap;
+	private static HashMap<String, ArrayList<Movie>> genreMap;
+	private static HashMap<String, ArrayList<Movie>> actorMap;
+	private static HashMap<Integer, ArrayList<Movie>> runtimeMap;
 
-	private HashMap<Integer, Movie> fullMovieMap;
-	private ArrayList<Movie> fullMovieList;
+	private static HashMap<Integer, Movie> fullMovieMap;
+	private static ArrayList<Movie> fullMovieList;
 
-	public MovieLibrary() {
+	public static void createMovieLibrary() {
 		fullMovieMap = MapBuilderLogic.generateFullMap();
 
 		fullMovieList = new ArrayList<Movie>();
@@ -29,57 +24,43 @@ public class MovieLibrary {
 		dateMap = new HashMap<String, ArrayList<Movie>>();
 		directorMap = new HashMap<String, ArrayList<Movie>>();
 		parentalRatingMap = new HashMap<String, ArrayList<Movie>>();
-		languageMap = new HashMap<String, ArrayList<Movie>>();
-		countryMap = new HashMap<String, ArrayList<Movie>>();
 		genreMap = new HashMap<String, ArrayList<Movie>>();
 		actorMap = new HashMap<String, ArrayList<Movie>>();
 		runtimeMap = new HashMap<Integer, ArrayList<Movie>>();
-		criticalRatingMap = new HashMap<Double, ArrayList<Movie>>();
 
-		MapBuilderLogic.createMaps(fullMovieMap, runtimeMap, criticalRatingMap, dateMap, directorMap, parentalRatingMap, countryMap, languageMap, genreMap, actorMap);
+
+		MapBuilderLogic.createMaps(fullMovieMap, runtimeMap, dateMap, directorMap, parentalRatingMap, genreMap, actorMap);
 	}
 
-	public HashMap<Integer, Movie> getFullMovieMap() {
+	public static HashMap<Integer, Movie> getFullMovieMap() {
 		return fullMovieMap;
 	}
 
-	public ArrayList<Movie> getFullMovieList() {
+	public static ArrayList<Movie> getFullMovieList() {
 		return fullMovieList;
 	}
 
-	public HashMap<String, ArrayList<Movie>> getDateMap() {
+	public static HashMap<String, ArrayList<Movie>> getDateMap() {
 		return dateMap;
 	}
 
-	public HashMap<String, ArrayList<Movie>> getDirectorMap() {
+	public static HashMap<String, ArrayList<Movie>> getDirectorMap() {
 		return directorMap;
 	}
 
-	public HashMap<String, ArrayList<Movie>> getGenreMap() {
+	public static HashMap<String, ArrayList<Movie>> getGenreMap() {
 		return genreMap;
 	}
 
-	public HashMap<String, ArrayList<Movie>> getActorsMap() {
+	public static HashMap<String, ArrayList<Movie>> getActorsMap() {
 		return actorMap;
 	}
 
-	public HashMap<String, ArrayList<Movie>> getParentalRatingMap() {
+	public static HashMap<String, ArrayList<Movie>> getParentalRatingMap() {
 		return parentalRatingMap;
 	}
 
-	public HashMap<Integer, ArrayList<Movie>> getRuntimeMap() {
+	public static HashMap<Integer, ArrayList<Movie>> getRuntimeMap() {
 		return runtimeMap;
-	}
-
-	public HashMap<String, ArrayList<Movie>> getLanguageMap() {
-		return languageMap;
-	}
-
-	public HashMap<String, ArrayList<Movie>> getCountryMap() {
-		return countryMap;
-	}
-
-	public HashMap<Double, ArrayList<Movie>> getCriticalRatingMap() {
-		return criticalRatingMap;
 	}
 }

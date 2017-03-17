@@ -2,9 +2,9 @@ package src;
 
 import java.util.ArrayList;
 
-public class RecommendationFacade {
+public class RecommendationApplication {
 	public ArrayList<Movie> generateRecommendations() {
-		RatingStorage ratingStorage = Controller.rateStorageFacade.getRatingStorage();
+		RatingStorage ratingStorage = Controller.rateStorageApplication.getRatingStorage();
 		ArrayList<Movie> recommendedMovies = RecommendationLogic.getRecommendationList(ratingStorage);
 		return recommendedMovies;
 	}

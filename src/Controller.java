@@ -2,11 +2,15 @@ package src;
 
 import java.io.*;
 
+/**
+ * Main class that initializes program and provides static member variables
+ * for communicating with rating storage, library, and recommendations
+ */
 public class Controller {
 	private GUI nextFlickGUI;
-	public static RateStorageFacade rateStorageFacade;
-	public static LibraryFacade libraryFacade;
-	public static RecommendationFacade recommendFacade;
+	public static RateStorageApplication rateStorageApplication;
+	public static LibraryApplication libraryApplication;
+	public static RecommendationApplication recommendApplication;
 
 
 	/**
@@ -14,33 +18,25 @@ public class Controller {
 	 * @param gui GUI object 
 	 */
 	public Controller() {
-		rateStorageFacade = new RateStorageFacade();
-		libraryFacade = new LibraryFacade();
-		recommendFacade = new RecommendationFacade();
+		rateStorageApplication = new RateStorageApplication();
+		libraryApplication = new LibraryApplication();
+		recommendApplication = new RecommendationApplication();
 	}
 
+	
+	/**
+	 * Add GUI to controller
+	 * @param gui GUI to tie to the controller
+	 */
 	public void addGUI(GUI gui) {
 		nextFlickGUI = gui;
 	}
 
 	/**
-	 * Helper method to let the thread sleep
-	 */
-	public static void sleep() {
-		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Will be used to switch between getting data from User account and GUI
+	 * Calls on go() within GUI associated with this controller. Will be used to switch between 
+	 * getting data from User account and GUI
 	 */
 	public void go() {
-		// while (!nextFlickGUI.quit()) { // genGUI quit() method checks if user quit
-		// 	wait(nextFlickGUI);
-		// }
 		nextFlickGUI.go();
 	}
 
@@ -48,7 +44,6 @@ public class Controller {
 	 * Main method. Initializes GUI object, initializes and starts Controller object
 	 * @param args Not used here
 	 */
-
 	public static void main(String[] args) {
 		Controller controller = new Controller();
 		GUI gui = new GUI(); // Home panel opens by default
@@ -56,3 +51,4 @@ public class Controller {
 		controller.go();
 	}
 }
+
