@@ -60,7 +60,7 @@ public abstract class RatePanel extends JPanel {
 			// Title formatting
 			titlePanel = new JPanel();
 			JLabel title = new JLabel(movie.getTitle());
-			title.setFont(title.getFont().deriveFont(30.0f));
+			title.setFont(title.getFont().deriveFont(18.0f));
 			titlePanel.add(title);
 
 			// Rating button and rating display
