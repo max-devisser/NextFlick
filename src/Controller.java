@@ -4,9 +4,9 @@ import java.io.*;
 
 public class Controller {
 	private GUI nextFlickGUI;
-	public static RateStorageFacade rateStorageFacade;
-	public static LibraryFacade libraryFacade;
-	public static RecommendationFacade recommendFacade;
+	public static RateStorageApplication rateStorageApplication;
+	public static LibraryApplication libraryApplication;
+	public static RecommendationApplication recommendApplication;
 
 
 	/**
@@ -14,9 +14,9 @@ public class Controller {
 	 * @param gui GUI object 
 	 */
 	public Controller() {
-		rateStorageFacade = new RateStorageFacade();
-		libraryFacade = new LibraryFacade();
-		recommendFacade = new RecommendationFacade();
+		rateStorageApplication = new RateStorageApplication();
+		libraryApplication = new LibraryApplication();
+		recommendApplication = new RecommendationApplication();
 	}
 
 	public void addGUI(GUI gui) {

@@ -5,10 +5,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.io.*;
 
-public class RateStorageFacade {
+public class RateStorageApplication {
 	private static RatingStorage ratingStorage;
 
-	public RateStorageFacade() {
+	public RateStorageApplication() {
 		// Deserialize rating storage object if it exists
 		try {
 			FileInputStream fs = new FileInputStream("res/History.ser");
@@ -32,6 +32,11 @@ public class RateStorageFacade {
 		RateLogic.addRating(movie, rating); // If movie is not rated, add to appropriate sub list
 											// Otherwise, remove from prev list and re add
 	}
+	public void unRateMovie(Movie movie) {
+		RateLogic.removeRating(movie); // If movie is not rated, add to appropriate sub list
+											// Otherwise, remove from prev list and re add
+	}
+
 
 	public ArrayList<Movie> filterByRating(boolean[] ratingsToShow) {
 		ArrayList<Movie> filteredRatingHistory = new ArrayList<Movie>();
@@ -66,6 +71,9 @@ public class RateStorageFacade {
 
 		public static void addRating(Movie movie, int rating) {
 			ratingStorage.addRating(movie, rating);
+		}
+		public static void removeRating(Movie movie) {
+			ratingStorage.deleteRating(movie);
 		}
 	}
 }

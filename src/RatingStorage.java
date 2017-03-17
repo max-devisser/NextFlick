@@ -40,11 +40,19 @@ public class RatingStorage implements Serializable {
 		ratingMap.put(movie.getKey(), rating);
 		serialize();
 	}
+	public void deleteRating(Movie movie) {
+		if (ratingMap.containsKey(movie.getKey())) {
+			int previousRating = ratingMap.get(movie.getKey());
+			ratingLists[previousRating - 1].remove(movie);
+			ratingMap.remove(movie.getKey());
+			serialize();
+		}
+	}
 
 	public String toString() {
 		String libraryStringList = "";
 		for (Integer currentID : ratingMap.keySet()) {
-			String title = Controller.libraryFacade.getMovie(currentID).getTitle();
+			String title = Controller.libraryApplication.getMovie(currentID).getTitle();
 			String rating = ratingMap.get(currentID).toString();
 			libraryStringList+= "\n" + title + ": " + rating;
 		}

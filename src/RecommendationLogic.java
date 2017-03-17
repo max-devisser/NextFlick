@@ -103,7 +103,7 @@ public class RecommendationLogic {
 
 		// 3. Parse the RecommendedItems into Movies
 		ArrayList<Movie> result = new ArrayList<Movie>();
-		HashMap<Integer, Movie> library = Controller.libraryFacade.getFullLibraryMap();
+		HashMap<Integer, Movie> library = Controller.libraryApplication.getFullLibraryMap();
 		for (RecommendedItem recommendation : recommendations) {
 			Movie recommendedMovie = library.get((int) recommendation.getItemID());
 			if (recommendedMovie != null) { // make sure the movie is in our database as well
