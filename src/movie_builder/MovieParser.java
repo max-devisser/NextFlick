@@ -36,9 +36,7 @@ public class MovieParser {
 		StringBuilder stringtext = new StringBuilder();
 		try {
 			HttpResponse<String> request = Unirest.get(url).asString();
-			//System.out.println("Success");
 			stringtext.append(request.getBody());
-			//System.out.println(stringtext);
 		} catch (UnirestException e){
 			e.printStackTrace();
 			System.out.println("Unirest threw an error when connecting to given URL.");
@@ -52,10 +50,10 @@ public class MovieParser {
      * @param url The full API request URL to be retrieved
      * @return Returns Movie object constructed from the JSON object 
    **/
-	public Movie constructMovieByUrl(String url) // must have full request URL
+	public Movie constructMovieByUrl(String url)// must have full request URL
 	{
 		StringBuilder rawtext = getRawRequest(url);
-		if (rawtext.indexOf("The resource you requested could not be found") != -1)
+		if (rawtext.indexOf("The resource you requested could not be found") != -1 || emptyCheck(rawtext))
 		{
 			return new Movie(-1);
 		}
@@ -302,10 +300,40 @@ public class MovieParser {
 		String url = SEARCH_PREFIX + query + SEARCH_POSTFIX;
 		return grabId(new JsonSearcher(getRawRequest(url)));
 	}
-//	public Movie constructMovieBySearch(String query)
-//	{
-//		int id = getIdFromSearch(query);
-//		return constructMovieById(id);
-//	}
+	/**
+     * If multiple fields in the JSON object are empty (e.g. bad Movie object) returns false
+   **/
+	private boolean emptyCheck(StringBuilder text)
+	{
+		ArrayList<Integer> openBrackets = new ArrayList<Integer>();
+		ArrayList<Integer> closeBrackets = new ArrayList<Integer>();
+		int openBracket = 0;
+		int index = 0;
+		while ((openBracket = text.indexOf("[", index)) != -1)
+		{
+			openBrackets.add(openBracket);
+			index = openBracket + 1;
+		}
+		index = 0;
+		int closeBracket = 0;
+		while ((closeBracket = text.indexOf("]", index)) != -1)
+		{
+			closeBrackets.add(closeBracket);
+			index = closeBracket + 1;
+		}
+		int emptyCount = 0;
+		for (int i = 0; i < openBrackets.size(); ++i)
+		{
+			if (openBrackets.get(i) == closeBrackets.get(i) - 1)
+			{
+				emptyCount++;
+			}
+		}
+		if (emptyCount >= 2)
+		{
+			return true;
+		}
+		return false;
+	}
 	
 }
