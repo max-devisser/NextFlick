@@ -7,39 +7,39 @@ import java.util.ArrayList;
 //
 
 public class LibraryLogic {
-	public static ArrayList<Movie> filterLibrary(MovieLibrary movieLibrary, String filterType, String filterQuery) {
+	public static ArrayList<Movie> filterLibrary(String filterType, String filterQuery) {
 		ArrayList<Movie> filteredList = new ArrayList<Movie>();
 
 		switch (filterType) {
 			case "Title":
-				filteredList = MapSearchLogic.filterMovieMapTitle(movieLibrary.getFullMovieMap(), filterQuery);
+				filteredList = MapSearchLogic.filterMovieMapTitle(MovieLibrary.getFullMovieMap(), filterQuery);
 				break;
 			case "Year":
-				filteredList = MapSearchLogic.filterMovieMapString(movieLibrary.getDateMap(), filterQuery);
+				filteredList = MapSearchLogic.filterMovieMapString(MovieLibrary.getDateMap(), filterQuery);
 				break;
 			case "Genre":
-				filteredList = MapSearchLogic.filterMovieMapString(movieLibrary.getGenreMap(), filterQuery);
+				filteredList = MapSearchLogic.filterMovieMapString(MovieLibrary.getGenreMap(), filterQuery);
 				break;
 			case "Actors":
-				filteredList = MapSearchLogic.filterMovieMapString(movieLibrary.getActorsMap(), filterQuery);
+				filteredList = MapSearchLogic.filterMovieMapString(MovieLibrary.getActorsMap(), filterQuery);
 				break;
 			case "Director":
-				filteredList = MapSearchLogic.filterMovieMapString(movieLibrary.getDirectorMap(), filterQuery);
+				filteredList = MapSearchLogic.filterMovieMapString(MovieLibrary.getDirectorMap(), filterQuery);
 				break;
 			case "Parental Rating":
-				filteredList = MapSearchLogic.filterMovieMapString(movieLibrary.getParentalRatingMap(), filterQuery);
+				filteredList = MapSearchLogic.filterMovieMapString(MovieLibrary.getParentalRatingMap(), filterQuery);
 				break;
 			case "Length":
-				filteredList = MapSearchLogic.filterMovieMapInt(movieLibrary.getRuntimeMap(), Integer.parseInt(filterQuery));
+				filteredList = MapSearchLogic.filterMovieMapInt(MovieLibrary.getRuntimeMap(), Integer.parseInt(filterQuery));
 				break;
 			case "Language":
-				filteredList = MapSearchLogic.filterMovieMapString(movieLibrary.getLanguageMap(), filterQuery);
+				filteredList = MapSearchLogic.filterMovieMapString(MovieLibrary.getLanguageMap(), filterQuery);
 				break;
 			case "Country":
-				filteredList = MapSearchLogic.filterMovieMapString(movieLibrary.getLanguageMap(), filterQuery);
+				filteredList = MapSearchLogic.filterMovieMapString(MovieLibrary.getLanguageMap(), filterQuery);
 				break;
 			case "Rating":
-				filteredList = MapSearchLogic.filterMovieMapDouble(movieLibrary.getCriticalRatingMap(), Double.parseDouble(filterQuery));
+				filteredList = MapSearchLogic.filterMovieMapDouble(MovieLibrary.getCriticalRatingMap(), Double.parseDouble(filterQuery));
 				break;
 		}
 

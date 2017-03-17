@@ -58,7 +58,7 @@ public class GUI {
 					historyPanel.updateResultPanel();
 					break;
 				case "Search":
-					searchPanel.updateResultPanel(false);
+					searchPanel.updateResultPanel();
 					break;
 				case "Recommendations":
 					recommendPanel.updateResultPanel();

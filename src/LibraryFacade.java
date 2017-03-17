@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class LibraryFacade {
-	private MovieLibrary movieLibrary;
 	private ArrayList<Movie> fullMovieList;
 	private ArrayList<Movie> currentMovieList;
 
 	public LibraryFacade() {
-		movieLibrary = new MovieLibrary(); 
+		MovieLibrary.createMovieLibrary(); 
 
 		ArrayList<String> emptyFilterList = new ArrayList<String>();
 		ArrayList<String> emptyQueryList = new ArrayList<String>();
@@ -23,11 +22,11 @@ public class LibraryFacade {
 
 
 	public HashMap<Integer, Movie> getFullLibraryMap() {
-		return movieLibrary.getFullMovieMap();
+		return MovieLibrary.getFullMovieMap();
 	}
 
 	public Movie getMovie(int tmdbID) {
-		return movieLibrary.getFullMovieMap().get(tmdbID);
+		return MovieLibrary.getFullMovieMap().get(tmdbID);
 	}
 
 	public ArrayList<Movie> getFilteredLibrary(ArrayList<String> filters, ArrayList<String> queries, 
@@ -37,9 +36,9 @@ public class LibraryFacade {
 		String currentQuery;
 		
 		if (filters.isEmpty()) {
-			filteredList = movieLibrary.getFullMovieList();
+			filteredList = MovieLibrary.getFullMovieList();
 		} else {
-			filteredList = LibraryLogic.filterLibrary(movieLibrary, filters.get(0), queries.get(0));
+			filteredList = LibraryLogic.filterLibrary(filters.get(0), queries.get(0));
 			for (int currentFilterIndex = 1; currentFilterIndex < filters.size(); currentFilterIndex++) {
 				currentFilter = filters.get(currentFilterIndex);
 				currentQuery = queries.get(currentFilterIndex);

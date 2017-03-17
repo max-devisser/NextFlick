@@ -57,8 +57,9 @@ public class MapBuilderLogic {
 
 			try{
 				String filterMapKey = (String) m.invoke(currentMovie);
+				filterMapKey = filterMapKey.toLowerCase();
 				
-				if (methodName == "getDate")
+				if (methodName.equals("getDate"))
 					filterMapKey = filterMapKey.substring(0,4);
 
 				if (!outputMap.containsKey(filterMapKey)) {
@@ -89,6 +90,7 @@ public class MapBuilderLogic {
 				ArrayList<String> currentList = (ArrayList<String>) m.invoke(currentMovie);
 				
 				for (String item: currentList){
+					item = item.toLowerCase();
 					if (!outputMap.containsKey(item)) {
 						ArrayList<Movie> myList = new ArrayList<Movie>();
 						myList.add(currentMovie);

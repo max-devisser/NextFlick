@@ -119,16 +119,14 @@ public class SearchPanel extends RatePanel {
 			resultScrollPane.getVerticalScrollBar().setUnitIncrement(30);
 		} else if (currentFilters.isEmpty()) {
 			resultScrollPane.getViewport().remove(resultPanel);
-			resultPanel = createMovieListPanel(
-					Controller.libraryFacade.getFullLibraryList(currentSortOption, sortDescending));
+			resultPanel = createMovieListPanel(Controller.libraryFacade.getFullLibraryList(currentSortOption, sortDescending));
 			resultScrollPane.getViewport().add(resultPanel);
 			resultScrollPane.setViewportView(resultPanel);
 		} else {
 			resultScrollPane.getViewport().remove(errorMessage);
 			resultScrollPane.getViewport().remove(resultPanel);
 			currentSortOption = (String) sortMenu.getItemAt(sortMenu.getSelectedIndex());
-			resultPanel = createMovieListPanel(Controller.libraryFacade.getFilteredLibrary(currentFilters,
-					searchQueries, currentSortOption, sortDescending));
+			resultPanel = createMovieListPanel(Controller.libraryFacade.getFilteredLibrary(currentFilters, searchQueries, currentSortOption, sortDescending));
 			resultScrollPane.getViewport().add(resultPanel);
 			resultScrollPane.setViewportView(resultPanel);
 		}
@@ -219,10 +217,25 @@ public class SearchPanel extends RatePanel {
 		public void keyTyped(KeyEvent event) { }
 	}
 
-	private void searchListener(){
+	private void searchPerformed() {
 		String unCutFilter = searchLabel.getText();
 		String filterInput = unCutFilter.substring(10, unCutFilter.length() - 2);
 		String queryInput = searchQuery.getText();
+
+		// { "Title", "Year", "Genre", "Actors", "Director", "Parental Rating", "Length", "Language", "Country", "Rating" };
+		//   aplhanumeric  numeric,  alpha, alpha, alpha, alpha numeric, aplha-numeric
+		boolean isValidInput = false;
+		if (filterInput.equals(""))
+			isValidInput = false;
+		
+
+		try{
+	        Integer.parseInt(queryInput);
+	        isValidInput = true;
+	    } catch (NumberFormatException ex)
+	    {
+	    	isValidInput = false;
+	    }
 
 		if (!queryInput.isEmpty()) {
 			if(filterInput.equals("Actors") || filterInput.equals("Genre")){

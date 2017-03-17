@@ -32,7 +32,7 @@ public class MapSearchLogic {
 		// in the if statement below
 		if (inputMap.containsKey(filterParameter)) {
 			filteredList = inputMap.get(filterParameter);
-		} else {
+		} else if (!inputMap.equals(MovieLibrary.getParentalRatingMap())){
 			for (String key : inputMap.keySet()) {
 				if (key.toLowerCase().contains(filterParameter.toLowerCase()) && key != filterParameter)
 					filteredList.addAll(inputMap.get(key));
